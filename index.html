@@ -31,11 +31,10 @@
   .noticebox li{margin:0 0 .25rem;}
 
   nav{
-    position:sticky;top:0;z-index:10;display:flex;gap:.35rem;
+    position:sticky;top:0;z-index:10;display:flex;flex-wrap:wrap;gap:.35rem;
     padding:.5rem .8rem;background:rgba(255,253,246,.96);backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--rule);overflow-x:auto;scrollbar-width:none;
+    border-bottom:1px solid var(--rule);
   }
-  nav::-webkit-scrollbar{display:none;}
   nav button{
     flex:0 0 auto;font:inherit;font-size:.83rem;font-weight:600;padding:.35rem .75rem;
     background:none;border:1px solid var(--tab);border-radius:999px;color:var(--tab);cursor:pointer;
@@ -234,7 +233,7 @@
 </header>
 
 <nav>
-  <button type="button" data-tab="today" class="todaytab">🌞 오늘의 문제 <span class="cnt2">0</span></button>
+  <button type="button" data-tab="today" class="todaytab">🌞 <span class="todayDate"></span> 오늘의 문제 <span class="cnt2">0</span></button>
   <button type="button" data-tab="josh" class="on">여호수아</button>
   <button type="button" data-tab="ezra">에스라</button>
   <button type="button" data-tab="neh">느헤미야</button>
@@ -308,7 +307,7 @@
 
 <section id="today">
   <div class="tools">
-    <span class="count">🌞 오늘의 문제 <b><span class="todaynum">0</span>문항</b></span>
+    <span class="count">🌞 <span class="todayDate"></span> 오늘의 문제 <b><span class="todaynum">0</span>문항</b></span>
     <span class="score" data-score="today">0 / 0</span>
   </div>
   <div class="list"></div>
@@ -913,6 +912,14 @@ function todayDateString(){
   var d = new Date();
   return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 }
+function todayDisplayDate(){
+  var d = new Date();
+  return (d.getMonth()+1) + "/" + d.getDate();
+}
+function updateTodayDateLabels(){
+  var label = todayDisplayDate();
+  document.querySelectorAll(".todayDate").forEach(function(el){ el.textContent = label; });
+}
 function seededShuffle(arr, seedStr){
   var seed = 0;
   for (var i = 0; i < seedStr.length; i++){ seed = (seed * 31 + seedStr.charCodeAt(i)) >>> 0; }
@@ -1300,6 +1307,7 @@ updateAllScores();
 loadState();
 computeTodayList();
 renderToday();
+updateTodayDateLabels();
 </script>
 </body>
 </html>
