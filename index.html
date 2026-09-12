@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>성경골든벨 빈칸 문제 모음</title>
+<style>
+  :root{
+    --paper:#FFFDF6;--ink:#1E2A3A;--ink-soft:#5C6B7E;--rule:#E2DDCC;
+    --marker:#F7DC57;--marker-deep:#EDC531;--flag:#A8443B;--tab:#0F4C5C;
+    --ok:#2E7D5B;--no:#A8443B;--warn:#B07A16;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;
+    font-size:16px;line-height:1.5;padding-bottom:3rem;
+  }
+  header{padding:1.4rem 1.15rem .85rem;border-bottom:2px solid var(--ink);}
+  .logo{display:block;max-width:280px;width:60%;height:auto;margin:0 auto .9rem;}
+  h1{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:-0.02em;text-align:center;word-break:keep-all;}
+  .sub{margin:.3rem 0 0;color:var(--ink-soft);font-size:.83rem;text-align:center;}
+  .howto{margin:.8rem 0 0;padding:.6rem .75rem;background:#FFF8DC;border-left:4px solid var(--marker-deep);font-size:.83rem;line-height:1.45;}
+  .noticebox{margin:.7rem 0 0;padding:.55rem .75rem;background:#F3F1EA;border:1px solid var(--rule);border-radius:8px;font-size:.82rem;line-height:1.55;color:var(--ink-soft);}
+  .noticebox summary{cursor:pointer;font-weight:700;color:var(--ink);list-style:none;display:flex;align-items:center;gap:.3rem;}
+  .noticebox summary::-webkit-details-marker{display:none;}
+  .noticebox summary::after{content:"▾";font-size:.7rem;margin-left:.15rem;}
+  .noticebox[open] summary::after{content:"▴";}
+  .noticebox ol{margin:.5rem 0 0;padding-left:1.2rem;}
+  .noticebox li{margin:0 0 .25rem;}
+
+  nav{
+    position:sticky;top:0;z-index:10;display:flex;flex-wrap:wrap;gap:.35rem;
+    padding:.5rem .8rem;background:rgba(255,253,246,.96);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--rule);
+  }
+  nav button{
+    flex:0 0 auto;font:inherit;font-size:.83rem;font-weight:600;padding:.35rem .75rem;
+    background:none;border:1px solid var(--tab);border-radius:999px;color:var(--tab);cursor:pointer;
+  }
+  nav button.on{background:var(--tab);color:var(--paper);}
+  nav button.todaytab{border-color:#B0791F;color:#8A5A00;background:#FFF3D6;}
+  nav button.todaytab.on{background:#B0791F;color:#fff;}
+
+  nav button .cnt{font-variant-numeric:tabular-nums;}
+
+  section{padding:1.1rem 1.15rem 0;display:none;}
+  section.on{display:block;}
+  .tools{display:flex;align-items:center;gap:.45rem;margin:0 0 1rem;flex-wrap:wrap;}
+  .count{font-size:.95rem;font-weight:800;margin-right:.2rem;}
+  .count b{font-size:.76rem;font-weight:500;color:var(--ink-soft);}
+  .tools button{
+    font:inherit;font-size:.78rem;font-weight:600;padding:.32rem .65rem;background:none;
+    border:1px solid var(--rule);border-radius:6px;color:var(--ink-soft);cursor:pointer;
+  }
+  .tools button:active{background:#F3EFE0;}
+  .score{margin-left:auto;font-size:.76rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+  .empty{padding:2rem 0;text-align:center;color:var(--ink-soft);font-size:.9rem;line-height:1.7;}
+
+  .q{padding:.9rem 0 .95rem;border-bottom:1px solid var(--rule);}
+  .qhead{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-bottom:.35rem;}
+  .num{
+    flex:0 0 auto;min-width:1.55rem;height:1.55rem;padding:0 .3rem;display:flex;align-items:center;justify-content:center;
+    background:var(--ink);color:var(--paper);border-radius:999px;font-size:.74rem;font-weight:700;font-variant-numeric:tabular-nums;
+  }
+  .bk{font-size:.74rem;font-weight:700;padding:.1rem .45rem;border:1px solid var(--rule);border-radius:999px;color:var(--ink-soft);}
+  .ref{
+    font-size:.77rem;font-weight:700;color:var(--tab);cursor:pointer;
+    padding:.1rem .45rem;border:1px dashed var(--tab);border-radius:999px;
+    background:none;font-family:inherit;
+  }
+  .ref::before{content:"📖 ";}
+  .ref:active{background:#E7F0F2;}
+  .versebox{
+    margin:.55rem 0 0;padding:.7rem .8rem;background:#EFF6F7;
+    border:1px solid #CFE4E7;border-left:4px solid var(--tab);border-radius:8px;
+    font-size:.95rem;line-height:1.8;color:#20343A;word-break:keep-all;
+  }
+  .versebox .vref{display:block;font-size:.74rem;font-weight:700;color:var(--tab);margin-bottom:.25rem;}
+  .ask{margin:0 0 .35rem;font-size:.92rem;color:var(--ink-soft);}
+  .verse{margin:0;font-size:1rem;line-height:1.75;word-break:keep-all;}
+  .verse.quote::before{content:"“";}
+  .verse.quote::after{content:"”";}
+  .answer{margin:.55rem 0 0;font-size:.95rem;font-weight:600;}
+
+  .choices{margin:.5rem 0 0;padding:0;list-style:none;}
+  .choices li{margin:0 0 .35rem;}
+  .opt{
+    display:block;width:100%;text-align:left;font:inherit;font-size:.94rem;line-height:1.5;
+    padding:.5rem .65rem;background:none;border:1px solid var(--rule);border-radius:8px;
+    color:var(--ink);cursor:pointer;word-break:keep-all;
+  }
+  .opt:active{background:#F3EFE0;}
+  .opt.correct{border-color:var(--ok);background:#E8F5EE;color:#1C5E42;font-weight:700;}
+  .opt.wrong{border-color:var(--no);background:#FBEFEC;color:#8A362E;text-decoration:line-through;}
+  .opt.miss{border-color:var(--warn);background:#FDF4E0;color:#7A5510;text-decoration:line-through;}
+  .choices.answered .opt{cursor:default;}
+
+  .oxbox{display:flex;gap:.5rem;margin:.6rem 0 0;}
+  .ox{
+    flex:1 1 0;font:inherit;font-size:1.15rem;font-weight:800;padding:.5rem 0;
+    background:none;border:1px solid var(--rule);border-radius:10px;color:var(--ink);cursor:pointer;
+  }
+  .ox:active{background:#F3EFE0;}
+  .ox.correct{border-color:var(--ok);background:#E8F5EE;color:#1C5E42;}
+  .ox.wrong{border-color:var(--no);background:#FBEFEC;color:#8A362E;}
+  .oxbox.answered .ox{cursor:default;}
+
+  .verdict{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:.45rem 0 0;font-size:.9rem;font-weight:700;}
+  .verdict.ok{color:#1C5E42;}
+  .verdict.no{color:#8A362E;}
+  .verdict.warn{color:#7A5510;}
+  .retry{
+    font:inherit;font-size:.76rem;font-weight:600;padding:.2rem .55rem;background:none;
+    border:1px solid var(--rule);border-radius:999px;color:var(--ink-soft);cursor:pointer;
+  }
+
+  .blank{
+    display:inline-block;position:relative;min-width:3.4rem;padding:0 .3rem;margin:0 .1rem;text-align:center;
+    font-weight:700;color:var(--ink);background:linear-gradient(transparent 55%, var(--marker) 55%);
+    border-bottom:2px solid var(--marker-deep);border-radius:2px;
+    cursor:pointer;filter:blur(5px);opacity:.55;transition:filter .18s ease, opacity .18s ease;user-select:none;
+  }
+  .blank.shown{filter:none;opacity:1;}
+  .blank:focus-visible{outline:2px solid var(--tab);outline-offset:2px;}
+
+  .note{margin:.6rem 0 0;padding:.45rem .65rem;background:#FBEFEC;border-left:3px solid var(--flag);font-size:.81rem;line-height:1.5;color:#6E332C;}
+  .note summary{list-style:none;cursor:pointer;font-weight:700;display:flex;align-items:center;gap:.3rem;}
+  .note summary::-webkit-details-marker{display:none;}
+  .note summary::after{content:"▾";font-size:.7rem;}
+  .note[open] summary::after{content:"▴";}
+  .note .body{margin:.45rem 0 0;}
+
+  /* 모드 토글 */
+  .modebar{display:flex;gap:.4rem;margin:.75rem 0 0;}
+  .modebtn{
+    flex:1 1 0;font:inherit;font-size:.85rem;font-weight:700;padding:.5rem .4rem;
+    background:none;border:1px solid var(--tab);border-radius:10px;color:var(--tab);cursor:pointer;
+  }
+  .modebtn.on{background:var(--tab);color:var(--paper);}
+
+  /* 암송 모드 */
+  .versewrap{margin:0;}
+  .recite{display:none;}
+  body.recite-mode .versewrap .verse{display:none;}
+  body.recite-mode .q:not(.reciteable){display:none;}
+  body.wrongonly-mode .q:not(.iswrong){display:none;}
+  .wrongEmptyMsg{display:none;padding:2rem 0;text-align:center;color:var(--ink-soft);font-size:.9rem;line-height:1.7;}
+  body.wrongonly-mode .wrongEmptyMsg.show{display:block;}
+  .modebtn[data-mode="wrongonly"]{border-color:var(--no);color:var(--no);}
+  .modebtn[data-mode="wrongonly"].on{background:var(--no);color:var(--paper);}
+  .clearWrongBtn{
+    display:none;font:inherit;font-size:.8rem;font-weight:600;padding:.4rem .7rem;background:none;
+    border:1px solid var(--rule);border-radius:8px;color:var(--ink-soft);cursor:pointer;
+  }
+  body.wrongonly-mode .clearWrongBtn{display:inline-block;}
+  .clearWrongBtn:active{background:#F3EFE0;}
+  body.recite-mode .versewrap .recite{display:block;}
+  .recitecard{padding:.75rem .8rem;background:#F2F6EF;border:1px dashed #8FAE7B;border-radius:10px;text-align:center;}
+  .reciteprompt{margin:0 0 .5rem;font-size:.92rem;font-weight:700;color:#3E5C33;}
+  .revealBtn{font:inherit;font-size:.86rem;font-weight:700;padding:.5rem .9rem;background:#5B8A3F;color:#fff;border:none;border-radius:999px;cursor:pointer;}
+  .revealBtn:active{background:#4A7332;}
+  .reciteVerse{margin:.7rem 0 0;font-size:1rem;line-height:1.8;text-align:left;word-break:keep-all;color:var(--ink);}
+  .reciteVerse.quote::before{content:"“";}
+  .reciteVerse.quote::after{content:"”";}
+  .reciteVerse .kw{font-weight:800;color:#8A5A00;background:#FFF0BD;padding:0 .25rem;border-radius:3px;}
+  .blankSlot{display:inline-block;min-width:3.6rem;padding:0 .15rem;border-bottom:2px solid #8FAE7B;color:#8FAE7B;text-align:center;}
+
+  .sectionRetry{
+    font:inherit;font-size:.82rem;font-weight:700;padding:.4rem .8rem;background:none;
+    border:1px solid var(--tab);border-radius:999px;color:var(--tab);cursor:pointer;
+  }
+  .sectionRetry:active{background:#E7F0F2;}
+  .selfcheck{display:flex;gap:.5rem;margin-top:.75rem;}
+  .selfok, .selfno{flex:1 1 0;font:inherit;font-size:.86rem;font-weight:700;padding:.55rem 0;border-radius:10px;cursor:pointer;border:1px solid var(--rule);background:#fff;}
+  .selfok:active{background:#E8F5EE;}
+  .selfno:active{background:#FBEFEC;}
+  .reciteResult{margin:.6rem 0 0;font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+  .reciteResult.ok{color:#1C5E42;}
+  .reciteResult.no{color:#8A362E;}
+
+  footer{padding:1.5rem 1.15rem 0;font-size:.8rem;color:var(--ink-soft);line-height:1.6;}
+
+  /* 어린이용 정답 효과 */
+  .verdict.ok{color:#1C5E42;}
+  .verdict .big{font-size:1.05rem;}
+  .pop{display:inline-block;animation:pop .45s ease;}
+  @keyframes pop{0%{transform:scale(.6);}55%{transform:scale(1.25);}100%{transform:scale(1);}}
+  .opt.correct, .ox.correct{animation:pop .45s ease;}
+  .streak{
+    position:sticky;top:52px;z-index:9;margin:.6rem 1.15rem 0;padding:.5rem .8rem;
+    background:linear-gradient(90deg,#FFF3C4,#FFE08A);border:1px solid var(--marker-deep);
+    border-radius:12px;font-size:.9rem;font-weight:800;color:#7A5510;
+    display:none;align-items:center;gap:.4rem;box-shadow:0 2px 6px rgba(0,0,0,.06);
+  }
+  .streak.show{display:flex;}
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:50;}
+  .cf{position:absolute;width:9px;height:14px;top:-20px;will-change:transform,opacity;}
+  @keyframes fall{
+    0%{transform:translateY(-20px) rotate(0);opacity:1;}
+    100%{transform:translateY(105vh) rotate(720deg);opacity:.9;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .blank{transition:none;}
+    .pop,.opt.correct,.ox.correct{animation:none;}
+    .cf{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img class="logo" src="data:image/png;base64,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" alt="화양감리교회 다니엘초등부 골든벨드림팀">
+  <h1>화양감리교회 다니엘초등부 골든벨드림팀</h1>
+  <p class="sub">2026년 동부연회 예시 문제 · 여섯 권 290문항 · 개역개정</p>
+  <p class="howto">빈칸은 노란 칸을 톡 누르면 답이 나와요. O·X와 객관식은 버튼을 눌러 풀 수 있고, 객관식은 두 번까지 골라볼 수 있어요. 맞히면 색종이가 팡! 터져요 🎉 문제 위 📖 성구를 누르면 성경 말씀을 읽을 수 있고, 틀린 문제는 오답노트에 모입니다.</p>
+  <details class="noticebox">
+    <summary>유의사항</summary>
+    <ol>
+      <li>성경 문제의 출제는 개역 개정판을 사용합니다.</li>
+      <li>주관식 문제의 답은 개역 개정판에 나온 한글 그대로 적어야 정답으로 인정합니다.</li>
+      <li>대회 때 이 예시 문제의 형태가 바뀔 수도 있으며, 예시 문제 외에서도 출제됩니다.</li>
+      <li>그 외 세부적인 유의사항은 대회 당일에 안내하겠습니다.</li>
+    </ol>
+  </details>
+  <div class="modebar">
+    <button type="button" class="modebtn on" data-mode="fill">🔤 빈칸 채우기</button>
+    <button type="button" class="modebtn" data-mode="recite">🗣️ 암송 연습</button>
+    <button type="button" class="modebtn" data-mode="wrongonly">📕 오답노트 <span class="wrongCount">0</span></button>
+    <button type="button" class="clearWrongBtn" data-clear="1">전체 비우기</button>
+  </div>
+</header>
+
+<nav>
+  <button type="button" data-tab="today" class="todaytab">🌞 <span class="todayDate"></span> 오늘의 문제 <span class="cnt2">0</span></button>
+  <button type="button" data-tab="josh" class="on">여호수아</button>
+  <button type="button" data-tab="ezra">에스라</button>
+  <button type="button" data-tab="neh">느헤미야</button>
+  <button type="button" data-tab="matt">마태복음</button>
+  <button type="button" data-tab="eph">에베소서</button>
+  <button type="button" data-tab="phil">빌립보서</button>
+</nav>
+
+<div class="streak" id="streak"></div>
+<div id="confetti" aria-hidden="true"></div>
+
+<section id="josh" class="on">
+  <div class="tools">
+    <span class="count">여호수아 <b>76문항</b></span>
+    <button type="button" class="sectionRetry" data-book="josh">🔄 다시 풀기</button>
+    <span class="score" data-score="josh">0 / 0</span>
+  </div>
+  <p class="wrongEmptyMsg">아직 이 책에서 틀린 문제가 없어요! 👏</p>
+  <div class="list"></div>
+</section>
+
+<section id="ezra">
+  <div class="tools">
+    <span class="count">에스라 <b>50문항</b></span>
+    <button type="button" class="sectionRetry" data-book="ezra">🔄 다시 풀기</button>
+    <span class="score" data-score="ezra">0 / 0</span>
+  </div>
+  <p class="wrongEmptyMsg">아직 이 책에서 틀린 문제가 없어요! 👏</p>
+  <div class="list"></div>
+</section>
+
+<section id="neh">
+  <div class="tools">
+    <span class="count">느헤미야 <b>50문항</b></span>
+    <button type="button" class="sectionRetry" data-book="neh">🔄 다시 풀기</button>
+    <span class="score" data-score="neh">0 / 0</span>
+  </div>
+  <p class="wrongEmptyMsg">아직 이 책에서 틀린 문제가 없어요! 👏</p>
+  <div class="list"></div>
+</section>
+
+<section id="matt">
+  <div class="tools">
+    <span class="count">마태복음 <b>84문항</b></span>
+    <button type="button" class="sectionRetry" data-book="matt">🔄 다시 풀기</button>
+    <span class="score" data-score="matt">0 / 0</span>
+  </div>
+  <p class="wrongEmptyMsg">아직 이 책에서 틀린 문제가 없어요! 👏</p>
+  <div class="list"></div>
+</section>
+
+<section id="eph">
+  <div class="tools">
+    <span class="count">에베소서 <b>20문항</b></span>
+    <button type="button" class="sectionRetry" data-book="eph">🔄 다시 풀기</button>
+    <span class="score" data-score="eph">0 / 0</span>
+  </div>
+  <p class="wrongEmptyMsg">아직 이 책에서 틀린 문제가 없어요! 👏</p>
+  <div class="list"></div>
+</section>
+
+<section id="phil">
+  <div class="tools">
+    <span class="count">빌립보서 <b>10문항</b></span>
+    <button type="button" class="sectionRetry" data-book="phil">🔄 다시 풀기</button>
+    <span class="score" data-score="phil">0 / 0</span>
+  </div>
+  <p class="wrongEmptyMsg">아직 이 책에서 틀린 문제가 없어요! 👏</p>
+  <div class="list"></div>
+</section>
+
+<section id="today">
+  <div class="tools">
+    <span class="count">🌞 <span class="todayDate"></span> 오늘의 문제 <b><span class="todaynum">0</span>문항</b></span>
+    <span class="score" data-score="today">0 / 0</span>
+  </div>
+  <div class="list"></div>
+</section>
+
+
+<footer>답은 개역개정 본문 기준이에요. 문제지 표시나 장절이 본문과 다른 곳은 해설을 접어 두었습니다.</footer>
+
+<script>
+var DATA = {
+"josh": [
+ {ref:"수 1:1", q:"O·X 문제입니다. 다음 내용이 맞으면 O, 틀리면 X.", quote:true, t:"여호수아서의 시작은 모세가 죽은 후부터이다.", a:"O"},
+ {ref:"수 1:1", q:"여호수아의 아버지 이름은 무엇입니까?", a:"눈"},
+ {ref:"수 1:4", q:"여호와께서 이스라엘 자손에게 주시겠다고 약속하신 땅은 레바논에서부터 어느 큰 강까지입니까?", a:"유브라데 강"},
+ {ref:"수 1:8", q:"다음은 하나님께서 모세에게 하신 말씀입니다. ( ) 안에 들어갈 말은?", quote:true, t:"이 [[율법]]책을 네 입에서 떠나지 말게 하며 주야로 그것을 묵상하여 그 안에 기록된 대로 다 지켜 행하라 그리하면 네 길이 평탄하게 될 것이며 네가 형통하리라"},
+ {ref:"수 1:12", q:"다음은 여호수아 1장에서 여호수아가 어느 지파에게 말한 것입니다. 세 지파 이름을 쓰세요.", quote:true, t:"너희의 처자와 가축은 모세가 너희에게 준 요단 이쪽 땅에 머무르려니와 너희 모든 용사들은 무장하고 너희의 형제보다 앞서 건너가서 그들을 돕되", a:"르우벤 자손, 갓 자손, 므낫세 반 지파"},
+ {ref:"수 2:1", q:"여호수아가 여리고성을 엿보고 오라고 정탐꾼을 보낸 장소는?", a:"싯딤"},
+ {ref:"수 2:1", q:"여리고를 정탐할 때 정탐꾼들은 기생 누구의 집에 들어가서 지냈습니까?", a:"라합"},
+ {ref:"수 2:6", q:"기생 라합이 정탐꾼을 숨겨 두었던 곳은 어디입니까?", choices:["① 지하","② 굴","③ 창고","④ 지붕"], a:"④ 지붕"},
+ {ref:"수 2:11", q:"다음은 기생 라합이 여호와께서 하신 일을 듣고 난 뒤의 반응입니다. ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"[[마음]]이 녹았고 사람이 [[정신]]을 잃었다"},
+ {ref:"수 2:18", q:"정탐꾼을 구해준 라합이 자신의 집을 선대하도록 맹세하며 요구한 증표는 붉은 무엇입니까?", choices:["① 나무","② 천","③ 줄","④ 깃발"], a:"③ 줄"},
+ {ref:"수 2:24", q:"다음은 정탐꾼들이 돌아와 여호수아에게 보고한 내용입니다. ( ) 안에 들어갈 말은?", quote:true, t:"또 여호수아에게 이르되 진실로 여호와께서 그 온 땅을 우리 손에 주셨으므로 그 땅의 모든 주민이 우리 앞에서 [[간담]]이 녹더이다 하더라"},
+ {ref:"수 3:4", q:"여호수아는 요단을 건너가기 전에 백성들에게 명령하여 언약궤와 백성들의 사이 거리를 몇 규빗쯤 되게 하라고 했습니까?", choices:["① 이천 규빗","② 이천 오백 규빗","③ 삼천 규빗","④ 삼천 오백 규빗"], a:"① 이천 규빗"},
+ {ref:"수 3:10", q:"하나님께서 요단강을 건너기 전에 이스라엘 백성들에게 너희 앞에서 반드시 쫓아내실 것이라고 말한 일곱 족속의 이름을 모두 쓰세요.", a:"가나안 족속, 헷 족속, 히위 족속, 브리스 족속, 기르가스 족속, 아모리 족속, 여부스 족속"},
+ {ref:"수 4:3", q:"요단 강 마른 땅을 건널 때 후일에 표징이 될 돌을 몇 개 가져가라고 하셨습니까?", choices:["① 일곱 개","② 아홉 개","③ 열 개","④ 열두 개"], a:"④ 열두 개"},
+ {ref:"수 4:11", q:"O·X 문제입니다. 다음 내용이 맞으면 O, 틀리면 X.", quote:true, t:"요단 강을 건널 때 여호와의 궤와 제사장들은 백성들보다 먼저 요단강을 건너갔다.", a:"X", note:"모든 백성이 건너기를 마친 후에 여호와의 궤와 제사장들이 백성의 목전에서 건넜어요. 순서가 반대라서 X입니다."},
+ {ref:"수 4:13", q:"무장하고 이스라엘 자손들보다 앞서 요단 강을 건너가 싸우려고 여리고 평지에 이르렀는데, 무장한 이들은 몇 명 가량이었습니까?", choices:["① 삼만 명","② 삼만 오천 명","③ 사만 명","④ 사만 오천 명"], a:"③ 사만 명"},
+ {ref:"수 4:20", q:"여호수아가 요단에서 가져온 그 열두 개의 돌을 여리고 동쪽 경계 어디에 세웠습니까?", a:"길갈"},
+ {ref:"수 4:24", q:"다음은 길갈에 세워진 돌들이 무슨 뜻이냐고 물었을 때 여호수아가 했던 대답입니다. ( ) 안에 들어갈 말은?", quote:true, t:"이는 땅의 모든 백성에게 여호와의 손이 강하신 것을 알게 하며 너희가 너희의 하나님 여호와를 항상 [[경외]]하게 하려 하심이라 하라"},
+ {ref:"수 5:3", q:"여호수아가 요단 강을 건넌 후 부싯돌로 칼을 만들어 이스라엘 자손들에게 행했던 것은 무엇입니까?", a:"할례"},
+ {ref:"수 5:6", q:"이스라엘 자손들이 하나님의 음성을 청종하지 않아서 가나안 땅을 들어가지 못하고 헤매었던 기간은 몇 년입니까?", choices:["① 십 년","② 이십 년","③ 삼십 년","④ 사십 년"], a:"④ 사십 년"},
+ {ref:"수 5:11", q:"유월절 이튿날에 그 땅의 소산을 먹었습니다. 그 날에 먹은 것이 ‘볶은 곡식’과 무엇입니까?", a:"무교병"},
+ {ref:"수 5:12", q:"그 땅의 소산물을 먹은 다음 날부터 이것이 그쳐서 다시는 얻지 못하였습니다. 이것은 무엇입니까?", a:"만나"},
+ {ref:"수 5:14", q:"칼을 빼어 손에 들고 마주 서 있던 이 사람은 여호와의 누구입니까?", a:"여호와의 군대 대장"},
+ {ref:"수 6:3", q:"매일 성 주위를 몇 번 돌았습니까?", choices:["① 한 번","② 두 번","③ 다섯 번","④ 일곱 번"], a:"① 한 번"},
+ {ref:"수 6:4", q:"여리고 성을 돌 때 일곱째 날에는 그 성을 몇 번 돌라고 명령하셨습니까?", choices:["① 한 번","② 두 번","③ 다섯 번","④ 일곱 번"], a:"④ 일곱 번"},
+ {ref:"수 6:4", q:"일곱째 날에 여리고 성을 돌 때에 제사장들이 했던 행동은 무엇입니까?", choices:["① 소리 지르기","② 제사 드리기","③ 무장하기","④ 나팔 불기"], a:"④ 나팔 불기"},
+ {ref:"수 6:17", q:"O·X 문제입니다. 다음 내용이 맞으면 O, 틀리면 X.", quote:true, t:"여리고 성을 무너뜨릴 때 이스라엘이 무장한 사람들은 정탐꾼을 숨겨 주었던 기생 라합만 살려 주었고 그 집에 동거하는 자는 모두 죽였다.", a:"X", note:"라합과 그의 집에 동거하는 자들도 다 살려 주었어요."},
+ {ref:"수 6:19", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"은금과 동철 기구들은 다 여호와께 [[구별]]될 것이니 그것을 여호와의 곳간에 들일지니라 하니라"},
+ {ref:"수 6:24", q:"은금과 동철 기구를 둔 곳은 여호와의 집 어디입니까?", a:"곳간"},
+ {ref:"수 6:26", q:"그 문을 세울 때에는 그의 어떤 아들을 잃을 것이라고 하였습니까?", a:"막내아들"},
+ {ref:"수 7:1", q:"온전히 바친 물건으로 인해 범죄하여 하나님께서 진노하셨는데, 누구 때문입니까?", a:"아간"},
+ {ref:"수 7:2", q:"벧엘 동쪽 벧아웬 곁에 있는 이 곳으로 정탐꾼을 보냈습니다. 이 곳의 이름은?", a:"아이"},
+ {ref:"수 7:4", q:"여호수아는 몇 명쯤 그리로 올라갔다가 아이 사람 앞에서 도망쳤습니까?", choices:["① 이천 명","② 삼천 명","③ 사천 명","④ 오천 명"], a:"② 삼천 명"},
+ {ref:"수 7:5", q:"아이 성에서 도망친 이스라엘 군사들을 아이 사람이 쳐 죽인 인원 수는 몇 명입니까?", choices:["① 삼십 명","② 삼십이 명","③ 삼십사 명","④ 삼십육 명"], a:"④ 삼십육 명"},
+ {ref:"수 7:16", q:"온전히 바친 물건을 가진 자를 뽑기 위해 각 지파대로 나오게 하였습니다. 가장 먼저 뽑힌 지파는?", a:"유다 지파"},
+ {ref:"수 7:21", q:"아간이 노략한 은이 이백 세겔이었는데, 금은 몇 세겔 되는 금덩이였습니까?", choices:["① 사십 세겔","② 오십 세겔","③ 육십 세겔","④ 칠십 세겔"], a:"② 오십 세겔"},
+ {ref:"수 7:26", q:"아간이 죽은 후 그 위에 돌 무더기를 크게 쌓은 그 곳 이름을 오늘까지 뭐라고 불렀습니까?", a:"아골 골짜기"},
+ {ref:"수 8:3", q:"여호수아는 용사 몇 명을 뽑아 밤에 아이 성으로 보냈습니까?", choices:["① 이만 명","② 삼만 명","③ 사만 명","④ 오만 명"], a:"② 삼만 명"},
+ {ref:"수 8:15", q:"아이 성 사람들 앞에서 거짓으로 패한 척하며 어느 길로 도망하였습니까?", a:"광야 길"},
+ {ref:"수 8:18", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"여호와께서 여호수아에게 이르시되 네 손에 잡은 [[단창]]을 들어 아이를 가리키라 내가 이 성읍을 네 손에 넘겨 주리라 여호수아가 그의 손에 잡은 [[단창]]을 들어 그 성읍을 가리키니"},
+ {ref:"수 8:25", q:"칼날로 죽인 아이 사람들의 남녀는 모두 몇 명이었습니까?", choices:["① 만 이천 명","② 만 삼천 명","③ 만 사천 명","④ 만 오천 명"], a:"① 만 이천 명"},
+ {ref:"수 8:30", q:"여호수아는 아이 왕을 죽인 후 하나님을 위해 어떤 산에 한 제단을 쌓았습니까?", a:"에발 산"},
+ {ref:"수 8:33", q:"이스라엘 백성들을 언약궤 좌우에 서게 한 두 산의 이름은 무엇과 무엇입니까?", a:"그리심 산, 에발 산"},
+ {ref:"수 9:3", q:"낡은 신과 옷을 입고 먼 나라에서 왔으니 조약을 맺자고 속인 그 주민들은 어디 주민들입니까?", a:"기브온"},
+ {ref:"수 9:23", q:"기브온 사람들은 대를 이어 무엇을 하는 자가 되었습니까?", choices:["① 전쟁터에 군사로 나가는 자","② 옷을 만드는 자","③ 집을 짓는 자","④ 나무를 패며 물을 긷는 자"], a:"④ 나무를 패며 물을 긷는 자"},
+ {ref:"수 10:11", q:"그들이 도망할 때 하나님께서는 하늘에서 큰 어떤 덩이가 내려서 그들을 죽였습니까?", a:"우박 덩이"},
+ {ref:"수 10:12", q:"다음 ( )에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"[[태양]]아 너는 기브온 위에 머무르라 [[달]]아 너도 아얄론 골짜기에서 그리할지어다"},
+ {ref:"수 10:16", q:"아모리 족속 다섯 왕들이 패배한 후에 도망하여 숨었던 굴의 이름은?", a:"막게다 굴"},
+ {ref:"수 10:27", q:"다섯 왕들이 나무에 달려 죽은 후 여호수아는 그 시체를 어디에 던졌습니까?", choices:["① 들판","② 강","③ 우물","④ 굴"], a:"④ 굴"},
+ {ref:"수 10:29~42", q:"전투 순서를 완성하세요.", t:"립나 → [[라기스]] → 게셀 → 에글론 → 헤브론 → 드빌"},
+ {ref:"수 11:1, 10", q:"다음 왕들 중 머리가 되는 왕은 어느 왕입니까?", choices:["① 하솔","② 마돈","③ 시므론","④ 악삽"], a:"① 하솔"},
+ {ref:"수 11:13", q:"O·X 문제입니다. 다음 내용이 맞으면 O, 틀리면 X.", quote:true, t:"여호수아가 하솔만 불태웠고 산 위에 세운 성읍들은 이스라엘이 불태우지 않았다.", a:"O"},
+ {ref:"수 11:19", q:"기브온 주민 어느 족속 외에는 이스라엘 자손과 화친한 성읍이 하나도 없었습니까?", a:"히위 족속"},
+ {ref:"수 11:22", q:"다음 ( )에 들어갈 말은?", quote:true, t:"이스라엘 자손의 땅에는 ( ) 사람들이 하나도 남지 아니하였고 가사와 가드와 아스돗에만 남았더라", choices:["① 헤브론","② 드빌","③ 아납","④ 아낙"], a:"④ 아낙"},
+ {ref:"수 12:4", q:"르바의 남은 족속으로서 아스다롯과 에드레이에 거주하던 바산 왕의 이름은?", a:"옥"},
+ {ref:"수 13:3", q:"블레셋 사람의 다섯 통치자들의 땅은 어디 족속들의 땅인지 다섯 족속을 쓰세요.", a:"가사, 아스돗, 아스글론, 가드, 에그론"},
+ {ref:"수 13:14", q:"O·X 문제입니다. 다음 내용이 맞으면 O, 틀리면 X.", quote:true, t:"레위 지파에게 여호수아가 기업으로 준 것이 있다.", a:"X", note:"레위 지파에게는 기업을 주지 않았어요. 이스라엘 하나님께 드리는 화제물이 그들의 기업입니다."},
+ {ref:"수 14:4", q:"O·X 문제입니다. 다음 내용이 맞으면 O, 틀리면 X.", quote:true, t:"레위 사람에게 아무 분깃도 주지 않았지만, 거주할 성읍들과 가축과 재산을 위한 목초지는 주었다.", a:"O"},
+ {ref:"수 14:7", q:"모세가 가데스 바네아에서 갈렙을 보내어 정탐하게 했을 때 갈렙의 나이는 몇 세입니까?", choices:["① 삼십 세","② 삼십오 세","③ 삼십칠 세","④ 사십 세"], a:"④ 사십 세"},
+ {ref:"수 14:10, 12", q:"갈렙이 ‘이 산지를 지금 내게 주소서’라고 말했을 때 그의 나이는 몇 세입니까?", choices:["① 팔십 세","② 팔십오 세","③ 팔십칠 세","④ 구십 세"], a:"② 팔십오 세"},
+ {ref:"수 14:13", q:"여호수아가 여분네의 아들 갈렙을 위하여 축복하고 그에게 준 기업은 어디입니까?", a:"헤브론"},
+ {ref:"수 14:15", q:"헤브론의 옛 이름은 무엇입니까?", a:"기럇 아르바"},
+ {ref:"수 15:16", q:"기럇 세벨을 점령하는 자에게 아내로 주겠다고 한 갈렙의 딸 이름은?", a:"악사"},
+ {ref:"수 15:17", q:"기럇 세벨을 점령해서 갈렙의 딸을 아내로 맞이한, 갈렙의 아우 그나스의 아들인 이 사람의 이름은?", a:"옷니엘"},
+ {ref:"수 15:19", q:"다음은 갈렙의 딸 악사가 출가할 때에 아버지에게 한 말입니다. ( ) 안에 들어갈 말은?", quote:true, t:"이르되 내게 복을 주소서 아버지께서 나를 네겝 땅으로 보내시오니 [[샘물]]도 내게 주소서 하매 갈렙이 윗샘과 아랫샘을 그에게 주었더라"},
+ {ref:"수 15:63", q:"O·X 문제입니다. 다음 내용이 맞으면 O, 틀리면 X.", quote:true, t:"유다 자손은 예루살렘 주민 여부스 족속을 쫓아내지 못했다.", a:"O"},
+ {ref:"수 17:14", q:"기업을 분배 받을 때 여호수아에게 불평한 자손은 어느 자손입니까?", quote:true, t:"[[요셉]] 자손이 여호수아에게 말하여 이르되 여호와께서 지금까지 내게 복을 주시므로 내가 큰 민족이 되었거늘 당신이 나의 기업을 위하여 한 제비, 한 분깃으로만 내게 주심은 어찌함이니이까 하니"},
+ {ref:"수 19:51", q:"어디에 있는 회막 문 여호와 앞에서 제비 뽑아 나눈 기업을 끝으로 땅 나누는 일을 마쳤습니까?", a:"실로"},
+ {ref:"수 20:2", q:"부지중에 실수로 사람을 죽인 자가 피의 보복자를 피할 이 성을 무엇이라 불렀습니까?", a:"도피성"},
+ {ref:"수 20:6", q:"다음 ( ) 안에 들어갈 말을 쓰세요.", quote:true, t:"그 살인자는 회중 앞에 서서 재판을 받기까지 또는 그 당시 [[대제사장]]이 죽기까지 그 성읍에 거주하다가 그 후에 그 살인자는 그 성읍 곧 자기가 도망하여 나온 자기 성읍 자기 집으로 돌아갈지니라 하라 하시니라"},
+ {ref:"수 20:7~8", q:"여호수아서에 나온 도피성은 모두 몇 개입니까?", choices:["① 다섯 개","② 여섯 개","③ 일곱 개","④ 아홉 개"], a:"② 여섯 개"},
+ {ref:"수 22:5", q:"다음은 여호수아가 르우벤 사람과 갓 사람과 므낫세 반 지파를 불러서 한 말입니다. ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"오직 여호와의 종 모세가 너희에게 명령한 명령과 율법을 반드시 행하여 너희의 하나님 여호와를 사랑하고 그의 모든 길로 행하며 그의 계명을 지켜 그에게 친근히 하고 너희의 [[마음]]을 다하며 [[성품]]을 다하여 그를 섬길지니라 하고", note:"두 번째 빈칸은 ‘성품’이에요. 신명기 6:5의 ‘뜻을 다하고’와 헷갈리기 쉬우니 여호수아 22:5는 마음과 성품으로 외워 두세요."},
+ {ref:"수 22:10", q:"르우벤 자손과 므낫세 반 지파가 요단 언덕 가에 도착해서 큰 무엇을 쌓아서 오해가 생기게 되었습니까?", a:"제단"},
+ {ref:"수 24:15", q:"다음은 누가 한 말인지 쓰세요.", quote:true, t:"만일 여호와를 섬기는 것이 너희에게 좋지 않게 보이거든 너희 조상들이 강 저쪽에서 섬기던 신들이든지 또는 너희가 거주하는 땅에 있는 아모리 족속의 신들이든지 너희가 섬길 자를 오늘 택하라 오직 나와 내 집은 여호와를 섬기겠노라 하니", a:"여호수아"},
+ {ref:"수 24:29", q:"여호수아는 몇 살에 죽었습니까?", choices:["① 백 세","② 백오 세","③ 백십 세","④ 백십오 세"], a:"③ 백십 세"},
+ {ref:"수 24:32", q:"이스라엘 자손이 애굽에서 가져 온 누구의 뼈를 세겜에 장사하였습니까?", a:"요셉"}
+],
+"ezra": [
+ {ref:"스 1:1", q:"여호와께서 예레미야의 입을 통하여 하신 말씀을 이루게 하시려고 마음을 감동시킨 바사 왕의 이름은?", a:"고레스"},
+ {ref:"스 1:1", q:"고레스 왕의 조서는 누구의 입을 통하여 하신 말씀을 이루기 위한 것이었습니까?", a:"예레미야"},
+ {ref:"스 1:7", q:"고레스 왕이 성전 건축을 위해 돌려준 성전 기구는 누가 가져간 것입니까?", a:"느부갓네살"},
+ {ref:"스 1:11", q:"사로잡힌 자를 바벨론에서 예루살렘으로 데리고 갈 때 가지고 간 금, 은그릇은 모두 몇 개였습니까?", choices:["① 사천오백 개","② 오천사백 개","③ 육천 개","④ 칠천이백 개"], a:"② 오천사백 개"},
+ {ref:"스 2:2", q:"스룹바벨과 함께 귀환한 대제사장은 누구입니까?", a:"예수아"},
+ {ref:"스 2:63", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"방백이 그들에게 명령하여 우림과 둠밈을 가진 제사장이 일어나기 전에는 [[지성물]]을 먹지 말라 하였느니라"},
+ {ref:"스 2:64", q:"예루살렘으로 돌아온 온 회중의 합계는 몇 명입니까?", choices:["① 사만 이천삼백육십 명","② 삼만 이천삼백육십 명","③ 오만 이천삼백육십 명","④ 육만 이천삼백육십 명"], a:"① 사만 이천삼백육십 명"},
+ {ref:"스 2:65", q:"예루살렘으로 돌아온 사람 중에 노래하는 남녀는 몇 명이었습니까?", a:"이백 명", note:"노비가 칠천삼백삼십칠 명, 노래하는 남녀가 이백 명이에요. 두 숫자를 섞지 않도록 주의하세요."},
+ {ref:"스 3:2", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"요사닥의 아들 예수아와 그의 형제 제사장들과 스알디엘의 아들 스룹바벨과 그의 형제들이 다 일어나 이스라엘 하나님의 제단을 만들고 하나님의 사람 모세의 [[율법]]에 기록한 대로 번제를 그 위에서 드리려 할새"},
+ {ref:"스 3:4", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"기록된 규례대로 [[초막절]]을 지켜 번제를 매일 정수대로 날마다 드리고"},
+ {ref:"스 3:10", q:"건축자가 여호와의 성전 기초를 놓을 때에 제사장들은 예복을 입고 무엇을 들었습니까?", a:"나팔"},
+ {ref:"스 4:1~2", q:"유다와 베냐민의 대적은 성전 건축을 함께 하자고 족장들과 누구에게 말했습니까?", a:"스룹바벨"},
+ {ref:"스 4:4", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"이로부터 그 땅 백성이 유다 백성의 [[손]]을 약하게 하여 그 건축을 방해하되"},
+ {ref:"스 4:13", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"이제 왕은 아시옵소서 만일 이 성읍을 건축하고 그 [[성곽]]을 완공하면 저 무리가 다시는 조공과 관세와 통행세를 바치지 아니하리니 결국 왕들에게 손해가 되리이다."},
+ {ref:"스 4:24", q:"성전 공사가 바사 왕 다리오 제 몇 년까지 중단되었습니까?", choices:["① 일 년","② 이 년","③ 삼 년","④ 십 년"], a:"② 이 년"},
+ {ref:"스 5:2", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"이에 스알디엘의 아들 스룹바벨과 요사닥의 아들 [[예수아]]가 일어나 예루살렘에 있던 하나님의 성전을 다시 건축하기 시작하매 하나님의 선지자들이 함께 있어 그들을 돕더니"},
+ {ref:"스 5:5", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"하나님이 ( ) 장로들을 돌보셨으므로 그들이 능히 공사를 막지 못하고 이 일을 다리오에게 아뢰고 그 답장이 오기를 기다렸더라", choices:["① 유다","② 이스라엘","③ 예루살렘","④ 유브라데 강 건너편"], a:"① 유다"},
+ {ref:"스 6:2", q:"고레스 왕의 조서를 찾은 곳은 어디입니까?", choices:["① 수산궁","② 바벨론","③ 메대도 악메다 궁성","④ 니느웨"], a:"③ 메대도 악메다 궁성"},
+ {ref:"스 6:8", q:"다리오 왕은 성전 건축 비용을 왕의 재산 곧 유브라데 강 건너편에서 거둔 무엇 중에서 지급하라고 명령했습니까?", a:"세금"},
+ {ref:"스 6:15", q:"성전을 건축하여 일을 끝낸 때의 왕의 이름은 무엇입니까?", a:"다리오"},
+ {ref:"스 6:18", q:"제사장과 레위 사람을 세워 예루살렘에서 하나님을 섬기게 하되 누구의 책에 기록된 대로 하게 하였습니까?", a:"모세"},
+ {ref:"스 7:5", q:"에스라 7장에는 에스라의 계보가 기록되어 있습니다. 에스라는 대제사장 누구의 자손입니까?", a:"아론"},
+ {ref:"스 7:6", q:"에스라는 누구의 율법에 익숙한 학자였습니까?", a:"모세"},
+ {ref:"스 7:7~8", q:"에스라가 예루살렘으로 올라온 해는 아닥사스다 왕 몇 년입니까?", a:"제칠년"},
+ {ref:"스 7:11", q:"학자 겸 제사장인 에스라에게 조서를 내린 왕은 누구입니까?", a:"아닥사스다"},
+ {ref:"스 7:25", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"에스라여 너는 네 손에 있는 네 하나님의 [[지혜]]를 따라 네 하나님의 율법을 아는 자를 법관과 재판관을 삼아 강 건너편 모든 백성을 재판하게 하고 그 중 알지 못하는 자는 너희가 가르치라"},
+ {ref:"스 8:20", q:"느디님 사람 중 성전 일꾼은 몇 명이었습니까?", a:"이백이십 명"},
+ {ref:"스 8:22", q:"하나님은 자기를 배반하는 모든 자에게 권능과 무엇을 내리신다고 하였습니까?", a:"진노"},
+ {ref:"스 8:21", q:"에스라는 금식을 선포하며 우리와 우리 어린 아이와 모든 소유를 위하여 평탄한 무엇을 간구했습니까?", a:"길"},
+ {ref:"스 8:24", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그 때에 내가 [[제사장]]의 우두머리들 중 열두 명 곧 세레뱌와 하사뱌와 그의 형제 열 명을 따로 세우고"},
+ {ref:"스 8:32", q:"에스라가 첫째 달 십이 일에 아하와 강을 떠나 예루살렘에 이르러 며칠간 머물렀습니까?", a:"삼 일"},
+ {ref:"스 8:35", q:"사로잡혔던 자가 돌아온 자들이 번제를 드릴 때 이스라엘 전체를 위해 드렸던 수송아지는 몇 마리였습니까?", a:"열두 마리"},
+ {ref:"스 9:3", q:"에스라는 백성들이 행하였던 가증한 일을 듣고 무엇과 무엇을 찢었습니까?", a:"속옷과 겉옷"},
+ {ref:"스 9:4", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"이에 이스라엘의 하나님의 말씀으로 말미암아 떠는 자가 사로잡혔던 이 사람들의 [[죄]] 때문에 다 내게로 모여오더라 내가 저녁 제사 드릴 때까지 기가 막혀 앉았더니"},
+ {ref:"스 9:6", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"말하기를 나의 하나님이여 내가 부끄럽고 낯이 뜨거워서 감히 나의 하나님을 향하여 얼굴을 들지 못하오니 이는 우리 죄악이 많아 [[정수리]]에 넘치고 우리 허물이 커서 하늘에 미침이니이다."},
+ {ref:"스 9:7", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"우리 조상들의 때로부터 오늘까지 우리의 죄가 심하매 우리의 죄악으로 말미암아 우리와 우리 왕들과 우리 제사장들을 여러 나라 왕들의 손에 넘기사 칼에 죽으며 사로잡히며 노략을 당하며 [[얼굴]]을 부끄럽게 하심이 오늘날과 같으니이다."},
+ {ref:"스 9:8", q:"에스라는 하나님께서 우리를 그 거룩한 처소에 박힌 무엇과 같게 하셨다고 했습니까?", a:"못"},
+ {ref:"스 9:15", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"이스라엘의 하나님 여호와여 주는 ( )로우시니 우리가 남아 피한 것이 오늘날과 같사옵거늘 도리어 주께 범죄하였사오니 이로 말미암아 주 앞에 한 사람도 감히 서지 못하겠나이다 하니라.", choices:["① 공의","② 정의","③ 의","④ 자비"], a:"③ 의"},
+ {ref:"스 10:1", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"에스라가 하나님의 성전 앞에 엎드려 울며 기도하여 죄를 [[자복]]할 때에 많은 백성이 크게 통곡하매 이스라엘 중에서 백성의 남녀와 어린 아이의 큰 무리가 그 앞에 모인지라."},
+ {ref:"스 10:2", q:"엘람의 자손 중 여히엘의 아들 스가냐는 에스라에게 아직도 무엇이 있다고 했습니까?", a:"소망"},
+ {ref:"스 10:3", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"곧 내 주의 교훈을 따르며 우리 하나님의 명령을 떨며 [[준행]]하는 자의 가르침을 따라 이 모든 아내와 그들의 소생을 다 내보내기로 우리 하나님과 언약을 세우고 율법대로 행할 것이라."},
+ {ref:"스 10:4", q:"스가냐는 에스라에게 우리가 도울 것이니 어떻게 하라고 권면했습니까?", choices:["① 도망하소서","② 기도하소서","③ 일어나소서","④ 금식하소서"], a:"③ 일어나소서"},
+ {ref:"스 10:5", q:"에스라는 제사장들과 레위 사람들과 온 이스라엘에게 이 말대로 행하기를 무엇하게 했습니까?", choices:["① 맹세","② 기도","③ 금식","④ 찬송"], a:"① 맹세"},
+ {ref:"스 10:6", q:"에스라가 금식한 장소는 엘리아십의 아들 누구의 방이었습니까?", a:"여호하난"},
+ {ref:"스 10:7", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"유다와 예루살렘에 사로잡혔던 자들의 자손들에게 공포하기를 너희는 ( )으로 모이라", choices:["① 성전","② 예루살렘","③ 성전 앞 광장","④ 광장"], a:"② 예루살렘"},
+ {ref:"스 10:9", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"유다와 베냐민 모든 사람들이 삼 일 내에 예루살렘에 모이니 때는 아홉째 달 이십일이라 무리가 하나님의 성전 앞 광장에 앉아서 이 일과 큰 [[비]] 때문에 떨고 있더니"},
+ {ref:"스 10:11", q:"에스라는 너희 조상들의 하나님 앞에서 무엇을 자복하라고 했습니까?", a:"죄"},
+ {ref:"스 10:15", q:"O·X 문제입니다. 다음 내용이 맞으면 O, 틀리면 X.", quote:true, t:"에스라가 이방의 여인들의 문제를 해결하려고 했을 때 반대했던 사람들이 없었다.", a:"X", note:"아사헬의 아들 요나단과 디과의 아들 야스야가 반대했고, 므술람과 레위 사람 삽브대가 그들을 도왔어요."},
+ {ref:"스 10:19", q:"제사장들 가운데 이방 여인을 아내로 맞이했던 사람들은 그 죄로 말미암아 숫양 한 마리를 어떤 제사로 드렸습니까?", a:"속건제"},
+ {ref:"스 10:24", q:"O·X 문제입니다. 다음 내용이 맞으면 O, 틀리면 X.", quote:true, t:"노래하는 자 중에는 이방 여인을 아내로 맞이한 사람은 없었다.", a:"X", note:"노래하는 자 중에는 엘리아십이 있었어요."}
+],
+"neh": [
+ {ref:"느 1:1~3", q:"느헤미야는 유다로부터 예루살렘 성이 허물어졌다는 소식을 어디에서 들었습니까?", a:"수산 궁"},
+ {ref:"느 1:2", q:"유다에서 올라와 느헤미야에게 유다와 예루살렘의 소식을 전해 준 사람은 누구입니까?", a:"하나니"},
+ {ref:"느 1:3~4", q:"느헤미야가 예루살렘 사람들의 형편을 들었을 때, 느헤미야가 취한 행동이 <b>아닌</b> 것은?", choices:["① 앉아서 울었다.","② 3일 동안 슬퍼하였다.","③ 하나님 앞에 금식하였다.","④ 하나님께 기도하였다."], a:"②", note:"본문은 ‘수일 동안 슬퍼하며’예요. 며칠인지 정해서 말하지 않았습니다."},
+ {ref:"느 1:5~11", q:"금식하며 드린 그 기도의 내용이 <b>아닌</b> 것은?", choices:["① 하나님은 그의 계명을 지키는 자에게 언약을 지키시는 분임을 고백했다.","② 이스라엘 자손이 주께 범죄한 것을 고백했다.","③ 모세의 축복과 저주를 상기시키며 하나님의 은총을 간구했다.","④ 예루살렘이 큰 환난을 당해 성이 허물어지고 성문들이 불탄 것에 대해 여호와를 원망했다."], a:"④"},
+ {ref:"느 1:7", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"주를 향하여 크게 악을 행하여 주께서 주의 종 [[모세]]에게 명령하신 계명과 율례와 규례를 지키지 아니하였나이다."},
+ {ref:"느 1:11", q:"느헤미야가 아닥사스다 왕의 통치하에 있을 때 그의 직위는 왕의 무엇을 맡은 관원이었습니까?", a:"술 맡은 관원"},
+ {ref:"느 2:1", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"아닥사스다 왕 제이십년 니산월에 왕 앞에 포도주가 있기로 내가 그 포도주를 왕에게 드렸는데 이전에는 내가 왕 앞에서 ( )이 없었더니", choices:["① 수심","② 근심","③ 걱정","④ 우환"], a:"① 수심"},
+ {ref:"느 2:2", q:"왕이 느헤미야의 얼굴에 수심이 있음을 지적하면서 느헤미야의 마음에 이것이 반드시 있다고 말했습니다. 이것은 무엇입니까?", a:"근심"},
+ {ref:"느 2:4", q:"왕이 “네가 무엇을 원하느냐?”라고 했을 때 느헤미야가 곧 하늘의 하나님께 한 것은 무엇입니까?", a:"묵도", note:"개역개정 본문은 ‘내가 곧 하늘의 하나님께 묵도하고’예요. 주관식은 성경에 나온 한글 그대로 ‘묵도’라고 적는 것이 안전합니다."},
+ {ref:"느 2:7~8", q:"느헤미야가 아닥사스다 왕에게 요청한 것이 <b>아닌</b> 것은?", choices:["① 유다 땅에 가서 성을 건축하게 해 달라.","② 강 서쪽의 총독들에게 조서를 내려 주셔서 자신을 유다에 들어가기까지 통과하게 해 달라.","③ 산림 감독 아삽에게 조서를 내려 집 지을 들보 재목을 주게 해 달라.","④ 바사국에 있는 유대 장관과 마병들을 데려가게 해 달라."], a:"④", note:"군대 장관과 마병은 왕이 스스로 함께 보내 준 것이지, 느헤미야가 요청한 것이 아니에요."},
+ {ref:"느 2:10", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"호론 사람 산발랏과 종이었던 암몬 사람 도비야가 이스라엘 자손을 [[흥왕]]하게 하려는 사람이 왔다 함을 듣고 심히 근심하더라"},
+ {ref:"느 2:11~12", q:"다음은 느헤미야가 예루살렘에 이르러 머무른 지 며칠 만에 이루어진 일입니까?", quote:true, t:"내 하나님께서 예루살렘을 위해 무엇을 할 것인지 내 마음에 주신 것을 내가 아무에게도 말하지 아니하고 밤에 일어나 몇몇 사람과 함께 나갈새 내가 탄 짐승 외에는 다른 짐승이 없더라", a:"사흘"},
+ {ref:"느 2:19", q:"다음 ( ) 안에 들어갈 사람은 누구입니까?", quote:true, t:"호론 사람 산발랏과 종이었던 암몬 사람 도비야와 아라비아 사람 [[게셈]]이 이 말을 듣고 우리를 업신여기고 우리를 비웃어 이르되 너희가 하는 일이 무엇이냐 너희가 왕을 배반하고자 하느냐 하기로"},
+ {ref:"느 3:1", q:"양문을 건축하여 성별하고 함메아 망대에서부터 하나넬 망대까지 성별한 이 대제사장의 이름은?", a:"엘리아십"},
+ {ref:"느 4:3", q:"암몬 사람인 이 사람은 “그들이 건축하는 돌 성벽은 여우가 올라가도 곧 무너지리라”라는 말을 했습니다. 이 말을 한 사람은 누구입니까?", a:"도비야"},
+ {ref:"느 4:7", q:"예루살렘 성이 중수되어 간다 함을 듣고 심히 분노한 산발랏과 도비야와 아라비아 사람들과 암몬 사람들과 그리고 이곳 사람들입니다. 어느 지역 사람들입니까?", a:"아스돗"},
+ {ref:"느 4:9", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"우리가 우리 하나님께 기도하며 그들로 말미암아 [[파수꾼]]을 두어 주야로 방비하는데"},
+ {ref:"느 4:13", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"내가 성벽 뒤의 낮고 넓은 곳에 백성이 그들의 종족을 따라 [[칼]]과 [[창]]과 활을 가지고 서 있게 하고"},
+ {ref:"느 4:16", q:"다음은 성벽 공사가 끝났다는 소식을 들은 대적들과 주위에 있는 이방 족속들의 반응입니다. ( ) 안에 들어갈 말은?", quote:true, t:"우리의 모든 대적과 주위에 있는 이방 족속들이 이를 듣고 다 두려워하여 크게 [[낙담]]하였으니 그들이 우리 하나님께서 이 역사를 이루신 것을 앎이니라", note:"이 구절은 실제로는 느헤미야 6:16이에요. 문제지에 적힌 장절과 다르니 참고만 하세요."},
+ {ref:"느 4:17", q:"성을 건축하는 자와 짐을 나르는 자는 한 손으로 일을 하며 한 손에는 이것을 잡았습니다. 이것은 무엇입니까?", a:"병기"},
+ {ref:"느 4:20", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"너희는 어디서든지 [[나팔]] 소리를 듣거든 그리로 모여서 우리에게로 나아오라 우리 하나님이 우리를 위하여 싸우시리라 하였느니라"},
+ {ref:"느 4:23", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"나나 내 형제들이나 종자들이나 나를 따라 파수하는 사람들이나 우리가 다 우리의 옷을 벗지 아니하였으며 [[물]]을 길으러 갈 때에도 각각 병기를 잡았느니라"},
+ {ref:"느 5:7~8", q:"다음은 느헤미야가 귀족들과 민장들을 꾸짖은 내용입니다. ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"너희가 각기 형제에게 높은 [[이자]]를 취하는도다 하고 대회를 열고 그들을 쳐서, 그들에게 이르기를 우리는 [[이방]]인의 손에 팔린 우리 형제 유다 사람들을 우리의 힘을 다하여 도로 찾았거늘 너희는 너희 형제를 팔고자 하느냐"},
+ {ref:"느 5:13", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"내가 [[옷자락]]을 털며 이르기를 이 말대로 행하지 아니하는 자는 모두 하나님이 또한 이와 같이 그 집과 산업에서 털어 버리실지니 그는 곧 이렇게 털려서 빈손이 될지로다"},
+ {ref:"느 5:14~16", q:"느헤미야가 유다 땅에 십이 년 동안 총독으로 있으면서 하지 않은 것은 무엇입니까?", choices:["① 나와 내 형제들이 총독의 녹을 먹지 않았다.","② 양식과 포도주와 또 은 사십 세겔을 빼앗지 않았다.","③ 종자들이 백성을 압제하지 않았다.","④ 땅을 사지 않았고 모든 종자들도 모여서 일을 하지 않았다."], a:"④", note:"땅을 사지 않은 것은 맞지만, 종자들은 모두 모여서 일을 했어요. 그래서 ④는 사실과 달라 답이 됩니다."},
+ {ref:"느 6:1", q:"원수들이 소식을 들었을 때는 느헤미야가 아직 성문에 이것을 달지 못한 때였습니다. 이것은 무엇입니까?", a:"문짝"},
+ {ref:"느 6:2", q:"산발랏과 게셈이 느헤미야에게 사람을 보내어 오노 평지에서 만나자고 한 이유는?", choices:["① 화해하고 성벽재건을 돕기 위해.","② 느헤미야를 죽이기 위해.","③ 성벽재건에 들어가는 물품을 팔기 위해.","④ 느헤미야에게 성벽재건을 포기하도록 권면하기 위해."], a:"② 느헤미야를 죽이기 위해"},
+ {ref:"느 6:2~13", q:"산발랏의 무리들이 느헤미야를 협박하고자 쓴 방법이 <b>아닌</b> 것은?", choices:["① 살인을 시도함","② 봉하지 않은 편지를 들려 보냄","③ 예루살렘 성전에 불을 지름","④ 뇌물을 주어 거짓 예언을 하게 함"], a:"③"},
+ {ref:"느 6:18", q:"다음 ( ) 안에 들어갈 공통된 말은?", quote:true, t:"[[도비야]]는 아라의 아들 스가냐의 사위가 되었고 [[도비야]]의 아들 여호하난도 베레갸의 아들 므술람의 딸을 아내로 맞이하였으므로 유다에서 그와 동맹한 자가 많음이라"},
+ {ref:"느 7:2", q:"예루살렘 성이 건축된 후 예루살렘을 다스렸던 사람은 느헤미야의 아우 하나니와 영문의 관원인 이 사람입니다. 이 사람은 누구입니까?", a:"하나냐"},
+ {ref:"느 7:4", q:"느헤미야가 성문을 열지 말고 파수하게 하라고 말한 이유가 <b>아닌</b> 것은?", choices:["① 성읍이 광대하기 때문에","② 주민들의 숫자가 적었기 때문에","③ 가옥이 미처 건축되지 못했기 때문에","④ 성벽이 높지 않기 때문에"], a:"④"},
+ {ref:"느 8:1", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"이스라엘 자손이 자기들의 성읍에 거주하였더니 일곱째 달에 이르러 모든 백성이 일제히 수문 앞 광장에 모여 학사 에스라에게 여호와께서 이스라엘에게 명령하신 모세의 [[율법책]]을 가져오기를 청하매"},
+ {ref:"느 8:14", q:"그들이 지킨 일곱째 달 절기를 어디에서 거하라고 말씀했습니까?", a:"초막"},
+ {ref:"느 8:15", q:"성경에 기록된 대로 초막을 짓기 위해 쓰인 재료가 <b>아닌</b> 것은?", choices:["① 로뎀나무 가지","② 감람나무 가지","③ 화석류나무 가지","④ 종려나무 가지"], a:"① 로뎀나무 가지"},
+ {ref:"느 9:1~2", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"그 달 스무나흘 날에 이스라엘 자손이 다 모여 금식하며 굵은 베 옷을 입고 티끌을 무릅쓰며, 모든 이방 사람들과 [[절교]]하고 서서 자기의 죄와 조상들의 [[허물]]을 자복하고"},
+ {ref:"느 9:38", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"우리가 이 모든 일로 말미암아 이제 견고한 [[언약]]을 세워 기록하고 우리의 방백들과 레위 사람들과 제사장들이 다 인봉하나이다 하였느니라"},
+ {ref:"느 10:29", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"다 그들의 형제 귀족들을 따라 저주로 맹세하기를 우리가 하나님의 종 모세를 통하여 주신 하나님의 율법을 따라 우리 주 여호와의 모든 계명과 규례와 [[율례]]를 지켜 행하여"},
+ {ref:"느 10:31", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"혹시 이 땅 백성이 [[안식일]]에 물품이나 온갖 곡물을 가져다가 팔려고 할지라도 우리가 [[안식일]]이나 성일에는 그들에게서 사지 않겠고 일곱째 해마다 땅을 쉬게 하고 모든 빚을 탕감하리라 하였고"},
+ {ref:"느 10:37", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"또 처음 익은 밀의 가루와 거제물과 각종 과목의 열매와 새 포도주와 기름을 제사장들에게로 가져다가 우리 하나님의 전의 여러 방에 두고 또 우리 산물의 [[십일조]]를 레위 사람들에게 주리라 하였나니 이 레위 사람들은 우리의 모든 성읍에서 산물의 [[십일조]]를 받는 자임이며"},
+ {ref:"느 11:1", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"백성의 지도자들은 예루살렘에 거주하였고 그 남은 백성은 [[제비]] 뽑아 십분의 일은 거룩한 성 예루살렘에서 거주하게 하고 그 십분의 구는 다른 성읍에 거주하게 하였으며"},
+ {ref:"느 11:2", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예루살렘에 거주하기를 [[자원]]하는 모든 자를 위하여 백성들이 복을 빌었느니라"},
+ {ref:"느 12:30", q:"느헤미야가 성벽을 봉헌할 때에, 제사장들과 레위 사람들이 몸을 정결하게 하고, 백성과 성문과 그리고 무엇을 정결하게 하였습니까?", a:"성벽"},
+ {ref:"느 12:44", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그 날에 사람을 세워 곳간을 맡기고 제사장들과 레위 사람들에게 돌릴 것 곧 율법에 정한 대로 [[거제물]]과 처음 익은 것과 십일조를 모든 성읍 밭에서 거두어 이 곳간에 쌓게 하였노니 이는 유다 사람이 섬기는 제사장들과 레위 사람들로 말미암아 즐거워하기 때문이라"},
+ {ref:"느 12:47", q:"다음 ( ) 안에 들어갈 공통된 말은?", quote:true, t:"스룹바벨 때와 느헤미야 때에는 온 이스라엘이 노래하는 자들과 문지기들에게 날마다 쓸 몫을 주되 그들이 [[성별]]한 것을 레위 사람들에게 주고 레위 사람들은 그것을 또 [[성별]]하여 아론 자손에게 주었느니라"},
+ {ref:"느 13:1~2", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"그 날 모세의 책을 낭독하여 백성에게 들렸는데 그 책에 기록하기를 [[암몬]] 사람과 [[모압]] 사람은 영원히 하나님의 총회에 들어오지 못하리니, 이는 그들이 양식과 물로 이스라엘 자손을 영접하지 아니하고 도리어 발람에게 뇌물을 주어 저주하게 하였음이라"},
+ {ref:"느 13:7", q:"엘리아십 제사장에게 맡겼던 하나님의 전 뜰에 방을 만들었는데 누구를 위하여 만들었습니까?", a:"도비야"},
+ {ref:"느 13:23~24", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그 때에 내가 또 본즉 유다 사람이 아스돗과 암몬과 모압 여인을 맞아 아내로 삼았는데, 그들의 자녀가 아스돗 방언을 절반쯤은 하여도 [[유다]] 방언은 못하니 그 하는 말이 각 족속의 방언이므로"},
+ {ref:"느 13:25", q:"다음은 느헤미야가 이방 여인을 아내로 맞이하였던 자들을 책망한 말입니다. ( ) 안에 들어갈 말은?", quote:true, t:"내가 그들을 책망하고 저주하며 그들 중 몇 사람을 때리고 그들의 [[머리털]]을 뽑고 이르되 너희는 너희 딸들을 그들의 아들들에게 주지 말고 너희 아들들이나 너희를 위하여 그들의 딸을 데려오지 아니하겠다고 하나님을 가리켜 맹세하라 하고"},
+ {ref:"느 13:26~27", q:"옛적에 이스라엘을 범죄하게 한 어떤 왕과 비교하여 책망했습니다. 이 왕은 누구입니까?", a:"솔로몬"},
+ {ref:"느 13:28", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"대제사장 엘리아십의 손자 요야다의 아들 하나가 호론 사람 [[산발랏]]의 사위가 되었으므로 내가 쫓아내어 나를 떠나게 하였느니라"}
+],
+"matt": [
+ {ref:"마태복음", q:"마태복음은 총 몇 장으로 이루어져 있습니까?", a:"이십팔 장"},
+ {ref:"마 1:1", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"[[아브라함]]과 [[다윗]]의 자손 예수 그리스도의 계보라"},
+ {ref:"마 1:18", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수 그리스도의 나심은 이러하니라 그의 어머니 마리아가 요셉과 약혼하고 동거하기 전에 [[성령]]으로 잉태된 것이 나타났더니"},
+ {ref:"마 1:3~6", q:"다음 중 마태복음의 족보에 등장하는 여인의 이름이 <b>아닌</b> 것은?", choices:["① 다말","② 사라","③ 라합","④ 룻"], a:"② 사라", note:"족보에는 다말, 라합, 룻, 우리야의 아내(밧세바)가 나와요. 사라는 나오지 않습니다."},
+ {ref:"마 2:11", q:"동방박사들이 보배합을 열어 드린 예물 세 가지는 무엇입니까?", a:"황금, 유향, 몰약"},
+ {ref:"마 3:1~4", q:"다음 중 세례 요한과 관련이 <b>없는</b> 것은?", choices:["① 회개의 선포","② 낙타털 옷과 가죽 띠","③ 석청","④ 광야에서 사탄에게 시험받음"], a:"④ 광야에서 사탄에게 시험받음"},
+ {ref:"마 4:2", q:"세례를 받은 후 예수님은 며칠 동안 광야에서 금식하셨습니까?", a:"사십 일"},
+ {ref:"마 4:8", q:"세 번째 시험에서 마귀는 예수님께 무엇을 보여주었습니까?", choices:["① 천하 만국","② 예루살렘","③ 천하 만국과 그 영광","④ 바벨론"], a:"③ 천하 만국과 그 영광"},
+ {ref:"마 4:18~22", q:"마태복음 4장에서 제자로 부름을 받은 네 명의 사람은 누구입니까?", a:"베드로(시몬), 안드레, 야고보, 요한"},
+ {ref:"마 4:23", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 온 갈릴리에 두루 다니사 그들의 회당에서 가르치시며 [[천국 복음]]을 전파하시며 백성 중의 모든 병과 모든 약한 것을 고치시니"},
+ {ref:"마태복음", q:"산상수훈은 마태복음 몇 장에서부터 몇 장까지 나오는지 쓰세요.", a:"5장 ~ 7장"},
+ {ref:"마 5:9", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"[[화평]]하게 하는 자는 복이 있나니 그들이 [[하나님의 아들]]이라 일컬음을 받을 것임이요"},
+ {ref:"마 5:16", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"이같이 너희 빛이 사람 앞에 비치게 하여 그들로 너희 [[착한 행실]]을 보고 하늘에 계신 너희 아버지께 영광을 돌리게 하라"},
+ {ref:"마 5:17", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"내가 [[율법]]이나 [[선지자]]를 폐하러 온 줄로 생각하지 말라 폐하러 온 것이 아니요 완전하게 하려 함이라"},
+ {ref:"마 5:20", q:"예수님께서는 너희 의가 누구와 누구보다 낫지 못하면 천국에 들어가지 못한다고 말씀하셨습니까?", a:"서기관과 바리새인"},
+ {ref:"마 5:34~35", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"나는 너희에게 이르노니 도무지 [[맹세]]하지 말지니 하늘로도 하지 말라 이는 하나님의 보좌임이요 땅으로도 하지 말라 이는 하나님의 발등상임이요 예루살렘으로도 하지 말라 이는 큰 임금의 성이요"},
+ {ref:"마 5:44", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"너희 원수를 사랑하며 너희를 ( )하는 자를 위하여 기도하라", choices:["① 싫어","② 환대","③ 박해","④ 추앙"], a:"③ 박해"},
+ {ref:"마 6:17", q:"예수님께서 금식할 때에 머리에 무엇을 바르라고 했습니까?", a:"기름"},
+ {ref:"마 6:24", q:"한 사람이 두 주인을 섬기지 못하는 것처럼 사람은 하나님과 무엇을 겸하여 섬기지 못합니까?", a:"재물", note:"본문은 ‘하나님과 재물을 겸하여 섬기지 못하느니라’예요. ‘우상’이 아니라 재물입니다."},
+ {ref:"마 6:25", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"그러므로 내가 너희에게 이르노니 [[목숨]]을 위하여 무엇을 먹을까 무엇을 마실까 몸을 위하여 무엇을 입을까 염려하지 말라 [[목숨]]이 이 음식보다 중하지 아니하며 몸이 의복보다 중하지 아니하냐"},
+ {ref:"마 6:28", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"너희가 어찌 의복을 위하여 염려하느냐 ( )가 어떻게 자라는가 생각하여 보라 수고도 아니하고 길쌈도 아니하느니라.", choices:["① 공중의 새","② 들의 백합화","③ 무화과나무","④ 들국화"], a:"② 들의 백합화"},
+ {ref:"마 6:33", q:"예수님은 먼저 무엇을 구해야 “하늘 아버지께서 이 모든 것을 너희에게 더하시리라”라고 말씀하셨습니까?", choices:["① 그의 나라와 그의 영광","② 그의 나라와 그의 의","③ 그의 섭리와 도우심","④ 그의 섭리와 영광"], a:"② 그의 나라와 그의 의"},
+ {ref:"마 7:6", q:"산상수훈에서 거룩한 것을 누구에게 주지 말라고 하였습니까?", a:"개"},
+ {ref:"마 7:13~14", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"좁은 문으로 들어가라 [[멸망]]으로 인도하는 문은 크고 그 길이 넓어 그리로 들어가는 자가 많고 [[생명]]으로 인도하는 문은 좁고 길이 협착하여 찾는 자가 적음이라"},
+ {ref:"마 7:21", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"나더러 주여 주여 하는 자마다 다 [[천국]]에 들어갈 것이 아니요 다만 하늘에 계신 내 아버지의 [[뜻]]대로 행하는 자라야 들어가리라"},
+ {ref:"마 7:26", q:"산상수훈의 가르침을 듣고도 행하지 않는 사람은 집을 어디에 지었다고 비유하셨습니까?", a:"모래 위"},
+ {ref:"마 7:29", q:"“이는 그 가르치시는 것이 ( )와 같고 그들의 서기관들과 같지 아니함이러라” ( ) 안에 들어갈 말은?", choices:["① 능력 있는 자","② 예언자","③ 권위 있는 자","④ 지혜로운 자"], a:"③ 권위 있는 자"},
+ {ref:"마 8:5~13", q:"마태복음 8장에서 예수님께서 이스라엘에서 이만한 믿음을 보지 못하였다고 극찬한 사람은 누구입니까?", a:"백부장"},
+ {ref:"마 8:14", q:"베드로의 장모는 어떤 병에 걸렸습니까?", choices:["① 열병","② 중풍병","③ 나병","④ 혈루병"], a:"① 열병", note:"본문은 ‘베드로의 장모가 열병으로 앓아 누운 것을 보시고’예요. 중풍병은 다른 사람의 이야기입니다."},
+ {ref:"마 8:20", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 이르시되 여우도 굴이 있고 공중의 새도 거처가 있으되 [[인자]]는 머리 둘 곳이 없다 하시더라"},
+ {ref:"마 9:2", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"침상에 누운 중풍병자를 사람들이 데리고 오거늘 예수께서 그들의 믿음을 보시고 중풍병자에게 이르시되 [[작은 자]]야 안심하라 네 죄 사함을 받았느니라"},
+ {ref:"마 9:12", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 들으시고 건강한 자에게는 [[의사]]가 쓸데 없고 병든 자에게라야 쓸 데 있느니라"},
+ {ref:"마 9:20", q:"마태복음에 나오는 혈루증을 앓던 여인은 몇 년 동안 이 병에 시달렸습니까?", a:"십이 년"},
+ {ref:"마 9:27", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 거기에서 떠나가실새 두 맹인이 따라오며 소리 질러 이르되 [[다윗의 자손]]이여 우리를 불쌍히 여기소서 하더니"},
+ {ref:"마 9:34", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"[[바리새인]]들은 이르되 그가 귀신의 왕을 의지하여 귀신을 쫓아낸다 하더라"},
+ {ref:"마 10:2~4", q:"다음에서 열두 사도에 속하지 <b>않는</b> 사람은 누구입니까?", choices:["① 베드로와 안드레","② 빌립과 바돌로매","③ 야고보와 요한","④ 요셉과 니고데모"], a:"④ 요셉과 니고데모"},
+ {ref:"마 10:6", q:"예수님은 열두 제자에게 어디로 가라고 명령하셨습니까?", choices:["① 사마리아인의 고을","② 이방인의 길","③ 예루살렘","④ 이스라엘집의 잃어버린 양"], a:"④ 이스라엘집의 잃어버린 양"},
+ {ref:"마 10:16", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"보라 내가 너희를 보냄이 양이 이리 가운데로 보냄과 같도다 그러므로 너희는 [[뱀]]같이 지혜롭고 [[비둘기]] 같이 순결하라"},
+ {ref:"마 10:30~31", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"너희에게는 [[머리털]]까지 다 세신 바 되었나니 두려워하지 말라 너희는 많은 참새보다 귀하니라"},
+ {ref:"마 10:34", q:"예수님은 세상에 화평이 아니라 이것을 주러 왔다고 하셨습니다. 이것은 무엇입니까?", a:"검"},
+ {ref:"마 11:13~14", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"모든 선지자와 율법이 예언한 것은 [[요한]]까지니 만일 너희가 즐겨 받을진대 오리라 한 [[엘리야]]가 곧 이 사람이니라"},
+ {ref:"마 12:1", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그 때에 예수께서 안식일에 밀밭 사이로 가실새 제자들이 시장하여 [[이삭]]을 잘라 먹으니"},
+ {ref:"마 12:8", q:"예수님께서 인자가 무엇의 주인이라고 말씀하셨습니까?", a:"안식일"},
+ {ref:"마 12:24", q:"바리새인들은 예수님이 누구의 힘으로 그런 일을 행한다고 말하였습니까?", choices:["① 사탄","② 바알세불","③ 하나님","④ 귀신"], a:"② 바알세불"},
+ {ref:"마 12:31", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그러므로 내가 너희에게 이르노니 사람에 대한 모든 죄와 모독은 사하심을 얻되 [[성령]]을 모독하는 것은 사하심을 얻지 못하겠고"},
+ {ref:"마 12:50", q:"“누구든지 하늘에 계신 내 아버지의 뜻대로 하는 자가 내 ( )요 ( )요 ( )니라” ( ) 안에 들어갈 말은?", choices:["① 형제, 자매, 친구","② 형제, 자매, 아버지","③ 형제, 자매, 어머니","④ 제자, 형제, 부모"], a:"③ 형제, 자매, 어머니"},
+ {ref:"마 13:16", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"그러나 너희 눈은 [[봄]]으로 너희 귀는 [[들음]]으로 복이 있도다"},
+ {ref:"마 13:44", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"천국은 마치 밭에 [[감추인 보화]]와 같으니 사람이 이를 발견한 후 숨겨 두고 기뻐하며 돌아가서 자기의 소유를 다 팔아 그 밭을 사느니라"},
+ {ref:"마 13:37", q:"가라지의 비유에서 좋은 씨를 뿌리는 자는 누구입니까?", choices:["① 인자","② 천사","③ 예언자","④ 농부"], a:"① 인자", note:"‘좋은 씨를 뿌리는 이는 인자요’라고 하셨어요. 천사는 추수하는 일꾼입니다."},
+ {ref:"마 14:20", q:"오병이어의 기적에서 다 배불리 먹고 남은 조각이 몇 바구니였습니까?", a:"열두 바구니"},
+ {ref:"마 15:1", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"[[입]]으로 들어가는 것이 사람을 더럽게 하는 것이 아니라 [[입]]에서 나오는 그것이 사람을 더럽게 하는 것이니라", note:"이 구절은 실제로는 마태복음 15:11이에요. 문제지의 장절 표기와 다릅니다."},
+ {ref:"마 15:24", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 대답하여 이르시되 나는 이스라엘 집의 [[잃어버린 양]] 외에는 다른데로 보내심을 받지 아니하였노라 하시니"},
+ {ref:"마 16:13", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 [[빌립보 가이사랴]] 지방에 이르러 제자들에게 물어 이르시되 사람들이 인자를 누구라 하느냐"},
+ {ref:"마 16:22", q:"예수님이 처음으로 수난을 예고했을 때 베드로는 어떻게 행동했습니까?", choices:["① 예수님을 붙들고 항변했다.","② 예수님에게 순종했다.","③ 예수님이 그리스도며 하나님의 아들이라고 고백했다.","④ 예수님의 말씀을 듣고 침묵했다."], a:"① 예수님을 붙들고 항변했다"},
+ {ref:"마 17:1", q:"예수님이 높은 산에 올라가셔서 변모하신 현장에 함께 있지 <b>않았던</b> 사람은 누구입니까?", choices:["① 야고보","② 베드로","③ 안드레","④ 요한"], a:"③ 안드레"},
+ {ref:"마 17:4", q:"베드로가 짓겠다고 한 초막 셋은 누구를 위하여 짓겠다고 하였습니까?", a:"주님, 모세, 엘리야"},
+ {ref:"마 17:27", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그러나 우리가 그들이 실족하지 않게 하기 위해서 네가 바다에 가서 낚시를 던져 먼저 오르는 고기를 가져 입을 열면 돈 ( )을 얻을 것이니 가져다가 나와 너를 위하여 주라 하시니라.", choices:["① 반 세겔","② 한 세겔","③ 두 세겔","④ 한 렙돈"], a:"② 한 세겔"},
+ {ref:"마 18:4", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"이르시되 진실로 너희에게 이르노니 너희가 돌이켜 어린 아이들 같이 되지 아니하면 결단코 [[천국]]에 들어가지 못하리라", note:"이 문장은 실제로는 마태복음 18:3이에요. 문제지의 장절 표기와 다릅니다."},
+ {ref:"마 18:9", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"만일 네 눈이 너를 범죄하게 하거든 빼어 내버리라 한 눈으로 [[영생]]에 들어가는 것이 두 눈을 가지고 [[지옥 불]]에 던져지는 것보다 나으니라"},
+ {ref:"마 18:18", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"진실로 너희에게 이르노니 무엇이든지 너희가 땅에서 매면 [[하늘]]에서도 매일 것이요 무엇이든지 땅에서 풀면 [[하늘]]에서도 풀리리라"},
+ {ref:"마 18:22", q:"예수님은 베드로에게 죄를 범한 형제를 몇 번까지 용서해 주라고 하셨습니까?", choices:["① 일곱 번","② 일흔 번","③ 일흔 번을 일곱 번","④ 일곱 번을 일흔 번"], a:"④ 일곱 번을 일흔 번"},
+ {ref:"마 19:16~17", q:"예수님은 생명에 들어가려면 무엇을 지켜야 한다고 하셨습니까?", a:"계명"},
+ {ref:"마 19:24", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"다시 너희에게 말하노니 [[낙타]]가 [[바늘귀]]로 들어가는 것이 부자가 하나님의 나라에 들어가는 것보다 쉬우니라 하시니"},
+ {ref:"마 20:21~22", q:"세 번째 수난예고 직후에 “주의 나라에서 하나는 주의 우편에, 하나는 주의 좌편에 앉게 명하소서”라고 청한 사람은 누구입니까?", choices:["① 세베대의 아들인 야고보와 요한","② 세베대의 아들들의 어머니","③ 세베대의 아들들의 아버지","④ 베드로와 안드레"], a:"② 세베대의 아들들의 어머니"},
+ {ref:"마 20:27", q:"예수님께서 제자들에게 누구든지 으뜸이 되고자 하는 자는 너희의 무엇이 되어야 한다고 말씀하셨습니까?", a:"종"},
+ {ref:"마 21:9", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"앞에서 가고 뒤에서 따르는 무리가 소리 높여 이르되 [[호산나]] 다윗의 자손이여 찬송하리로다 주의 이름으로 오시는 이여 가장 높은 곳에서 [[호산나]] 하더라"},
+ {ref:"마 21:13", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그들에게 이르시되 기록된 바 내 집은 [[기도]]하는 집이라 일컬음을 받으리라 하였거늘 너희는 강도의 소굴을 만드는도다 하시니라"},
+ {ref:"마 21:42", q:"다음은 포도원 농부의 비유입니다. ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 이르시되 너희가 성경에 건축자들이 버린 돌이 모퉁이의 [[머릿돌]]이 되었나니 이것은 주로 말미암아 된 것이요 우리 눈에 기이하도다 함을 읽어 본 일이 없느냐"},
+ {ref:"마 22:31~32", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"죽은 자의 부활을 논할진대 하나님이 너희에게 말씀하신 바 나는 아브라함의 하나님이요 이삭의 하나님이요 야곱의 하나님이로라 하신 것을 읽어보지 못하였느냐 하나님은 [[죽은 자]]의 하나님이 아니요 [[산 자]]의 하나님이시니라 하시니"},
+ {ref:"마 22:37", q:"다음 ( ) 안에 들어갈 말은 무엇인지 모두 쓰세요.", quote:true, t:"예수께서 이르시되 네 [[마음]]을 다하고 [[목숨]]을 다하고 [[뜻]]을 다하여 주 너의 하나님을 [[사랑]]하라 하셨으니"},
+ {ref:"마 24:2", q:"예수님은 성전 건물을 보시며 무엇이라 말씀하셨습니까?", choices:["① 이 터에 아무것도 남지 않고 다 무너뜨려지리라.","② 돌들이 모두 다 무너뜨려지리라.","③ 이 건물이 다 무너뜨려지리라.","④ 돌 하나도 돌 위에 남지 않고 다 무너뜨려지리라."], a:"④ 돌 하나도 돌 위에 남지 않고 다 무너뜨려지리라"},
+ {ref:"마 24:4~5", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"예수께서 대답하여 이르시되 너희가 사람의 [[미혹]]을 받지 않도록 주의하라 많은 사람이 내 이름으로 와서 이르되 나는 그리스도라 하여 많은 사람을 [[미혹]]하리라"},
+ {ref:"마 24:15", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그러므로 너희가 선지자 ( )이 말한 바 멸망의 가증한 것이 거룩한 곳에 선 것을 보거든 [읽는 자는 깨달을진저] 그 때에 유대에 있는 자들은 산으로 도망할지어다.", choices:["① 이사야","② 예레미야","③ 에스겔","④ 다니엘"], a:"④ 다니엘"},
+ {ref:"마 24:30", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"그 때에 [[인자]]의 징조가 하늘에서 보이겠고 그 때에 땅의 모든 족속들이 통곡하며 그들이 [[인자]]가 구름을 타고 능력과 큰 영광으로 오는 것을 보리라"},
+ {ref:"마 24:32", q:"예수님께서는 재림을 예언하시면서 무슨 나무의 비유를 배우라고 말씀하셨습니까?", a:"무화과나무"},
+ {ref:"마 24:36", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그러나 그 날과 그 때는 아무도 모르나니 하늘의 천사들도, 아들도 모르고 오직 [[아버지]]만 아시느니라"},
+ {ref:"마 24:37~39", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"[[노아]]의 때와 같이 인자의 임함도 그러하리라 홍수 전에 [[노아]]가 방주에 들어가던 날까지 사람들이 먹고 마시고 장가 들고 시집 가고 있으면서 홍수가 나서 그들을 다 멸하기까지 깨닫지 못하였으니 인자의 임함도 이와 같으리라"},
+ {ref:"마 25:15", q:"달란트 비유에 등장하는 종들은 각각 몇 달란트를 받았습니까?", choices:["① 다섯 달란트, 두 달란트, 한 달란트","② 열 달란트, 다섯 달란트, 한 달란트","③ 다섯 달란트, 세 달란트, 한 달란트","④ 일곱 달란트, 세 달란트, 한 달란트"], a:"① 다섯 달란트, 두 달란트, 한 달란트"},
+ {ref:"마 25:30", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"이 [[무익한 종]]을 바깥 어두운 데로 내쫓으라 거기서 슬피 울며 이를 갈리라 하니라"},
+ {ref:"마 26:47", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"말씀하실 때에 열둘 중의 하나인 유다가 왔는데 대제사장들과 백성의 장로들에게서 파송된 큰 무리가 [[검]]과 [[몽치]]를 가지고 그와 함께 하였더라"},
+ {ref:"마 27:7", q:"대제사장들은 가룟 유다가 예수님 판 돈을 도로 가져왔을 때 그 돈으로 토기장의 밭을 사서 무슨 용도로 사용했습니까?", choices:["① 제사장의 밭","② 나그네의 묘지","③ 죄인의 묘지","④ 가난한 자의 묘지"], a:"② 나그네의 묘지", note:"본문은 ‘토기장이의 밭을 사서 나그네의 묘지를 삼았으니’예요. 문제지에는 ④가 표시되어 있는데 정답은 ②입니다."},
+ {ref:"마 27:33", q:"골고다의 뜻은 무엇입니까?", a:"해골의 곳"},
+ {ref:"마 28:7", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"또 빨리 가서 그의 제자들에게 이르되 그가 죽은 자 가운데서 살아나셨고 너희보다 먼저 [[갈릴리]]로 가시나니 거기서 너희가 뵈오리라 하라 보라 내가 너희에게 일렀느니라 하거늘"},
+ {ref:"마 28:19~20", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"그러므로 너희는 가서 모든 민족을 [[제자]]로 삼아 아버지와 아들과 성령의 이름으로 [[세례]]를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라 볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라 하시니라"}
+],
+"eph": [
+    {ref:"엡 1:1",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"[[하나님]]의 뜻으로 말미암아 그리스도 예수의 사도 된 바울은 에베소에 있는 성도들과 그리스도 예수 안에 있는 신실한 자들에게 편지하노니"},
+    {ref:"엡 1:3",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"찬송하리로다 하나님 곧 우리 주 예수 그리스도의 아버지께서 그리스도 안에서 하늘에 속한 모든 [[신령한]] 복을 우리에게 주시되"},
+    {ref:"엡 1:7",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"우리는 그리스도 안에서 그의 은혜의 풍성함을 따라 그의 피로 말미암아 [[속량]] 곧 죄 사함을 받았느니라"},
+    {ref:"엡 1:16", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"내가 기도할 때에 기억하며 너희로 말미암아 [[감사]]하기를 그치지 아니하고"},
+    {ref:"엡 1:22~23", q:"다음 ( ) 안에 들어갈 공통된 말은?", quote:true,
+     t:"만물을 그의 발 아래에 복종하게 하시고 그를 만물 위에 [[교회]]의 머리로 삼으셨느니라 [[교회]]는 그의 몸이니 만물 안에서 만물을 충만하게 하시는 이의 충만함이니라"},
+    {ref:"엡 2:3",  q:"예수 그리스도를 믿기 전에는 우리도 다 그 가운데서 우리 육체의 욕심을 따라 지내며 육체와 마음의 원하는 것을 하여 다른 이들과 같이 본질상 무엇의 자녀였습니까?",
+     t:"본질상 [[진노]]의 자녀"},
+    {ref:"엡 2:9",  q:"구원은 하나님의 선물이기에, 바울 사도는 무엇에서 난 것이 아니라고 말씀했습니까?", quote:true,
+     t:"[[행위]]에서 난 것이 아니니 이는 누구든지 자랑하지 못하게 함이라"},
+    {ref:"엡 2:22", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"너희도 [[성령]] 안에서 하나님이 거하실 처소가 되기 위하여 그리스도 예수 안에서 함께 지어져 가느니라"},
+    {ref:"엡 3:1",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"너희 이방인을 위하여 [[갇힌]] 자 된 나 바울"},
+    {ref:"엡 3:5",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"이제 그의 거룩한 [[사도]]들과 선지자들에게 성령으로 나타내신 것 같이 다른 세대에서는 사람의 아들들에게 알리지 아니하셨으니"},
+    {ref:"엡 3:13", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"그러므로 너희에게 구하노니 너희를 위한 나의 여러 환난에 대하여 낙심하지 말라 이는 너희의 [[영광]]이니라"},
+    {ref:"엡 3:21", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true,
+     t:"[[교회]] 안에서와 그리스도 [[예수]] 안에서 영광이 대대로 영원무궁하기를 원하노라 아멘"},
+    {ref:"엡 4:1",  q:"바울은 자신을 무엇이라고 말씀했습니까?", quote:true,
+     t:"[[주]] 안에서 갇힌 내가 너희를 권하노니"},
+    {ref:"엡 4:3",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"평안의 매는 줄로 [[성령]]이 하나 되게 하신 것을 힘써 지키라"},
+    {ref:"엡 4:11~12", q:"성도를 온전하게 하여 봉사의 일을 하게 하며 그리스도의 몸을 세우려고 삼으신 것이 <b>아닌</b> 것은?",
+     t:"", choices:["① 선지자","② 복음 전하는 자","③ 선생","④ 사도"],
+     a:"③ 선생",
+     note:"엡 4:11에는 사도 · 선지자 · 복음 전하는 자 · <b>목사와 교사</b>가 나와요. ‘선생’은 없으니 정답은 ③번. ①번 선지자는 본문에 있으니 답이 아닙니다."},
+    {ref:"엡 4:25~29", q:"하나님을 본받는 생활이 <b>아닌</b> 것은?",
+     t:"", choices:["① 거짓을 버리고 각각 그 이웃과 더불어 참된 것을 말하라","② 도둑질 하는 자는 가난한 자에게 구제할 수 있도록 하라","③ 무릇 더러운 말은 너희 입 밖에도 내지 말라","④ 하나님의 성령을 근심하게 하지 말라"],
+     a:"②",
+     note:"본문은 “도둑질하는 자는 <b>다시 도둑질하지 말고</b> 돌이켜 가난한 자에게 구제할 것이 있기 위하여 <b>자기 손으로 수고하여</b> 선한 일을 하라”예요. ②는 중요한 부분이 빠져 있어서 답입니다."},
+    {ref:"엡 5:3",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"음행과 온갖 더러운 것과 [[탐욕]]은 너희 중에서 그 이름조차도 부르지 말라 이는 성도에게 마땅한 바니라"},
+    {ref:"엡 5:10", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"주를 기쁘시게 할 것이 무엇인가 [[시험]]하여 보라"},
+    {ref:"엡 6:1",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"자녀들아 주 안에서 너희 부모에게 [[순종]]하라 이것이 옳으니라"},
+    {ref:"엡 6:24", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"우리 주 예수 그리스도를 변함 없이 사랑하는 모든 자에게 [[은혜]]가 있을지어다",
+     note:"정답은 <b>은혜</b>예요. 바로 앞 23절의 ‘평안’과 헷갈리기 쉬우니, 마지막 24절은 은혜로 외워 두세요."}
+  
+],
+"phil": [
+    {ref:"빌 1:1",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"그리스도 예수의 종 [[바울]]과 디모데는 그리스도 예수 안에서 빌립보에 사는 모든 성도와 또한 감독들과 집사들에게 편지하노니"},
+    {ref:"빌 1:6",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"너희 안에서 [[착한]] 일을 시작하신 이가 그리스도 예수의 날까지 이루실 줄을 우리는 확신하노라"},
+    {ref:"빌 1:21", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"이는 내게 사는 것이 그리스도니 [[죽는]] 것도 유익함이라"},
+    {ref:"빌 1:29", q:"바울은 그리스도를 위하여 너희에게 은혜를 주신 것은 다만 그를 믿을 뿐 아니라 또한 그를 위하여 무엇도 받게 하려 하심이라고 말했습니까?",
+     t:"또한 그를 위하여 [[고난]]도 받게 하려 하심이라"},
+    {ref:"빌 2:7",  q:"예수님은 근본 하나님의 본체시나 하나님과 동등 됨을 취할 것으로 여기지 아니하시고 무엇의 형체를 가지셨습니까?",
+     t:"오히려 자기를 비워 [[종]]의 형체를 가지사"},
+    {ref:"빌 2:12", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"그러므로 나의 사랑하는 자들아 너희가 나 있을 때뿐 아니라 더욱 지금 나 없을 때에도 항상 복종하여 두렵고 떨림으로 너희 [[구원]]을 이루라"},
+    {ref:"빌 2:17", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"만일 너희 믿음의 제물과 섬김 위에 내가 나를 [[전제]]로 드릴지라도 나는 기뻐하고 너희 무리와 함께 기뻐하리니"},
+    {ref:"빌 3:14", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"푯대를 향하여 그리스도 예수 안에서 하나님이 위에서 부르신 부름의 [[상]]을 위하여 달려가노라"},
+    {ref:"빌 4:6",  q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"아무 것도 염려하지 말고 다만 모든 일에 기도와 간구로 너희 구할 것을 [[감사함]]으로 하나님께 아뢰라"},
+    {ref:"빌 4:11", q:"다음 ( ) 안에 들어갈 말은?", quote:true,
+     t:"내가 궁핍하므로 말하는 것이 아니니라 어떠한 형편에든지 나는 [[자족]]하기를 배웠노니"}
+  
+],
+};
+var LABELS = {"josh": "여호수아", "ezra": "에스라", "neh": "느헤미야", "matt": "마태복음", "eph": "에베소서", "phil": "빌립보서"};
+
+
+var VERSES = {"수 1:1":"여호와의 종 모세가 죽은 후에 여호와께서 모세의 수종자 눈의 아들 여호수아에게 말씀하여 이르시되","수 1:4":"곧 광야와 이 레바논에서부터 큰 강 곧 유브라데 강에 이르는 헷 족속의 온 땅과 또 해 지는 쪽 대해까지 너희의 영토가 되리라","수 1:8":"이 율법책을 네 입에서 떠나지 말게 하며 주야로 그것을 묵상하여 그 안에 기록된 대로 다 지켜 행하라 그리하면 네 길이 평탄하게 될 것이며 네가 형통하리라","수 1:12":"여호수아가 또 르우벤 지파와 갓 지파와 므낫세 반 지파에게 말하여 이르되","수 2:1":"눈의 아들 여호수아가 싯딤에서 두 사람을 정탐꾼으로 보내며 이르되 가서 그 땅과 여리고를 엿보라 하매 그들이 가서 라합이라 하는 기생의 집에 들어가 거기서 유숙하더니","수 2:6":"그가 이미 그들을 이끌고 지붕에 올라가서 지붕에 벌여 놓은 삼대에 숨겼더라","수 2:11":"우리가 듣자 곧 마음이 녹았고 너희로 말미암아 사람이 정신을 잃었나니 너희의 하나님 여호와는 위로는 하늘에서도 아래로는 땅에서도 하나님이시니라","수 2:18":"우리가 이 땅에 들어올 때에 네가 우리를 달아 내린 창문에 이 붉은 줄을 매고 네 부모와 형제와 네 아버지의 가족을 다 네 집에 모으라","수 2:24":"또 여호수아에게 이르되 진실로 여호와께서 그 온 땅을 우리 손에 주셨으므로 그 땅의 모든 주민이 우리 앞에서 간담이 녹더이다 하더라","수 3:4":"그러나 너희와 그 사이 거리가 이천 규빗쯤 되게 하고 그것에 가까이 하지는 말라 그리하면 너희가 행할 길을 알리니 너희가 이전에 이 길을 지나보지 못하였음이니라 하니라","수 3:10":"또 말하되 살아 계신 하나님이 너희 가운데에 계시사 가나안 족속과 헷 족속과 히위 족속과 브리스 족속과 기르가스 족속과 아모리 족속과 여부스 족속을 너희 앞에서 반드시 쫓아내실 줄을 이것으로서 너희가 알리라","수 4:3":"그들에게 명령하여 이르기를 요단 가운데 제사장들의 발이 굳게 선 그 곳에서 돌 열둘을 택하여 그것을 가져다가 오늘밤 너희가 유숙할 그 곳에 두게 하라 하시니라","수 4:11":"모든 백성이 건너기를 마친 후에 여호와의 궤와 제사장들이 백성의 목전에서 건넜으며","수 4:13":"무장한 사만 명 가량이 여호와 앞에서 건너가 싸우려고 여리고 평지에 이르니라","수 4:20":"여호수아가 요단에서 가져온 그 열두 돌을 길갈에 세우고","수 4:24":"이는 땅의 모든 백성에게 여호와의 손이 강하신 것을 알게 하며 너희가 너희의 하나님 여호와를 항상 경외하게 하려 하심이라 하라","수 5:3":"여호수아가 부싯돌로 칼을 만들어 할례 산에서 이스라엘 자손들에게 할례를 행하니라","수 5:6":"이스라엘 자손들이 여호와의 음성을 청종하지 아니하므로 여호와께서 그들에게 대하여 맹세하사 그들의 조상들에게 맹세하여 우리에게 주리라고 하신 땅 곧 젖과 꿀이 흐르는 땅을 그들이 보지 못하게 하리라 하시매 애굽에서 나온 족속 곧 군사들이 다 광야에서 죽기까지 사십 년 동안을 광야에서 헤매었더니","수 5:11":"유월절 이튿날에 그 땅의 소산물을 먹되 그 날에 무교병과 볶은 곡식을 먹었더니","수 5:12":"또 그 땅의 소산물을 먹은 다음 날에 만나가 그쳤으니 이스라엘 사람들이 다시는 만나를 얻지 못하였고 그 해에 가나안 땅의 소출을 먹었더라","수 5:14":"그가 이르되 아니라 나는 여호와의 군대 대장으로 지금 왔느니라 하는지라 여호수아가 얼굴을 땅에 대고 엎드려 절하고 그에게 이르되 내 주여 종에게 무슨 말씀을 하려 하시나이까","수 6:3":"너희 모든 군사는 그 성을 둘러 성 주위를 매일 한 번씩 돌되 엿새 동안을 그리하라","수 6:4":"제사장 일곱은 일곱 양각 나팔을 잡고 언약궤 앞에서 나아갈 것이요 일곱째 날에는 그 성을 일곱 번 돌며 그 제사장들은 나팔을 불 것이며","수 6:17":"이 성과 그 가운데에 있는 모든 것은 여호와께 온전히 바치되 기생 라합과 그 집에 동거하는 자는 모두 살려 주라 이는 우리가 보낸 사자들을 그가 숨겨 주었음이니라","수 6:19":"은금과 동철 기구들은 다 여호와께 구별될 것이니 그것을 여호와의 곳간에 들일지니라 하니라","수 6:24":"무리가 그 성과 그 가운데에 있는 모든 것을 불로 사르고 은금과 동철 기구는 여호와의 집 곳간에 두었더라","수 6:26":"여호수아가 그 때에 맹세하게 하여 이르되 누구든지 일어나서 이 여리고 성을 건축하는 자는 여호와 앞에서 저주를 받을 것이라 그 기초를 쌓을 때에 그의 맏아들을 잃을 것이요 그 문을 세울 때에 그의 막내아들을 잃으리라 하였더라","수 7:1":"이스라엘 자손들이 온전히 바친 물건으로 말미암아 범죄하였으니 이는 유다 지파 세라의 증손 삽디의 손자 갈미의 아들 아간이 온전히 바친 물건을 가졌음이라 여호와께서 이스라엘 자손들에게 진노하시니라","수 7:2":"여호수아가 여리고에서 사람을 벧엘 동쪽 벧아웬 곁에 있는 아이로 보내며 그들에게 말하여 이르되 올라가서 그 땅을 정탐하라 하매 그 사람들이 올라가서 아이를 정탐하고","수 7:4":"백성 중 삼천 명쯤 그리로 올라갔다가 아이 사람 앞에서 도망하니","수 7:5":"아이 사람이 그들을 삼십육 명쯤 쳐죽이고 성문 앞에서부터 스바림까지 쫓아가 내려가는 비탈에서 쳤으므로 백성의 마음이 녹아 물 같이 된지라","수 7:16":"이에 여호수아가 아침 일찍이 일어나서 이스라엘을 그 지파대로 가까이 나아오게 하였더니 유다 지파가 뽑혔고","수 7:21":"내가 노략한 물건 중에 시날 산의 아름다운 외투 한 벌과 은 이백 세겔과 그 무게가 오십 세겔 되는 금덩이 하나를 보고 탐내어 가졌나이다 보소서 이제 그 물건들을 내 장막 가운데 땅속에 감추었는데 은은 그 밑에 있나이다 하더라","수 7:26":"그 위에 돌 무더기를 크게 쌓았더니 오늘까지 있더라 여호와께서 그의 맹렬한 진노를 그치시니 그러므로 그 곳 이름을 오늘까지 아골 골짜기라 부르더라","수 8:3":"이에 여호수아가 일어나서 모든 군사와 함께 아이로 올라가려 하여 용사 삼만 명을 뽑아 밤에 보내며","수 8:15":"여호수아와 온 이스라엘이 그들 앞에서 거짓으로 패한 척하여 광야 길로 도망하매","수 8:18":"여호와께서 여호수아에게 이르시되 네 손에 잡은 단창을 들어 아이를 가리키라 내가 이 성읍을 네 손에 넘겨 주리라 여호수아가 그의 손에 잡은 단창을 들어 그 성읍을 가리키니","수 8:25":"그 날에 엎드러진 아이 사람들은 남녀가 모두 만 이천 명이라","수 8:30":"그 때에 여호수아가 이스라엘의 하나님 여호와를 위하여 에발 산에 한 제단을 쌓았으니","수 8:33":"온 이스라엘과 그 장로들과 관리들과 재판장들과 본토인뿐 아니라 이방인까지 여호와의 언약궤를 멘 레위 사람 제사장들 앞에서 궤의 좌우에 서되 절반은 그리심 산 앞에, 절반은 에발 산 앞에 섰으니 이는 전에 여호와의 종 모세가 이스라엘 백성에게 축복하라고 명령한 대로 함이라","수 9:3":"기브온 주민들이 여호수아가 여리고와 아이에 행한 일을 듣고","수 9:23":"그러므로 너희가 저주를 받나니 너희가 대를 이어 종이 되어 다 내 하나님의 집을 위하여 나무를 패며 물을 긷는 자가 되리라 하니","수 10:11":"그들이 이스라엘 앞에서 도망하여 벧호론의 비탈에서 내려갈 때에 여호와께서 하늘에서 큰 우박 덩이를 아세가에 이르기까지 내리시매 그들이 죽었으니 이스라엘 자손의 칼에 죽은 자보다 우박에 죽은 자가 더욱 많았더라","수 10:12":"여호와께서 아모리 사람을 이스라엘 자손에게 넘겨 주시던 날에 여호수아가 여호와께 아뢰어 이스라엘의 목전에서 이르되 태양아 너는 기브온 위에 머무르라 달아 너도 아얄론 골짜기에서 그리할지어다 하매","수 10:16":"그 다섯 왕들이 도망하여 막게다의 굴에 숨었더니","수 10:27":"해 질 때에 여호수아가 명령하매 그들의 시체를 나무에서 내려 그들이 숨었던 굴 안에 던지고 굴 어귀를 큰 돌로 막았더니 오늘까지 있더라","수 10:29~42":"여호수아가 온 이스라엘과 더불어 립나에서 라기스로 가서 대진하고 싸우더니 여호와께서 라기스를 이스라엘의 손에 넘기신지라 게셀과 에글론과 헤브론과 드빌까지 순차로 쳐서 그 온 땅을 취하였더라","수 11:1, 10":"하솔 왕 야빈이 이 소식을 듣고 마돈 왕 요밥과 시므론 왕과 악삽 왕에게 사람을 보내니 … 하솔은 본래 그 모든 나라의 머리였더라","수 11:13":"그러나 산 위에 세운 성읍들은 이스라엘이 불사르지 아니하였고 여호수아가 하솔만 불살랐으며","수 11:19":"기브온 주민 히위 족속 외에는 이스라엘 자손과 화친한 성읍이 하나도 없고 이스라엘 자손이 싸워서 다 점령하였으니","수 11:22":"이스라엘 자손의 땅에는 아낙 사람들이 하나도 남지 아니하였고 가사와 가드와 아스돗에만 남았더라","수 12:4":"그 다음은 르바의 남은 족속으로서 아스다롯과 에드레이에 거주하던 바산 왕 옥이라","수 13:3":"곧 애굽 앞 시홀 시내에서부터 가나안 사람에게 속한 북쪽 에그론 경계까지와 블레셋 사람의 다섯 통치자들의 땅 곧 가사 족속과 아스돗 족속과 아스글론 족속과 가드 족속과 에그론 족속과 또 남쪽 아위 족속의 땅과","수 13:14":"오직 레위 지파에게는 여호수아가 기업으로 준 것이 없었으니 이는 그에게 말씀하신 대로 이스라엘의 하나님 여호와께 드리는 화제물이 그들의 기업이 되었음이더라","수 14:4":"이는 요셉 자손이 므낫세와 에브라임의 두 지파가 되었음이라 이 땅에서 레위 사람에게는 아무 분깃도 주지 아니하고 다만 거주할 성읍들과 가축과 재산을 위한 목초지만 주었으니","수 14:7":"내 나이 사십 세에 여호와의 종 모세가 가데스 바네아에서 나를 보내어 이 땅을 정탐하게 하므로 내가 내 마음에 성실한 대로 그에게 보고하였고","수 14:10, 12":"이제 보소서 여호와께서 이 말씀을 모세에게 이르신 때로부터 여호와께서 말씀하신 대로 이 사십오 년 동안을 나를 생존하게 하셨나이다 … 그 날에 여호와께서 말씀하신 이 산지를 지금 내게 주소서","수 14:13":"여호수아가 여분네의 아들 갈렙을 위하여 축복하고 헤브론을 그에게 주어 기업을 삼게 하매","수 14:15":"헤브론의 옛 이름은 기럇 아르바라 아르바는 아낙 사람 가운데에서 가장 큰 사람이었더라 그리고 그 땅에 전쟁이 그쳤더라","수 15:16":"갈렙이 말하되 기럇 세벨을 쳐서 그것을 점령하는 자에게는 내 딸 악사를 아내로 주리라 하였더니","수 15:17":"갈렙의 아우요 그나스의 아들인 옷니엘이 그것을 점령함으로 갈렙이 그의 딸 악사를 그에게 아내로 주었더라","수 15:19":"이르되 내게 복을 주소서 아버지께서 나를 네겝 땅으로 보내시오니 샘물도 내게 주소서 하매 갈렙이 윗샘과 아랫샘을 그에게 주었더라","수 15:63":"예루살렘 주민 여부스 족속을 유다 자손이 쫓아내지 못하였으므로 여부스 족속이 오늘까지 유다 자손과 함께 예루살렘에 거주하니라","수 17:14":"요셉 자손이 여호수아에게 말하여 이르되 여호와께서 지금까지 내게 복을 주시므로 내가 큰 민족이 되었거늘 당신이 나의 기업을 위하여 한 제비, 한 분깃으로만 내게 주심은 어찌함이니이까 하니","수 19:51":"제사장 엘르아살과 눈의 아들 여호수아와 이스라엘 자손 지파의 족장들이 실로에서 회막 문 여호와 앞에서 제비 뽑아 나눈 기업이 이러하니라 이에 땅 나누는 일을 마쳤더라","수 20:2":"이스라엘 자손에게 말하여 이르라 내가 모세를 통하여 너희에게 말한 도피성들을 너희를 위해 정하여","수 20:6":"그 살인자는 회중 앞에 서서 재판을 받기까지 또는 그 당시 대제사장이 죽기까지 그 성읍에 거주하다가 그 후에 그 살인자는 그 성읍 곧 자기가 도망하여 나온 자기 성읍 자기 집으로 돌아갈지니라 하라 하시니라","수 20:7~8":"이에 그들이 납달리의 산지 갈릴리 게데스와 에브라임 산지의 세겜과 유다 산지의 기럇 아르바 곧 헤브론과 여리고 동쪽 요단 저쪽 르우벤 지파 중에서 평지 광야의 베셀과 갓 지파 중에서 길르앗 라못과 므낫세 지파 중에서 바산 골란을 구별하였으니 (도피성 여섯)","수 22:5":"오직 여호와의 종 모세가 너희에게 명령한 명령과 율법을 반드시 행하여 너희의 하나님 여호와를 사랑하고 그의 모든 길로 행하며 그의 계명을 지켜 그에게 친근히 하고 너희의 마음을 다하며 성품을 다하여 그를 섬길지니라 하고","수 22:10":"르우벤 자손과 갓 자손과 므낫세 반 지파가 가나안 땅 요단 언덕 가에 이르자 거기서 요단 가에 제단을 쌓았는데 보기에 큰 제단이었더라","수 24:15":"만일 여호와를 섬기는 것이 너희에게 좋지 않게 보이거든 너희 조상들이 강 저쪽에서 섬기던 신들이든지 또는 너희가 거주하는 땅에 있는 아모리 족속의 신들이든지 너희가 섬길 자를 오늘 택하라 오직 나와 내 집은 여호와를 섬기겠노라 하니","수 24:29":"이 일 후에 여호와의 종 눈의 아들 여호수아가 백십 세에 죽으매","수 24:32":"또 이스라엘 자손이 애굽에서 가져 온 요셉의 뼈를 세겜에 장사하였으니 이 곳은 야곱이 백 크시타를 주고 세겜의 아버지 하몰의 자손들에게서 산 밭이라 그것이 요셉 자손의 기업이 되었더라","스 1:1":"바사 왕 고레스 원년에 여호와께서 예레미야의 입을 통하여 하신 말씀을 이루게 하시려고 바사 왕 고레스의 마음을 감동시키시매 그가 온 나라에 조서를 내리고 또 조서를 써서 이르되","스 1:7":"고레스 왕이 또 여호와의 성전 그릇을 꺼내니 옛적에 느부갓네살이 예루살렘에서 옮겨다가 자기 신들의 신전에 두었던 것이라","스 1:11":"금 은 그릇이 모두 오천사백 개라 사로잡힌 자를 바벨론에서 예루살렘으로 데리고 갈 때에 세스바살이 그 그릇들을 다 가지고 갔더라","스 2:2":"곧 스룹바벨과 예수아와 느헤미야와 스라야와 르엘라야와 모르드개와 빌산과 미스발과 비그왜와 르훔과 바아나 등과 함께 나온 이스라엘 백성의 명수가 이러하니라","스 2:63":"방백이 그들에게 명령하여 우림과 둠밈을 가진 제사장이 일어나기 전에는 지성물을 먹지 말라 하였느니라","스 2:64":"온 회중의 합계가 사만 이천삼백육십 명이요","스 2:65":"그 외에 노비가 칠천삼백삼십칠 명이요 그들에게 노래하는 남녀가 이백 명이 있었고","스 3:2":"요사닥의 아들 예수아와 그의 형제 제사장들과 스알디엘의 아들 스룹바벨과 그의 형제들이 다 일어나 이스라엘 하나님의 제단을 만들고 하나님의 사람 모세의 율법에 기록한 대로 번제를 그 위에서 드리려 할새","스 3:4":"기록된 규례대로 초막절을 지켜 번제를 매일 정수대로 날마다 드리고","스 3:10":"건축자가 여호와의 성전 기초를 놓을 때에 제사장들은 예복을 입고 나팔을 들고 아삽 자손 레위 사람들은 제금을 들고 서서 이스라엘 왕 다윗의 규례대로 여호와를 찬송하되","스 4:1~2":"사로잡혔던 자들의 자손이 이스라엘의 하나님 여호와의 성전을 건축한다 함을 유다와 베냐민의 대적이 듣고 스룹바벨과 족장들에게 나아와 이르되 우리도 너희와 함께 건축하게 하라 우리도 너희 같이 너희 하나님을 찾노라","스 4:4":"이로부터 그 땅 백성이 유다 백성의 손을 약하게 하여 그 건축을 방해하되","스 4:13":"이제 왕은 아시옵소서 만일 이 성읍을 건축하고 그 성곽을 완공하면 저 무리가 다시는 조공과 관세와 통행세를 바치지 아니하리니 결국 왕들에게 손해가 되리이다","스 4:24":"이에 예루살렘에서 하나님의 성전 공사가 바사 왕 다리오 제이년까지 중단되니라","스 5:2":"이에 스알디엘의 아들 스룹바벨과 요사닥의 아들 예수아가 일어나 예루살렘에 있던 하나님의 성전을 다시 건축하기 시작하매 하나님의 선지자들이 함께 있어 그들을 돕더니","스 5:5":"하나님이 유다 장로들을 돌보셨으므로 그들이 능히 공사를 막지 못하고 이 일을 다리오에게 아뢰고 그 답장이 오기를 기다렸더라","스 6:2":"메대도 악메다 궁성에서 두루마리를 발견하니 거기에 기록하였으되","스 6:8":"내가 또 조서를 내려서 하나님의 이 성전을 건축하는 데에 너희가 유다 사람의 장로들에게 행할 것을 알리노니 왕의 재산 곧 유브라데 강 건너편에서 거둔 세금 중에서 그 경비를 이 사람들에게 지체 없이 주어 그들로 멈추지 않게 하라","스 6:15":"다리오 왕 제육년 아달월 삼일에 성전 일을 끝내니라","스 6:18":"제사장을 그 분반대로, 레위 사람을 그 반열대로 세워 예루살렘에서 하나님을 섬기게 하되 모세의 책에 기록된 대로 하게 하니라","스 7:5":"이 아비수아는 비느하스의 아들이요 비느하스는 엘르아살의 아들이요 엘르아살은 대제사장 아론의 아들이라","스 7:6":"이 에스라가 바벨론에서 올라왔으니 그는 이스라엘의 하나님 여호와께서 주신 모세의 율법에 익숙한 학자로서 그의 하나님 여호와의 도우심을 입음으로 왕에게 구하는 것은 다 받는 자이더니","스 7:7~8":"아닥사스다 왕 제칠년에 이스라엘 자손과 제사장들과 레위 사람들과 노래하는 자들과 문지기들과 느디님 사람들 중에 몇 사람이 예루살렘으로 올라올 때에 이 에스라가 올라왔으니 왕의 제칠년 다섯째 달이라","스 7:11":"여호와의 계명의 말씀과 이스라엘에게 주신 율례에 익숙한 학자 겸 제사장인 에스라에게 아닥사스다 왕이 내린 조서의 초본은 아래와 같으니라","스 7:25":"에스라여 너는 네 손에 있는 네 하나님의 지혜를 따라 네 하나님의 율법을 아는 자를 법관과 재판관을 삼아 강 건너편 모든 백성을 재판하게 하고 그 중 알지 못하는 자는 너희가 가르치라","스 8:20":"다윗과 방백들이 레위 사람들을 섬기라고 준 느디님 사람 중 성전 일꾼은 이백이십 명이었는데 그들은 모두 지명 받은 자들이었더라","스 8:22":"이는 우리가 전에 왕에게 아뢰기를 우리 하나님의 손은 자기를 찾는 모든 자에게 선을 베푸시고 자기를 배반하는 모든 자에게는 권능과 진노를 내리신다 하였으므로 길에서 적군을 막고 우리를 도울 보병과 마병을 왕에게 구하기를 부끄러워하였음이라","스 8:21":"그 때에 내가 아하와 강 가에서 금식을 선포하고 우리 하나님 앞에서 스스로 겸비하여 우리와 우리 어린 아이와 모든 소유를 위하여 평탄한 길을 그에게 간구하였으니","스 8:24":"그 때에 내가 제사장의 우두머리들 중 열두 명 곧 세레뱌와 하사뱌와 그의 형제 열 명을 따로 세우고","스 8:32":"이에 우리가 예루살렘에 이르러 거기서 삼 일간 머물고","스 8:35":"사로잡혔던 자의 자손 곧 이방에서 돌아온 자들이 이스라엘의 하나님께 번제를 드렸는데 이스라엘 전체를 위한 수송아지가 열두 마리요 숫양이 아흔여섯 마리요 어린 양이 일흔일곱 마리요 속죄제의 숫염소가 열두 마리이니 모두 여호와께 드린 번제물이라","스 9:3":"내가 이 일을 듣고 속옷과 겉옷을 찢고 머리털과 수염을 뜯으며 기가 막혀 앉으니","스 9:4":"이에 이스라엘의 하나님의 말씀으로 말미암아 떠는 자가 사로잡혔던 이 사람들의 죄 때문에 다 내게로 모여오더라 내가 저녁 제사 드릴 때까지 기가 막혀 앉았더니","스 9:6":"말하기를 나의 하나님이여 내가 부끄럽고 낯이 뜨거워서 감히 나의 하나님을 향하여 얼굴을 들지 못하오니 이는 우리 죄악이 많아 정수리에 넘치고 우리 허물이 커서 하늘에 미침이니이다","스 9:7":"우리 조상들의 때로부터 오늘까지 우리의 죄가 심하매 우리의 죄악으로 말미암아 우리와 우리 왕들과 우리 제사장들을 여러 나라 왕들의 손에 넘기사 칼에 죽으며 사로잡히며 노략을 당하며 얼굴을 부끄럽게 하심이 오늘날과 같으니이다","스 9:8":"이제 우리 하나님 여호와께서 우리에게 잠시 동안 은혜를 베푸사 얼마를 남겨 두어 피하게 하신 우리를 그 거룩한 처소에 박힌 못과 같게 하시고 우리 하나님이 우리 눈을 밝히사 우리가 종노릇 하는 중에서 조금 소생하게 하셨나이다","스 9:15":"이스라엘의 하나님 여호와여 주는 의로우시니 우리가 남아 피한 것이 오늘날과 같사옵거늘 도리어 주께 범죄하였사오니 이로 말미암아 주 앞에 한 사람도 감히 서지 못하겠나이다 하니라","스 10:1":"에스라가 하나님의 성전 앞에 엎드려 울며 기도하여 죄를 자복할 때에 많은 백성이 크게 통곡하매 이스라엘 중에서 백성의 남녀와 어린 아이의 큰 무리가 그 앞에 모인지라","스 10:2":"엘람 자손 중 여히엘의 아들 스가냐가 에스라에게 이르되 우리가 우리 하나님께 범죄하여 이 땅 이방 여자를 맞이하여 아내로 삼았으나 이스라엘에게 아직도 소망이 있나니","스 10:3":"곧 내 주의 교훈을 따르며 우리 하나님의 명령을 떨며 준행하는 자의 가르침을 따라 이 모든 아내와 그들의 소생을 다 내보내기로 우리 하나님과 언약을 세우고 율법대로 행할 것이라","스 10:4":"이는 당신이 주장할 일이니 일어나소서 우리가 도우리니 힘써 행하소서 하니라","스 10:5":"이에 에스라가 일어나 제사장들과 레위 사람들과 온 이스라엘에게 이 말대로 행하기를 맹세하게 하매 무리가 맹세하는지라","스 10:6":"이에 에스라가 하나님의 성전 앞에서 일어나 엘리아십의 아들 여호하난의 방으로 들어가니라 그가 들어가서 사로잡혔던 자들의 죄를 근심하여 음식도 먹지 아니하며 물도 마시지 아니하더니","스 10:7":"유다와 예루살렘에 사로잡혔던 자들의 자손들에게 공포하기를 너희는 예루살렘으로 모이라","스 10:9":"유다와 베냐민 모든 사람들이 삼 일 내에 예루살렘에 모이니 때는 아홉째 달 이십일이라 무리가 하나님의 성전 앞 광장에 앉아서 이 일과 큰 비 때문에 떨고 있더니","스 10:11":"이제 너희 조상들의 하나님 앞에서 죄를 자복하고 그의 뜻대로 행하여 그 지방 사람들과 이방 여인을 끊어 버리라 하니","스 10:15":"오직 아사헬의 아들 요나단과 디과의 아들 야스야가 일어나 그 일을 반대하고 므술람과 레위 사람 삽브대가 그들을 돕더라","스 10:19":"그들이 다 손을 잡아 맹세하여 그들의 아내를 내보내기로 하고 또 그 죄로 말미암아 숫양 한 마리를 속건제로 드렸으며","스 10:24":"노래하는 자 중에는 엘리아십이요 문지기 중에는 살룸과 델렘과 우리라","느 1:1~3":"하가랴의 아들 느헤미야의 말이라 아닥사스다 왕 제이십년 기슬르월에 내가 수산 궁에 있는데 내 형제들 가운데 하나인 하나니가 두어 사람과 함께 유다에서 이르렀기로 내가 그들에게 예루살렘에 남아 있는 사로잡힘을 면한 유다와 예루살렘 형편을 물은즉 그들이 내게 이르되 사로잡힘을 면하고 남은 자들이 그 지방 거기에서 큰 환난을 당하고 능욕을 받으며 예루살렘 성은 허물어지고 성문들은 불탔다 하는지라","느 1:2":"내 형제들 가운데 하나인 하나니가 두어 사람과 함께 유다에서 이르렀기로 내가 그들에게 예루살렘에 남아 있는 유다와 예루살렘 형편을 물은즉","느 1:3~4":"그들이 내게 이르되 사로잡힘을 면하고 남은 자들이 그 지방 거기에서 큰 환난을 당하고 능욕을 받으며 예루살렘 성은 허물어지고 성문들은 불탔다 하는지라 내가 이 말을 듣고 앉아서 울고 수일 동안 슬퍼하며 하늘의 하나님 앞에 금식하며 기도하여","느 1:5~11":"이르되 하늘의 하나님 여호와 크고 두려우신 하나님이여 주를 사랑하고 주의 계명을 지키는 자에게 언약을 지키시며 긍휼을 베푸시는 주여 … 이스라엘 자손이 주께 범죄한 죄들을 자복하오며 … 옛적에 주께서 주의 종 모세에게 명령하신 말씀을 기억하옵소서 …","느 1:7":"우리가 주를 향하여 크게 악을 행하여 주께서 주의 종 모세에게 명령하신 계명과 율례와 규례를 지키지 아니하였나이다","느 1:11":"주여 구하오니 귀를 기울이사 종의 기도와 주의 이름을 경외하기를 기뻐하는 종들의 기도를 들으시고 오늘 종이 형통하여 이 사람 앞에서 은혜를 입게 하옵소서 하였나니 그 때에 내가 왕에게 술 관원이 되었느니라","느 2:1":"아닥사스다 왕 제이십년 니산월에 왕 앞에 포도주가 있기로 내가 그 포도주를 왕에게 드렸는데 이전에는 내가 왕 앞에서 수심이 없었더니","느 2:2":"왕이 내게 이르시되 네가 병이 없거늘 어찌하여 얼굴에 수심이 있느냐 이는 필경 네 마음에 근심이 있음이로다 하더라 그 때에 내가 크게 두려워하여","느 2:4":"왕이 내게 이르시되 그러면 네가 무엇을 원하느냐 하시기로 내가 곧 하늘의 하나님께 묵도하고","느 2:7~8":"내가 또 왕에게 아뢰되 왕이 좋게 여기시거든 강 서쪽 총독들에게 내리시는 조서를 내게 주사 그들이 나를 용납하여 유다에 이르기까지 통과하게 하시고 또 왕의 삼림 감독 아삽에게 조서를 내리사 그가 성전에 속한 영문의 문과 성곽과 내가 들어갈 집을 위하여 들보로 쓸 재목을 내게 주게 하옵소서 하매 내 하나님의 선한 손이 나를 도우시므로 왕이 허락하고","느 2:10":"호론 사람 산발랏과 종이었던 암몬 사람 도비야가 이스라엘 자손을 흥왕하게 하려는 사람이 왔다 함을 듣고 심히 근심하더라","느 2:11~12":"내가 예루살렘에 이르러 머무른 지 사흘 만에 내가 밤에 일어나 몇몇 사람과 함께 나갈새 내 하나님께서 예루살렘을 위해 무엇을 할 것인지 내 마음에 주신 것을 내가 아무에게도 말하지 아니하고 내가 탄 짐승 외에는 다른 짐승이 없더라","느 2:19":"호론 사람 산발랏과 종이었던 암몬 사람 도비야와 아라비아 사람 게셈이 이 말을 듣고 우리를 업신여기고 우리를 비웃어 이르되 너희가 하는 일이 무엇이냐 너희가 왕을 배반하고자 하느냐 하기로","느 3:1":"그 때에 대제사장 엘리아십이 그의 형제 제사장들과 함께 일어나 양문을 건축하여 성별하고 문짝을 달고 또 성벽을 건축하여 함메아 망대에서부터 하나넬 망대까지 성별하였고","느 4:3":"암몬 사람 도비야는 곁에 있다가 이르되 그들이 건축하는 돌 성벽은 여우가 올라가도 곧 무너지리라 하더라","느 4:7":"산발랏과 도비야와 아라비아 사람들과 암몬 사람들과 아스돗 사람들이 예루살렘 성이 중수되어 그 허물어진 틈이 메꾸어져 간다 함을 듣고 심히 분노하여","느 4:9":"우리가 우리 하나님께 기도하며 그들로 말미암아 파수꾼을 두어 주야로 방비하는데","느 4:13":"내가 성벽 뒤의 낮고 넓은 곳에 백성이 그들의 종족을 따라 칼과 창과 활을 가지고 서 있게 하고","느 4:16":"우리의 모든 대적과 주위에 있는 이방 족속들이 이를 듣고 다 두려워하여 크게 낙담하였으니 그들이 우리 하나님께서 이 역사를 이루신 것을 알았느니라 (이 문장은 실제로 느헤미야 6:16 말씀입니다)","느 4:17":"성을 건축하는 자와 짐을 나르는 자는 다 각각 한 손으로 일을 하며 한 손에는 병기를 잡았는데","느 4:20":"너희는 어디서든지 나팔 소리를 듣거든 그리로 모여서 우리에게로 나아오라 우리 하나님이 우리를 위하여 싸우시리라 하였느니라","느 4:23":"나나 내 형제들이나 종자들이나 나를 따라 파수하는 사람들이나 우리가 다 우리의 옷을 벗지 아니하였으며 물을 길으러 갈 때에도 각각 병기를 잡았느니라","느 5:7~8":"내가 깊이 생각하고 귀족들과 민장들을 꾸짖어 그들에게 이르기를 너희가 각기 형제에게 높은 이자를 취하는도다 하고 대회를 열고 그들을 쳐서 그들에게 이르기를 우리는 이방인의 손에 팔린 우리 형제 유다 사람들을 우리의 힘을 다하여 도로 찾았거늘 너희는 너희 형제를 팔고자 하느냐","느 5:13":"내가 옷자락을 털며 이르기를 이 말대로 행하지 아니하는 자는 모두 하나님이 또한 이와 같이 그 집과 산업에서 털어 버리실지니 그는 곧 이렇게 털려서 빈손이 될지로다 하매 회중이 다 아멘 하고 여호와를 찬송하고 백성들이 그 말한 대로 행하였느니라","느 5:14~16":"또한 유다 땅 총독으로 세움을 받은 때 곧 아닥사스다 왕 제이십년부터 제삼십이년까지 십이 년 동안은 나와 내 형제들이 총독의 녹을 먹지 아니하였느니라 … 도리어 이 성벽 공사에 힘을 다하며 땅을 사지 아니하였고 내 모든 종자들도 모여서 일을 하였으며","느 6:1":"산발랏과 도비야와 아라비아 사람 게셈과 그 나머지 우리의 원수들이 내가 성벽을 건축하여 허물어진 틈을 남기지 아니하였다는 것을 들었는데 그 때는 내가 아직 성문에 문짝을 달지 못한 때였더라","느 6:2":"산발랏과 게셈이 내게 사람을 보내어 이르기를 오라 우리가 오노 평지 한 촌에서 서로 만나자 하니 실상은 나를 해하고자 함이었더라","느 6:2~13":"산발랏과 게셈이 내게 사람을 보내어 오노 평지에서 만나자 하니 실상은 나를 해하고자 함이라 … 봉하지 않은 편지를 손에 들려 보내고 … 뇌물을 주어 스마야로 하여금 거짓 예언을 하게 하였으니 이는 나를 두렵게 하려 함이라","느 6:18":"도비야는 아라의 아들 스가냐의 사위가 되었고 도비야의 아들 여호하난도 베레갸의 아들 므술람의 딸을 아내로 맞이하였으므로 유다에서 그와 동맹한 자가 많음이라","느 7:2":"내 아우 하나니와 영문의 관원 하나냐가 함께 예루살렘을 다스리게 하였는데 하나냐는 충성스러운 사람이요 하나님을 경외함이 무리 중에서 뛰어난 자라","느 7:4":"그 성읍은 광대하고 그 주민은 적으며 가옥은 미처 건축하지 못하였음이니라","느 8:1":"이스라엘 자손이 자기들의 성읍에 거주하였더니 일곱째 달에 이르러 모든 백성이 일제히 수문 앞 광장에 모여 학사 에스라에게 여호와께서 이스라엘에게 명령하신 모세의 율법책을 가져오기를 청하매","느 8:14":"율법에 기록된 바를 본즉 여호와께서 모세를 통하여 명령하시기를 일곱째 달 절기에 이스라엘 자손은 초막에서 거할지니라 하였고","느 8:15":"또 모든 성읍과 예루살렘에 공포하여 이르기를 너희는 산에 가서 감람나무 가지와 들감람나무 가지와 화석류나무 가지와 종려나무 가지와 기타 무성한 나무 가지를 가져다가 기록한 바를 따라 초막을 지으라 하매","느 9:1~2":"그 달 스무나흘 날에 이스라엘 자손이 다 모여 금식하며 굵은 베 옷을 입고 티끌을 무릅쓰며 모든 이방 사람들과 절교하고 서서 자기의 죄와 조상들의 허물을 자복하고","느 9:38":"우리가 이 모든 일로 말미암아 이제 견고한 언약을 세워 기록하고 우리의 방백들과 레위 사람들과 제사장들이 다 인봉하나이다 하였느니라","느 10:29":"다 그들의 형제 귀족들을 따라 저주로 맹세하기를 우리가 하나님의 종 모세를 통하여 주신 하나님의 율법을 따라 우리 주 여호와의 모든 계명과 규례와 율례를 지켜 행하여","느 10:31":"혹시 이 땅 백성이 안식일에 물품이나 온갖 곡물을 가져다가 팔려고 할지라도 우리가 안식일이나 성일에는 그들에게서 사지 않겠고 일곱째 해마다 땅을 쉬게 하고 모든 빚을 탕감하리라 하였고","느 10:37":"또 처음 익은 밀의 가루와 거제물과 각종 과목의 열매와 새 포도주와 기름을 제사장들에게로 가져다가 우리 하나님의 전의 여러 방에 두고 또 우리 산물의 십일조를 레위 사람들에게 주리라 하였나니 이 레위 사람들은 우리의 모든 성읍에서 산물의 십일조를 받는 자임이며","느 11:1":"백성의 지도자들은 예루살렘에 거주하였고 그 남은 백성은 제비 뽑아 십분의 일은 거룩한 성 예루살렘에서 거주하게 하고 그 십분의 구는 다른 성읍에 거주하게 하였으며","느 11:2":"예루살렘에 거주하기를 자원하는 모든 자를 위하여 백성들이 복을 빌었느니라","느 12:30":"제사장들과 레위 사람들이 몸을 정결하게 하고 또 백성과 성문과 성벽을 정결하게 하니라","느 12:44":"그 날에 사람을 세워 곳간을 맡기고 제사장들과 레위 사람들에게 돌릴 것 곧 율법에 정한 대로 거제물과 처음 익은 것과 십일조를 모든 성읍 밭에서 거두어 이 곳간에 쌓게 하였노니 이는 유다 사람이 섬기는 제사장들과 레위 사람들로 말미암아 즐거워하기 때문이라","느 12:47":"스룹바벨 때와 느헤미야 때에는 온 이스라엘이 노래하는 자들과 문지기들에게 날마다 쓸 몫을 주되 그들이 성별한 것을 레위 사람들에게 주고 레위 사람들은 그것을 또 성별하여 아론 자손에게 주었느니라","느 13:1~2":"그 날 모세의 책을 낭독하여 백성에게 들렸는데 그 책에 기록하기를 암몬 사람과 모압 사람은 영원히 하나님의 총회에 들어오지 못하리니 이는 그들이 양식과 물로 이스라엘 자손을 영접하지 아니하고 도리어 발람에게 뇌물을 주어 저주하게 하였음이라","느 13:7":"예루살렘에 이르러서야 엘리아십이 도비야를 위하여 하나님의 전 뜰에 방을 만든 악한 일을 안지라","느 13:23~24":"그 때에 내가 또 본즉 유다 사람이 아스돗과 암몬과 모압 여인을 맞아 아내로 삼았는데 그들의 자녀가 아스돗 방언을 절반쯤은 하여도 유다 방언은 못하니 그 하는 말이 각 족속의 방언이므로","느 13:25":"내가 그들을 책망하고 저주하며 그들 중 몇 사람을 때리고 그들의 머리털을 뽑고 이르되 너희는 너희 딸들을 그들의 아들들에게 주지 말고 너희 아들들이나 너희를 위하여 그들의 딸을 데려오지 아니하겠다고 하나님을 가리켜 맹세하라 하고","느 13:26~27":"옛적에 이스라엘 왕 솔로몬이 이런 일로 범죄하지 아니하였느냐 그는 많은 나라 중에 비길 왕이 없이 하나님의 사랑을 입은 자라 하나님이 그를 왕으로 삼아 온 이스라엘을 다스리게 하셨으나 이방 여인이 그를 범죄하게 하였나니","느 13:28":"대제사장 엘리아십의 손자 요야다의 아들 하나가 호론 사람 산발랏의 사위가 되었으므로 내가 쫓아내어 나를 떠나게 하였느니라","마태복음":"마태복음은 예수 그리스도의 생애와 가르침을 기록한 신약의 첫 번째 복음서로, 모두 스물여덟 장으로 이루어져 있습니다.","마 1:1":"아브라함과 다윗의 자손 예수 그리스도의 계보라","마 1:18":"예수 그리스도의 나심은 이러하니라 그의 어머니 마리아가 요셉과 약혼하고 동거하기 전에 성령으로 잉태된 것이 나타났더니","마 1:3~6":"유다는 다말에게서 베레스와 세라를 낳고 … 살몬은 라합에게서 보아스를 낳고 보아스는 룻에게서 오벳을 낳고 … 다윗은 우리야의 아내에게서 솔로몬을 낳고 (족보에 나오는 여인: 다말, 라합, 룻, 우리야의 아내)","마 2:11":"집에 들어가 아기와 그의 어머니 마리아가 함께 있는 것을 보고 엎드려 아기께 경배하고 보배합을 열어 황금과 유향과 몰약을 예물로 드리니라","마 3:1~4":"그 때에 세례 요한이 이르러 유대 광야에서 전파하여 말하되 회개하라 천국이 가까이 왔느니라 하였으니 … 이 요한은 낙타털 옷을 입고 허리에 가죽 띠를 띠고 음식은 메뚜기와 석청이었더라","마 4:2":"사십 일을 밤낮으로 금식하신 후에 주리신지라","마 4:8":"마귀가 또 그를 데리고 지극히 높은 산으로 가서 천하 만국과 그 영광을 보여","마 4:18~22":"갈릴리 해변에 다니시다가 두 형제 곧 베드로라 하는 시몬과 그의 형제 안드레가 바다에 그물 던지는 것을 보시니 … 거기서 더 가시다가 다른 두 형제 곧 세베대의 아들 야고보와 그의 형제 요한이 그의 아버지 세베대와 함께 배에서 그물 깁는 것을 보시고 부르시니","마 4:23":"예수께서 온 갈릴리에 두루 다니사 그들의 회당에서 가르치시며 천국 복음을 전파하시며 백성 중의 모든 병과 모든 약한 것을 고치시니","마 5:9":"화평하게 하는 자는 복이 있나니 그들이 하나님의 아들이라 일컬음을 받을 것임이요","마 5:16":"이같이 너희 빛이 사람 앞에 비치게 하여 그들로 너희 착한 행실을 보고 하늘에 계신 너희 아버지께 영광을 돌리게 하라","마 5:17":"내가 율법이나 선지자를 폐하러 온 줄로 생각하지 말라 폐하러 온 것이 아니요 완전하게 하려 함이라","마 5:20":"내가 너희에게 이르노니 너희 의가 서기관과 바리새인보다 더 낫지 못하면 결코 천국에 들어가지 못하리라","마 5:34~35":"나는 너희에게 이르노니 도무지 맹세하지 말지니 하늘로도 하지 말라 이는 하나님의 보좌임이요 땅으로도 하지 말라 이는 하나님의 발등상임이요 예루살렘으로도 하지 말라 이는 큰 임금의 성임이요","마 5:44":"나는 너희에게 이르노니 너희 원수를 사랑하며 너희를 박해하는 자를 위하여 기도하라","마 6:17":"너는 금식할 때에 머리에 기름을 바르고 얼굴을 씻으라","마 6:24":"한 사람이 두 주인을 섬기지 못할 것이니 혹 이를 미워하고 저를 사랑하거나 혹 이를 중히 여기고 저를 경히 여김이라 너희가 하나님과 재물을 겸하여 섬기지 못하느니라","마 6:25":"그러므로 내가 너희에게 이르노니 목숨을 위하여 무엇을 먹을까 무엇을 마실까 몸을 위하여 무엇을 입을까 염려하지 말라 목숨이 음식보다 중하지 아니하며 몸이 의복보다 중하지 아니하냐","마 6:28":"또 너희가 어찌 의복을 위하여 염려하느냐 들의 백합화가 어떻게 자라는가 생각하여 보라 수고도 아니하고 길쌈도 아니하느니라","마 6:33":"그런즉 너희는 먼저 그의 나라와 그의 의를 구하라 그리하면 이 모든 것을 너희에게 더하시리라","마 7:6":"거룩한 것을 개에게 주지 말며 너희 진주를 돼지 앞에 던지지 말라 그들이 그것을 발로 밟고 돌이켜 너희를 찢어 상하게 할까 염려하라","마 7:13~14":"좁은 문으로 들어가라 멸망으로 인도하는 문은 크고 그 길이 넓어 그리로 들어가는 자가 많고 생명으로 인도하는 문은 좁고 길이 협착하여 찾는 자가 적음이라","마 7:21":"나더러 주여 주여 하는 자마다 다 천국에 들어갈 것이 아니요 다만 하늘에 계신 내 아버지의 뜻대로 행하는 자라야 들어가리라","마 7:26":"나의 이 말을 듣고 행하지 아니하는 자는 그 집을 모래 위에 지은 어리석은 사람 같으리니","마 7:29":"이는 그가 가르치시는 것이 권위 있는 자와 같고 그들의 서기관들과 같지 아니함일러라","마 8:5~13":"예수께서 가버나움에 들어가시니 한 백부장이 나아와 간구하여 … 예수께서 들으시고 놀랍게 여겨 따르는 자들에게 이르시되 내가 진실로 너희에게 이르노니 이스라엘 중 아무에게서도 이만한 믿음을 보지 못하였노라","마 8:14":"예수께서 베드로의 집에 들어가사 그의 장모가 열병으로 앓아 누운 것을 보시고","마 8:20":"예수께서 이르시되 여우도 굴이 있고 공중의 새도 거처가 있으되 인자는 머리 둘 곳이 없다 하시더라","마 9:2":"침상에 누운 중풍병자를 사람들이 데리고 오거늘 예수께서 그들의 믿음을 보시고 중풍병자에게 이르시되 작은 자야 안심하라 네 죄 사함을 받았느니라","마 9:12":"예수께서 들으시고 이르시되 건강한 자에게는 의사가 쓸데 없고 병든 자에게라야 쓸 데 있느니라","마 9:20":"열두 해 동안이나 혈루증으로 앓는 여자가 예수의 뒤로 와서 그의 겉옷 가를 만지니","마 9:27":"예수께서 거기에서 떠나가실새 두 맹인이 따라오며 소리 질러 이르되 다윗의 자손이여 우리를 불쌍히 여기소서 하더니","마 9:34":"바리새인들은 이르되 그가 귀신의 왕을 의지하여 귀신을 쫓아낸다 하더라","마 10:2~4":"열두 사도의 이름은 이러하니 베드로라 하는 시몬과 그의 형제 안드레, 세베대의 아들 야고보와 그의 형제 요한, 빌립과 바돌로매, 도마와 세리 마태, 알패오의 아들 야고보와 다대오, 가나나인 시몬과 및 가룟 유다 곧 예수를 판 자라","마 10:6":"오히려 이스라엘 집의 잃어버린 양에게로 가라","마 10:16":"보라 내가 너희를 보냄이 양을 이리 가운데로 보냄과 같도다 그러므로 너희는 뱀 같이 지혜롭고 비둘기 같이 순결하라","마 10:30~31":"너희에게는 머리털까지 다 세신 바 되었나니 두려워하지 말라 너희는 많은 참새보다 귀하니라","마 10:34":"내가 세상에 화평을 주러 온 줄로 생각하지 말라 화평이 아니요 검을 주러 왔노라","마 11:13~14":"모든 선지자와 율법이 예언한 것은 요한까지니 만일 너희가 즐겨 받을진대 오리라 한 엘리야가 곧 이 사람이니라","마 12:1":"그 때에 예수께서 안식일에 밀밭 사이로 가실새 제자들이 시장하여 이삭을 잘라 먹으니","마 12:8":"인자는 안식일의 주인이니라 하시니라","마 12:24":"바리새인들은 듣고 이르되 이가 귀신의 왕 바알세불을 힘입지 않고는 귀신을 쫓아내지 못하느니라 하거늘","마 12:31":"그러므로 내가 너희에게 이르노니 사람에 대한 모든 죄와 모독은 사하심을 얻되 성령을 모독하는 것은 사하심을 얻지 못하겠고","마 12:50":"누구든지 하늘에 계신 내 아버지의 뜻대로 하는 자가 내 형제요 자매요 어머니이니라 하시더라","마 13:16":"그러나 너희 눈은 봄으로, 너희 귀는 들음으로 복이 있도다","마 13:44":"천국은 마치 밭에 감추인 보화와 같으니 사람이 이를 발견한 후 숨겨 두고 기뻐하며 돌아가서 자기의 소유를 다 팔아 그 밭을 사느니라","마 13:37":"대답하여 이르시되 좋은 씨를 뿌리는 이는 인자요","마 14:20":"다 배불리 먹고 남은 조각을 열두 바구니에 차게 거두었으며","마 15:1":"입으로 들어가는 것이 사람을 더럽게 하는 것이 아니라 입에서 나오는 그것이 사람을 더럽게 하는 것이니라 (15:11)","마 15:24":"예수께서 대답하여 이르시되 나는 이스라엘 집의 잃어버린 양 외에는 다른 데로 보내심을 받지 아니하였노라 하시니","마 16:13":"예수께서 빌립보 가이사랴 지방에 이르러 제자들에게 물어 이르시되 사람들이 인자를 누구라 하느냐","마 16:22":"베드로가 예수를 붙들고 항변하여 이르되 주여 그리 마옵소서 이 일이 결코 주께 미치지 아니하리이다","마 17:1":"엿새 후에 예수께서 베드로와 야고보와 그 형제 요한을 데리시고 따로 높은 산에 올라가셨더니","마 17:4":"베드로가 예수께 여쭈어 이르되 주여 우리가 여기 있는 것이 좋사오니 만일 주께서 원하시면 내가 여기서 초막 셋을 짓되 하나는 주님을 위하여, 하나는 모세를 위하여, 하나는 엘리야를 위하여 하리이다","마 17:27":"그러나 우리가 그들이 실족하지 않게 하기 위하여 네가 바다에 가서 낚시를 던져 먼저 오르는 고기를 가져 입을 열면 돈 한 세겔을 얻을 것이니 가져다가 나와 너를 위하여 주라 하시니라","마 18:4":"그러므로 누구든지 이 어린 아이와 같이 자기를 낮추는 사람이 천국에서 큰 자니라 (진실로 너희가 돌이켜 어린 아이들과 같이 되지 아니하면 결단코 천국에 들어가지 못하리라 — 18:3)","마 18:9":"만일 네 눈이 너를 범죄하게 하거든 빼어 내버리라 한 눈으로 영생에 들어가는 것이 두 눈을 가지고 지옥 불에 던져지는 것보다 나으니라","마 18:18":"진실로 너희에게 이르노니 무엇이든지 너희가 땅에서 매면 하늘에서도 매일 것이요 무엇이든지 땅에서 풀면 하늘에서도 풀리리라","마 18:22":"예수께서 이르시되 네게 이르노니 일곱 번뿐 아니라 일곱 번을 일흔 번까지라도 할지니라","마 19:16~17":"어떤 사람이 주께 와서 이르되 선생님이여 내가 무슨 선한 일을 하여야 영생을 얻으리이까 … 예수께서 이르시되 네가 생명에 들어가려면 계명들을 지키라","마 19:24":"다시 너희에게 말하노니 낙타가 바늘귀로 들어가는 것이 부자가 하나님의 나라에 들어가는 것보다 쉬우니라 하시니","마 20:21~22":"예수께서 이르시되 무엇을 원하느냐 이르되 나의 이 두 아들을 주의 나라에서 하나는 주의 우편에, 하나는 주의 좌편에 앉게 명하소서 (세베대의 아들들의 어머니)","마 20:27":"너희 중에 누구든지 으뜸이 되고자 하는 자는 너희의 종이 되어야 하리라","마 21:9":"앞에서 가고 뒤에서 따르는 무리가 소리 높여 이르되 호산나 다윗의 자손이여 찬송하리로다 주의 이름으로 오시는 이여 가장 높은 곳에서 호산나 하더라","마 21:13":"그들에게 이르시되 기록된 바 내 집은 기도하는 집이라 일컬음을 받으리라 하였거늘 너희는 강도의 소굴을 만드는도다 하시니라","마 21:42":"예수께서 이르시되 너희가 성경에 건축자들이 버린 돌이 모퉁이의 머릿돌이 되었나니 이것은 주로 말미암아 된 것이요 우리 눈에 기이하도다 함을 읽어 본 일이 없느냐","마 22:31~32":"죽은 자의 부활을 논할진대 하나님이 너희에게 말씀하신 바 나는 아브라함의 하나님이요 이삭의 하나님이요 야곱의 하나님이로라 하신 것을 읽어 보지 못하였느냐 하나님은 죽은 자의 하나님이 아니요 산 자의 하나님이시니라 하시니","마 22:37":"예수께서 이르시되 네 마음을 다하고 목숨을 다하고 뜻을 다하여 주 너의 하나님을 사랑하라 하셨으니","마 24:2":"대답하여 이르시되 너희가 이 모든 것을 보지 못하느냐 내가 진실로 너희에게 이르노니 돌 하나도 돌 위에 남지 않고 다 무너뜨려지리라","마 24:4~5":"예수께서 대답하여 이르시되 너희가 사람의 미혹을 받지 않도록 주의하라 많은 사람이 내 이름으로 와서 이르되 나는 그리스도라 하여 많은 사람을 미혹하리라","마 24:15":"그러므로 너희가 선지자 다니엘이 말한 바 멸망의 가증한 것이 거룩한 곳에 선 것을 보거든 (읽는 자는 깨달을진저) 그 때에 유대에 있는 자들은 산으로 도망할지어다","마 24:30":"그 때에 인자의 징조가 하늘에서 보이겠고 그 때에 땅의 모든 족속들이 통곡하며 그들이 인자가 구름을 타고 능력과 큰 영광으로 오는 것을 보리라","마 24:32":"무화과나무의 비유를 배우라 그 가지가 연하여지고 잎사귀를 내면 여름이 가까운 줄을 아나니","마 24:36":"그러나 그 날과 그 때는 아무도 모르나니 하늘의 천사들도, 아들도 모르고 오직 아버지만 아시느니라","마 24:37~39":"노아의 때와 같이 인자의 임함도 그러하리라 홍수 전에 노아가 방주에 들어가던 날까지 사람들이 먹고 마시고 장가 들고 시집 가고 있으면서 홍수가 나서 그들을 다 멸하기까지 깨닫지 못하였으니 인자의 임함도 이와 같으리라","마 25:15":"각각 그 재능대로 한 사람에게는 다섯 달란트를, 한 사람에게는 두 달란트를, 한 사람에게는 한 달란트를 주고 떠났더니","마 25:30":"이 무익한 종을 바깥 어두운 데로 내쫓으라 거기서 슬피 울며 이를 갈리라 하니라","마 26:47":"말씀하실 때에 열둘 중의 하나인 유다가 왔는데 대제사장들과 백성의 장로들에게서 파송된 큰 무리가 검과 몽치를 가지고 그와 함께 하였더라","마 27:7":"의논한 후 이것으로 토기장이의 밭을 사서 나그네의 묘지를 삼았으니","마 27:33":"골고다 곧 해골의 곳이라는 곳에 이르러","마 28:7":"또 빨리 가서 그의 제자들에게 이르되 그가 죽은 자 가운데서 살아나셨고 너희보다 먼저 갈릴리로 가시나니 거기서 너희가 뵈오리라 하라 보라 내가 너희에게 일렀느니라 하거늘","마 28:19~20":"그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로 세례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라 볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라 하시니라","엡 1:1":"하나님의 뜻으로 말미암아 그리스도 예수의 사도 된 바울은 에베소에 있는 성도들과 그리스도 예수 안에 있는 신실한 자들에게 편지하노니","엡 1:3":"찬송하리로다 하나님 곧 우리 주 예수 그리스도의 아버지께서 그리스도 안에서 하늘에 속한 모든 신령한 복을 우리에게 주시되","엡 1:7":"우리는 그리스도 안에서 그의 은혜의 풍성함을 따라 그의 피로 말미암아 속량 곧 죄 사함을 받았느니라","엡 1:16":"내가 기도할 때에 기억하며 너희로 말미암아 감사하기를 그치지 아니하고","엡 1:22~23":"또 만물을 그의 발 아래에 복종하게 하시고 그를 만물 위에 교회의 머리로 삼으셨느니라 교회는 그의 몸이니 만물 안에서 만물을 충만하게 하시는 이의 충만함이니라","엡 2:3":"전에는 우리도 다 그 가운데서 우리 육체의 욕심을 따라 지내며 육체와 마음의 원하는 것을 하여 다른 이들과 같이 본질상 진노의 자녀이었더니","엡 2:9":"행위에서 난 것이 아니니 이는 누구든지 자랑하지 못하게 함이라","엡 2:22":"너희도 성령 안에서 하나님이 거하실 처소가 되기 위하여 그리스도 예수 안에서 함께 지어져 가느니라","엡 3:1":"이러므로 그리스도 예수의 일로 너희 이방인을 위하여 갇힌 자 된 나 바울이 말하거니와","엡 3:5":"이제 그의 거룩한 사도들과 선지자들에게 성령으로 나타내신 것 같이 다른 세대에서는 사람의 아들들에게 알리지 아니하셨으니","엡 3:13":"그러므로 너희에게 구하노니 너희를 위한 나의 여러 환난에 대하여 낙심하지 말라 이는 너희의 영광이니라","엡 3:21":"교회 안에서와 그리스도 예수 안에서 영광이 대대로 영원무궁하기를 원하노라 아멘","엡 4:1":"그러므로 주 안에서 갇힌 내가 너희를 권하노니 너희가 부르심을 받은 일에 합당하게 행하여","엡 4:3":"평안의 매는 줄로 성령이 하나 되게 하신 것을 힘써 지키라","엡 4:11~12":"그가 어떤 사람은 사도로, 어떤 사람은 선지자로, 어떤 사람은 복음 전하는 자로, 어떤 사람은 목사와 교사로 삼으셨으니 이는 성도를 온전하게 하여 봉사의 일을 하게 하며 그리스도의 몸을 세우려 하심이라","엡 4:25~29":"그런즉 거짓을 버리고 각각 그 이웃과 더불어 참된 것을 말하라 … 도둑질하는 자는 다시 도둑질하지 말고 돌이켜 가난한 자에게 구제할 것이 있기 위하여 자기 손으로 수고하여 선한 일을 하라 무릇 더러운 말은 너희 입 밖에도 내지 말고 오직 덕을 세우는 데 소용되는 대로 선한 말을 하여 듣는 자들에게 은혜를 끼치게 하라","엡 5:3":"음행과 온갖 더러운 것과 탐욕은 너희 중에서 그 이름조차도 부르지 말라 이는 성도에게 마땅한 바니라","엡 5:10":"주를 기쁘시게 할 것이 무엇인가 시험하여 보라","엡 6:1":"자녀들아 주 안에서 너희 부모에게 순종하라 이것이 옳으니라","엡 6:24":"우리 주 예수 그리스도를 변함 없이 사랑하는 모든 자에게 은혜가 있을지어다","빌 1:1":"그리스도 예수의 종 바울과 디모데는 그리스도 예수 안에서 빌립보에 사는 모든 성도와 또한 감독들과 집사들에게 편지하노니","빌 1:6":"너희 안에서 착한 일을 시작하신 이가 그리스도 예수의 날까지 이루실 줄을 우리는 확신하노라","빌 1:21":"이는 내게 사는 것이 그리스도니 죽는 것도 유익함이라","빌 1:29":"그리스도를 위하여 너희에게 은혜를 주신 것은 다만 그를 믿을 뿐 아니라 또한 그를 위하여 고난도 받게 하려 하심이라","빌 2:7":"오히려 자기를 비워 종의 형체를 가지사 사람들과 같이 되셨고","빌 2:12":"그러므로 나의 사랑하는 자들아 너희가 나 있을 때뿐 아니라 더욱 지금 나 없을 때에도 항상 복종하여 두렵고 떨림으로 너희 구원을 이루라","빌 2:17":"만일 너희 믿음의 제물과 섬김 위에 내가 나를 전제로 드릴지라도 나는 기뻐하고 너희 무리와 함께 기뻐하리니","빌 3:14":"푯대를 향하여 그리스도 예수 안에서 하나님이 위에서 부르신 부름의 상을 위하여 달려가노라","빌 4:6":"아무 것도 염려하지 말고 다만 모든 일에 기도와 간구로 너희 구할 것을 감사함으로 하나님께 아뢰라","빌 4:11":"내가 궁핍하므로 말하는 것이 아니니라 어떠한 형편에든지 나는 자족하기를 배웠노니"};
+
+var MARKS = ["①", "②", "③", "④", "⑤"];
+function correctIndex(ans){
+  if (!ans) return -1;
+  return MARKS.indexOf(ans.charAt(0));
+}
+function esc(s){
+  return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+}
+function typeOf(it){
+  if (it.choices) return "mc";
+  if (it.a === "O" || it.a === "X") return "ox";
+  return "plain";
+}
+/* ===== localStorage 저장 (O·X · 객관식 · 오답노트만, 빈칸은 저장하지 않음) ===== */
+var LS_KEY = 'bq_state_v1';
+
+function saveState(){
+  try{
+    var mc = {};
+    document.querySelectorAll('.choices.answered').forEach(function(ul){
+      var q=ul.closest('.q'); if(!q) return;
+      var book=q.getAttribute('data-book'), idx=q.getAttribute('data-idx');
+      var hasWrong=ul.querySelector('.opt.wrong');
+      mc[book+':'+idx]={ ci:parseInt(ul.getAttribute('data-correct'),10), wrong:hasWrong?1:0, tries:parseInt(ul.getAttribute('data-tries'),10) };
+    });
+    var ox = {};
+    document.querySelectorAll('.oxbox.answered').forEach(function(box){
+      var q=box.closest('.q'); if(!q) return;
+      var book=q.getAttribute('data-book'), idx=q.getAttribute('data-idx');
+      var correct=box.getAttribute('data-answer');
+      var chosen=null;
+      box.querySelectorAll('.ox').forEach(function(b){
+        if(b.classList.contains('correct')||b.classList.contains('wrong')) chosen=b.getAttribute('data-val');
+      });
+      ox[book+':'+idx]={ ans:correct, chosen:chosen };
+    });
+    var wl = wrongList.map(function(w){ return w.k+':'+w.i; });
+    localStorage.setItem(LS_KEY, JSON.stringify({mc:mc, ox:ox, wl:wl}));
+  } catch(e){}
+}
+
+function loadState(){
+  try{
+    var raw=localStorage.getItem(LS_KEY);
+    if(!raw) return;
+    var st=JSON.parse(raw);
+    if(st.mc){
+      Object.keys(st.mc).forEach(function(key){
+        var parts=key.split(':'), book=parts[0], idx=parts[1];
+        var q=document.querySelector('#'+book+' .q[data-book="'+book+'"][data-idx="'+idx+'"]');
+        if(!q) return;
+        var ul=q.querySelector('.choices');
+        if(!ul) return;
+        var info=st.mc[key];
+        ul.setAttribute('data-tries', info.tries||1);
+        if(info.tries>=2 || info.wrong===0){
+          gradeMC(ul, info.wrong ? (info.ci===0?1:0) : info.ci);
+        }
+      });
+    }
+    if(st.ox){
+      Object.keys(st.ox).forEach(function(key){
+        var parts=key.split(':'), book=parts[0], idx=parts[1];
+        var q=document.querySelector('#'+book+' .q[data-book="'+book+'"][data-idx="'+idx+'"]');
+        if(!q) return;
+        var box=q.querySelector('.oxbox');
+        if(!box) return;
+        var info=st.ox[key];
+        if(info.chosen) gradeOX(box, info.chosen);
+      });
+    }
+    if(st.wl && st.wl.length){
+      wrongList=[];
+      st.wl.forEach(function(item){
+        var parts=item.split(':'), book=parts[0], idx=parseInt(parts[1],10);
+        if(wrongPos(book,idx)<0) wrongList.push({k:book,i:idx});
+      });
+      syncWrongMeta();
+    }
+    updateAllScores();
+  } catch(e){ console.warn('loadState error', e); }
+}
+
+function buildVerse(text){
+  var parts = text.split(/\[\[(.+?)\]\]/);
+  var html = "";
+  for (var i = 0; i < parts.length; i++){
+    if (i % 2 === 1){
+      html += '<span class="blank" role="button" tabindex="0" aria-label="답 보기">' + parts[i] + '</span>';
+    } else {
+      html += parts[i];
+    }
+  }
+  return html;
+}
+
+function buildVerseRevealed(text){
+  var parts = text.split(/\[\[(.+?)\]\]/);
+  var html = "";
+  for (var i = 0; i < parts.length; i++){
+    if (i % 2 === 1){
+      html += '<span class="kw">(' + parts[i] + ')</span>';
+    } else {
+      html += parts[i];
+    }
+  }
+  return html;
+}
+
+function buildVerseBlankSlots(text){
+  var parts = text.split(/\[\[(.+?)\]\]/);
+  var html = "";
+  for (var i = 0; i < parts.length; i++){
+    if (i % 2 === 1){
+      html += '<span class="blankSlot">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</span>';
+    } else {
+      html += parts[i];
+    }
+  }
+  return html;
+}
+
+function resetReciteCard(card){
+  if (!card) return;
+  var blankStage = card.querySelector(".reciteBlankStage");
+  var filledStage = card.querySelector(".reciteFilledStage");
+  var selfcheck = card.querySelector(".selfcheck");
+  var result = card.querySelector(".reciteResult");
+  var revealBtn = card.querySelector(".revealBtn");
+  var prompt = card.querySelector(".reciteprompt");
+  if (filledStage) filledStage.hidden = true;
+  if (blankStage) blankStage.hidden = false;
+  if (selfcheck) selfcheck.hidden = true;
+  if (result){ result.hidden = true; result.innerHTML = ""; }
+  if (revealBtn) revealBtn.hidden = false;
+  if (prompt) prompt.textContent = "🗣️ 소리 내어 암송해 보세요!";
+}
+
+function itemHTML(key, i, showBook){
+  var it = DATA[key][i];
+  var kind = typeOf(it);
+  var canRecite = (kind === "plain" && !!it.t);
+  var html = '<article class="q' + (canRecite ? " reciteable" : "") + '" data-book="' + key + '" data-idx="' + i + '">';
+  html += '<div class="qhead"><span class="num">' + (i + 1) + '</span>';
+  if (showBook) html += '<span class="bk">' + LABELS[key] + '</span>';
+  html += '<button type="button" class="ref" data-ref="' + esc(it.ref) + '">' + it.ref + '</button></div>';
+  html += '<p class="ask">' + it.q + '</p>';
+  if (it.t){
+    if (canRecite){
+      html += '<div class="versewrap">';
+      html += '<p class="verse' + (it.quote ? " quote" : "") + '">' + buildVerse(it.t) + '</p>';
+      html += '<div class="recite"><div class="recitecard">';
+      html += '<p class="reciteprompt">🗣️ 소리 내어 암송해 보세요!</p>';
+      html += '<p class="reciteVerse' + (it.quote ? " quote" : "") + ' reciteBlankStage">' + buildVerseBlankSlots(it.t) + '</p>';
+      html += '<p class="reciteVerse' + (it.quote ? " quote" : "") + ' reciteFilledStage" hidden>' + buildVerseRevealed(it.t) + '</p>';
+      html += '<button type="button" class="revealBtn">정답 보기</button>';
+      html += '<div class="selfcheck" hidden>';
+      html += '<button type="button" class="selfok">완벽해요 👍</button>';
+      html += '<button type="button" class="selfno">다시 외울래요 🔁</button>';
+      html += '</div>';
+      html += '<p class="reciteResult" hidden></p>';
+      html += '</div></div>';
+      html += '</div>';
+    } else {
+      html += '<p class="verse' + (it.quote ? " quote" : "") + '">' + buildVerse(it.t) + '</p>';
+    }
+  }
+  if (kind === "mc"){
+    html += '<ul class="choices" data-correct="' + correctIndex(it.a) + '" data-answer="' + esc(it.a) + '" data-tries="0">';
+    for (var c = 0; c < it.choices.length; c++){
+      html += '<li><button type="button" class="opt" data-idx="' + c + '">' + it.choices[c] + "</button></li>";
+    }
+    html += "</ul>";
+    html += '<p class="verdict" hidden></p>';
+  } else if (kind === "ox"){
+    html += '<div class="oxbox" data-answer="' + it.a + '">';
+    html += '<button type="button" class="ox" data-val="O">O</button>';
+    html += '<button type="button" class="ox" data-val="X">X</button>';
+    html += "</div>";
+    html += '<p class="verdict" hidden></p>';
+  } else if (it.a){
+    html += '<p class="answer">정답 ' + buildVerse("[[" + it.a + "]]") + "</p>";
+  }
+  if (it.note){
+    html += '<details class="note"><summary>해설 보기</summary><p class="body">' + it.note + "</p></details>";
+  }
+  html += "</article>";
+  return html;
+}
+
+function render(key){
+  var box = document.querySelector("#" + key + " .list");
+  var html = "";
+  for (var i = 0; i < DATA[key].length; i++){
+    html += itemHTML(key, i, false);
+  }
+  box.innerHTML = html;
+}
+for (var k in DATA){ render(k); }
+
+/* ---------- 오답노트 ---------- */
+var wrongList = [];
+function wrongPos(key, i){
+  for (var n = 0; n < wrongList.length; n++){
+    if (wrongList[n].k === key && wrongList[n].i === i) return n;
+  }
+  return -1;
+}
+function addWrong(key, i){
+  if (key === "wrong" || wrongPos(key, i) >= 0) return;
+  wrongList.push({k: key, i: i});
+  syncWrongMeta();
+}
+function removeWrong(key, i){
+  var p = wrongPos(key, i);
+  if (p >= 0){
+    wrongList.splice(p, 1);
+    syncWrongMeta();
+  }
+}
+function syncWrongMeta(){
+  var cnt = document.querySelector(".wrongCount");
+  if (cnt) cnt.textContent = wrongList.length;
+  syncWrongClasses();
+}
+function syncWrongClasses(){
+  document.querySelectorAll(".q").forEach(function(q){
+    var book = q.getAttribute("data-book");
+    var idx = parseInt(q.getAttribute("data-idx"), 10);
+    q.classList.toggle("iswrong", wrongPos(book, idx) >= 0);
+  });
+  updateWrongEmptyMessages();
+}
+function updateWrongEmptyMessages(){
+  ["josh","ezra","neh","matt","eph","phil"].forEach(function(book){
+    var count = document.querySelectorAll("#" + book + " .q.iswrong").length;
+    var msg = document.querySelector("#" + book + " .wrongEmptyMsg");
+    if (msg) msg.classList.toggle("show", count === 0);
+  });
+}
+/* ---------- 오늘의 문제 ---------- */
+var TODAY_KEY = "bq_today_v2";
+var TODAY_COUNT = 10;
+var TODAY_WRONG_QUOTA = 5;
+
+function todayDateString(){
+  var d = new Date();
+  return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+}
+function todayDisplayDate(){
+  var d = new Date();
+  return (d.getMonth()+1) + "/" + d.getDate();
+}
+function updateTodayDateLabels(){
+  var label = todayDisplayDate();
+  document.querySelectorAll(".todayDate").forEach(function(el){ el.textContent = label; });
+}
+function seededShuffle(arr, seedStr){
+  var seed = 0;
+  for (var i = 0; i < seedStr.length; i++){ seed = (seed * 31 + seedStr.charCodeAt(i)) >>> 0; }
+  function rand(){
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 4294967296;
+  }
+  var a = arr.slice();
+  for (var j = a.length - 1; j > 0; j--){
+    var k = Math.floor(rand() * (j + 1));
+    var tmp = a[j]; a[j] = a[k]; a[k] = tmp;
+  }
+  return a;
+}
+function allItemKeys(){
+  var out = [];
+  for (var book in DATA){
+    for (var i = 0; i < DATA[book].length; i++){ out.push({k: book, i: i}); }
+  }
+  return out;
+}
+function sameItem(a, b){ return a.k === b.k && a.i === b.i; }
+
+var todayList = [];
+function computeTodayList(){
+  var today = todayDateString();
+  try{
+    var raw = localStorage.getItem(TODAY_KEY);
+    if (raw){
+      var saved = JSON.parse(raw);
+      if (saved.date === today && saved.items && saved.items.length){
+        todayList = saved.items;
+        return;
+      }
+    }
+  } catch(e){}
+
+  var picks = [];
+  for (var w = 0; w < wrongList.length && picks.length < TODAY_WRONG_QUOTA; w++){
+    picks.push({k: wrongList[w].k, i: wrongList[w].i});
+  }
+  var pool = seededShuffle(allItemKeys(), today);
+  for (var p = 0; p < pool.length && picks.length < TODAY_COUNT; p++){
+    var dup = false;
+    for (var m = 0; m < picks.length; m++){ if (sameItem(picks[m], pool[p])) { dup = true; break; } }
+    if (!dup) picks.push(pool[p]);
+  }
+  todayList = picks;
+  try{ localStorage.setItem(TODAY_KEY, JSON.stringify({date: today, items: todayList})); } catch(e){}
+}
+
+function renderToday(){
+  var box = document.querySelector("#today .list");
+  var html = "";
+  for (var n = 0; n < todayList.length; n++){
+    html += itemHTML(todayList[n].k, todayList[n].i, true);
+  }
+  box.innerHTML = html || '<p class="empty">오늘의 문제를 준비하고 있어요.</p>';
+  document.querySelector(".cnt2").textContent = todayList.length;
+  document.querySelector(".todaynum").textContent = todayList.length;
+  updateScore("today");
+  syncWrongClasses();
+}
+
+/* ---------- 어린이용 정답 효과 ---------- */
+var PRAISE = ["정답이에요! 최고예요! 🎉", "딩동댕! 잘했어요! ⭐", "우와, 맞았어요! 👏",
+              "정확해요! 대단해요! 🌟", "훌륭해요! 그대로예요! 🎈", "맞았어요! 똑똑이! 🦉"];
+var streakCount = 0;
+var streakTimer = null;
+function praise(){ return PRAISE[Math.floor(Math.random() * PRAISE.length)]; }
+
+function confetti(){
+  var box = document.getElementById("confetti");
+  if (!box) return;
+  var colors = ["#F7DC57","#2E7D5B","#0F4C5C","#E8A33D","#C0504D","#5B8DEF"];
+  for (var i = 0; i < 26; i++){
+    var p = document.createElement("div");
+    p.className = "cf";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.background = colors[i % colors.length];
+    p.style.animation = "fall " + (1.1 + Math.random() * 0.9) + "s ease-in " + (Math.random() * 0.25) + "s forwards";
+    box.appendChild(p);
+    (function(el){ setTimeout(function(){ el.remove(); }, 2600); })(p);
+  }
+}
+
+function bumpStreak(){
+  streakCount++;
+  if (streakCount >= 2){
+    var s = document.getElementById("streak");
+    s.textContent = "🔥 연속 " + streakCount + "개 정답! 계속 가자!";
+    s.classList.add("show");
+    if (streakTimer) clearTimeout(streakTimer);
+    streakTimer = setTimeout(function(){ s.classList.remove("show"); }, 2600);
+  }
+}
+function resetStreak(){
+  streakCount = 0;
+  var s = document.getElementById("streak");
+  if (s) s.classList.remove("show");
+}
+function onCorrect(){ bumpStreak(); confetti(); }
+function onWrong(){ resetStreak(); }
+
+/* ---------- 채점 ---------- */
+function verdictOf(node){
+  return node.parentNode.querySelector(".verdict");
+}
+function showVerdict(node, cls, msg, withRetry){
+  var v = verdictOf(node);
+  if (!v) return;
+  v.className = "verdict " + cls;
+  v.innerHTML = "<span>" + msg + "</span>" + (withRetry ? '<button type="button" class="retry">다시 풀기</button>' : "");
+  v.hidden = false;
+}
+function origin(node){
+  var q = node.closest(".q");
+  return {key: q.getAttribute("data-book"), idx: parseInt(q.getAttribute("data-idx"), 10), q: q};
+}
+function solved(node, right){
+  var o = origin(node);
+  if (right){ removeWrong(o.key, o.idx); } else { addWrong(o.key, o.idx); }
+}
+
+function gradeMC(ul, idx){
+  var correct = parseInt(ul.getAttribute("data-correct"), 10);
+  var opts = ul.querySelectorAll(".opt");
+  if (idx === null){
+    for (var i = 0; i < opts.length; i++){
+      opts[i].classList.remove("correct", "wrong", "miss");
+      if (i === correct) opts[i].classList.add("correct");
+    }
+    ul.classList.add("answered");
+    showVerdict(ul, "", "정답 " + ul.getAttribute("data-answer"), true);
+    return;
+  }
+  var tries = parseInt(ul.getAttribute("data-tries"), 10) + 1;
+  ul.setAttribute("data-tries", tries);
+  if (idx === correct){
+    opts[idx].classList.add("correct");
+    ul.classList.add("answered");
+    if (tries === 1){
+      showVerdict(ul, "ok", '<span class="big pop">' + praise() + '</span>', true);
+      solved(ul, true);
+    } else {
+      // 첫 시도가 틀렸으니 오답노트에는 이미 들어가 있음 -- 두 번째 성공은 축하만
+      showVerdict(ul, "ok", '<span class="big pop">두 번째에 성공! 잘했어요! 🎉</span>', true);
+    }
+    onCorrect();
+  } else if (tries === 1){
+    opts[idx].classList.add("miss");
+    showVerdict(ul, "warn", "아쉬워요! 한 번 더 골라볼까요? 💪", false);
+    // 첫 시도가 틀렸으므로 바로 오답노트에 추가
+    solved(ul, false);
+    onWrong();
+  } else {
+    opts[idx].classList.add("wrong");
+    opts[correct].classList.add("correct");
+    ul.classList.add("answered");
+    showVerdict(ul, "no", "정답은 " + ul.getAttribute("data-answer") + " 예요. 다음엔 맞힐 수 있어요! 🙂", true);
+    solved(ul, false);
+    onWrong();
+  }
+}
+function resetMC(ul){
+  var opts = ul.querySelectorAll(".opt");
+  for (var i = 0; i < opts.length; i++){
+    opts[i].classList.remove("correct", "wrong", "miss");
+  }
+  ul.classList.remove("answered");
+  ul.setAttribute("data-tries", "0");
+  var v = verdictOf(ul);
+  if (v){ v.hidden = true; v.innerHTML = ""; v.className = "verdict"; }
+}
+
+function gradeOX(box, val){
+  var ans = box.getAttribute("data-answer");
+  var btns = box.querySelectorAll(".ox");
+  for (var i = 0; i < btns.length; i++){
+    btns[i].classList.remove("correct", "wrong");
+    if (btns[i].getAttribute("data-val") === ans) btns[i].classList.add("correct");
+  }
+  box.classList.add("answered");
+  if (val === null){
+    showVerdict(box, "", "정답 " + ans, true);
+    return;
+  }
+  if (val !== ans){
+    for (var j = 0; j < btns.length; j++){
+      if (btns[j].getAttribute("data-val") === val) btns[j].classList.add("wrong");
+    }
+  }
+  var right = val === ans;
+  showVerdict(box, right ? "ok" : "no",
+    right ? '<span class="big pop">' + praise() + '</span>' : "정답은 " + ans + " 예요. 괜찮아요, 다시 해봐요! 🙂",
+    true);
+  solved(box, right);
+  if (right){ onCorrect(); } else { onWrong(); }
+}
+function resetOX(box){
+  var btns = box.querySelectorAll(".ox");
+  for (var i = 0; i < btns.length; i++){
+    btns[i].classList.remove("correct", "wrong");
+  }
+  box.classList.remove("answered");
+  var v = verdictOf(box);
+  if (v){ v.hidden = true; v.innerHTML = ""; v.className = "verdict"; }
+}
+
+function updateScore(key){
+  var el = document.querySelector('[data-score="' + key + '"]');
+  if (!el) return;
+  var sel = "#" + key + " ";
+  var total = document.querySelectorAll(sel + ".blank").length
+            + document.querySelectorAll(sel + ".choices").length
+            + document.querySelectorAll(sel + ".oxbox").length;
+  var done = document.querySelectorAll(sel + ".blank.shown").length
+           + document.querySelectorAll(sel + ".choices.answered").length
+           + document.querySelectorAll(sel + ".oxbox.answered").length;
+  el.textContent = done + " / " + total;
+}
+function updateAllScores(){
+  for (var key in DATA){ updateScore(key); }
+  updateScore("today");
+}
+
+document.addEventListener("click", function(e){
+  var modeBtn = e.target.closest("[data-mode]");
+  if (modeBtn){
+    var mode = modeBtn.getAttribute("data-mode");
+    document.querySelectorAll("[data-mode]").forEach(function(b){ b.classList.toggle("on", b === modeBtn); });
+    document.body.classList.toggle("recite-mode", mode === "recite");
+    document.body.classList.toggle("wrongonly-mode", mode === "wrongonly");
+    return;
+  }
+
+  var sectionRetryBtn = e.target.closest(".sectionRetry");
+  if (sectionRetryBtn){
+    var bookKey = sectionRetryBtn.getAttribute("data-book");
+    render(bookKey);
+    syncWrongClasses();
+    updateScore(bookKey);
+    saveState();
+    return;
+  }
+
+    var revealBtn = e.target.closest(".revealBtn");
+  if (revealBtn){
+    var card = revealBtn.closest(".recitecard");
+    card.querySelector(".reciteBlankStage").hidden = true;
+    card.querySelector(".reciteFilledStage").hidden = false;
+    card.querySelector(".selfcheck").hidden = false;
+    revealBtn.hidden = true;
+    card.querySelector(".reciteprompt").textContent = "🗣️ 잘 외웠는지 확인해 보세요.";
+    return;
+  }
+
+  var selfBtn = e.target.closest(".selfok, .selfno");
+  if (selfBtn){
+    var card2 = selfBtn.closest(".recitecard");
+    var good = selfBtn.classList.contains("selfok");
+    card2.querySelector(".selfcheck").hidden = true;
+    var res = card2.querySelector(".reciteResult");
+    res.hidden = false;
+    res.className = "reciteResult " + (good ? "ok" : "no");
+    res.innerHTML = good
+      ? '<span class="big pop">' + praise() + '</span><button type="button" class="retry reciteRetry">다시 외우기</button>'
+      : '<span>다시 외워봐요! 오답노트에 담아둘게요 🔁</span><button type="button" class="retry reciteRetry">다시 외우기</button>';
+    solved(selfBtn, good);
+    if (good){ onCorrect(); } else { onWrong(); }
+    saveState();
+    return;
+  }
+
+  var reciteRetry = e.target.closest(".reciteRetry");
+  if (reciteRetry){
+    resetReciteCard(reciteRetry.closest(".recitecard"));
+    return;
+  }
+
+  var tab = e.target.closest("[data-tab]");
+  if (tab){
+    var id = tab.getAttribute("data-tab");
+    var prevSection = document.querySelector("section.on");
+    var navs = document.querySelectorAll("[data-tab]");
+    for (var n = 0; n < navs.length; n++){
+      navs[n].classList.toggle("on", navs[n] === tab);
+    }
+    var secs = document.querySelectorAll("section");
+    for (var s = 0; s < secs.length; s++){
+      secs[s].classList.toggle("on", secs[s].id === id);
+    }
+    if (prevSection && prevSection.id !== id){
+      var leftBlanks = prevSection.querySelectorAll(".blank.shown");
+      for (var lb = 0; lb < leftBlanks.length; lb++){ leftBlanks[lb].classList.remove("shown"); }
+      var leftRecite = prevSection.querySelectorAll(".recitecard");
+      for (var lr = 0; lr < leftRecite.length; lr++){ resetReciteCard(leftRecite[lr]); }
+      updateScore(prevSection.id);
+    }
+    if (id === "today") renderToday();
+    window.scrollTo(0, 0);
+    return;
+  }
+
+  var refBtn = e.target.closest(".ref");
+  if (refBtn){
+    var q = refBtn.closest(".q");
+    var existing = q.querySelector(".versebox");
+    if (existing){ existing.remove(); return; }
+    var ref = refBtn.getAttribute("data-ref");
+    var text = (typeof VERSES !== "undefined" && VERSES[ref]) ? VERSES[ref] : "본문을 준비 중이에요.";
+    var box = document.createElement("div");
+    box.className = "versebox";
+    box.innerHTML = '<span class="vref">' + ref + " (개역개정)</span>" + text;
+    q.appendChild(box);
+    return;
+  }
+
+  var clear = e.target.closest("[data-clear]");
+  if (clear){
+    wrongList = [];
+    syncWrongMeta();
+    saveState();
+    return;
+  }
+
+  var retry = e.target.closest(".retry");
+  if (retry){
+    var qR = retry.closest(".q");
+    var ulR = qR.querySelector(".choices");
+    var oxR = qR.querySelector(".oxbox");
+    if (ulR) resetMC(ulR);
+    if (oxR) resetOX(oxR);
+    var secR = retry.closest("section");
+    if (secR) updateScore(secR.id);
+    saveState();
+    return;
+  }
+
+  var opt = e.target.closest(".opt");
+  if (opt){
+    var ul = opt.closest(".choices");
+    if (ul && !ul.classList.contains("answered")){
+      gradeMC(ul, parseInt(opt.getAttribute("data-idx"), 10));
+      var secO = opt.closest("section");
+      if (secO) updateScore(secO.id);
+      saveState();
+    }
+    return;
+  }
+
+  var ox = e.target.closest(".ox");
+  if (ox){
+    var box = ox.closest(".oxbox");
+    if (box && !box.classList.contains("answered")){
+      gradeOX(box, ox.getAttribute("data-val"));
+      var secX = ox.closest("section");
+      if (secX) updateScore(secX.id);
+      saveState();
+    }
+    return;
+  }
+
+  var b = e.target.closest(".blank");
+  if (b){
+    b.classList.toggle("shown");
+    var sec = b.closest("section");
+    if (sec) updateScore(sec.id);
+    return;
+  }
+});
+
+document.addEventListener("keydown", function(e){
+  if (e.key !== "Enter" && e.key !== " ") return;
+  var b = e.target.closest && e.target.closest(".blank");
+  if (b){
+    e.preventDefault();
+    b.classList.toggle("shown");
+    var sec = b.closest("section");
+    if (sec) updateScore(sec.id);
+  }
+});
+
+updateAllScores();
+loadState();
+computeTodayList();
+renderToday();
+updateTodayDateLabels();
+</script>
+</body>
+</html>
