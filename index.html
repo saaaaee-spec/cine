@@ -157,8 +157,13 @@
   body.recite-mode .versewrap .verse{display:none;}
   body.recite-mode .q:not(.reciteable){display:none;}
   body.wrongonly-mode .q:not(.iswrong){display:none;}
-  body.wrongonly-mode section{display:block!important;}
+  body.wrongonly-mode section:not(#wrongview){display:none!important;}
+  body.wrongonly-mode #wrongview{display:block!important;}
   body.wrongonly-mode .navMain, body.wrongonly-mode .navKicho{display:none;}
+  .wv-book{margin-bottom:1.5rem;}
+  .wv-book-title{font-size:1rem;font-weight:800;color:var(--tab);margin:.5rem 0 0;padding:.4rem 0;border-bottom:2px solid var(--tab);}
+  .wv-book-title.kicho{color:#6B4FA0;border-color:#6B4FA0;}
+  #wrongview .wv-kicho{border-left:3px solid #6B4FA0;padding-left:.5rem;}
   .wrongEmptyMsg{display:none;padding:2rem 0;text-align:center;color:var(--ink-soft);font-size:.9rem;line-height:1.7;}
   body.wrongonly-mode .wrongEmptyMsg.show{display:block;}
   .modebtn[data-mode="wrongonly"]{border-color:var(--no);color:var(--no);}
@@ -396,6 +401,8 @@
   <p class="wrongEmptyMsg">아직 이 책에서 틀린 문제가 없어요! 👏</p>
   <div class="list"></div>
 </section>
+
+<section id="wrongview" style="display:none"></section>
 
 <section id="today">
   <div class="tools">
@@ -1246,14 +1253,18 @@ function itemHTML(key, i, showBook){
       html += '</div></div>';
       html += '</div>';
       // 기출1 일반 모드용 ✅/❌ (암송모드에서는 CSS로 숨김)
+      if (it.a && !it.t.includes("[[")) {
+        html += '<p class="answer">' + buildVerse("[[" + it.a + "]]") + '</p>';
+      }
       html += '<div class="plainbox" data-answered="0"><div class="selfcheck">';
       html += '<button type="button" class="selfok">✅ 맞았어요</button>';
       html += '<button type="button" class="selfno">❌ 틀렸어요</button>';
       html += '</div></div><p class="verdict" hidden></p>';
     } else {
-      // t 있지만 빈칸 없는 인용문 형태: 본문 표시 (OX면 selfcheck 없음, 일반이면 ✅/❌)
+      // t 있지만 빈칸 없는 인용문 형태: 본문 표시 (OX면 selfcheck 없음, 일반이면 정답+✅/❌)
       html += '<p class="verse' + (it.quote ? " quote" : "") + '">' + buildVerse(it.t) + '</p>';
       if (kind !== "ox") {
+        if (it.a) html += '<p class="answer">' + buildVerse("[[" + it.a + "]]") + '</p>';
         html += '<div class="plainbox" data-answered="0"><div class="selfcheck">';
         html += '<button type="button" class="selfok">✅ 맞았어요</button>';
         html += '<button type="button" class="selfno">❌ 틀렸어요</button>';
@@ -1334,6 +1345,50 @@ function syncWrongClasses(){
     q.classList.toggle("iswrong", wrongPos(book, idx) >= 0);
   });
   updateWrongEmptyMessages();
+}
+function renderWrongView(){
+  var container = document.getElementById("wrongview");
+  if (!container) return;
+  container.innerHTML = "";
+  var BOOK_PAIRS = [
+    ["josh","kjosh","여호수아"],
+    ["ezra","kezra","에스라"],
+    ["neh","kneh","느헤미야"],
+    ["matt","kmatt","마태복음"],
+    ["eph","keph","에베소서"],
+    ["phil","kphil","빌립보서"]
+  ];
+  var hasAny = false;
+  BOOK_PAIRS.forEach(function(pair){
+    var normalKey=pair[0], kichoKey=pair[1], label=pair[2];
+    var normalQs = document.querySelectorAll("#"+normalKey+" .q.iswrong");
+    var kichoQs  = document.querySelectorAll("#"+kichoKey+" .q.iswrong");
+    if (normalQs.length===0 && kichoQs.length===0) return;
+    hasAny = true;
+    var div = document.createElement("div");
+    div.className = "wv-book";
+    // 통합 헤더
+    var title = document.createElement("p");
+    title.className = "wv-book-title";
+    var totalLabel = label + " 오답 " + (normalQs.length+kichoQs.length) + "문항";
+    if (normalQs.length>0 && kichoQs.length>0){
+      totalLabel += " (기출1: "+normalQs.length+", 기출2: "+kichoQs.length+")";
+    } else if (kichoQs.length>0){
+      totalLabel += " (기출2)";
+    }
+    title.textContent = totalLabel;
+    div.appendChild(title);
+    normalQs.forEach(function(q){ div.appendChild(q.cloneNode(true)); });
+    kichoQs.forEach(function(q){
+      var clone = q.cloneNode(true);
+      clone.classList.add("wv-kicho");
+      div.appendChild(clone);
+    });
+    container.appendChild(div);
+  });
+  if (!hasAny){
+    container.innerHTML = '<p class="wrongEmptyMsg show">아직 틀린 문제가 없어요! 👏</p>';
+  }
 }
 function updateWrongEmptyMessages(){
   ["josh","ezra","neh","matt","eph","phil","kjosh","kezra","kneh","kmatt","keph","kphil"].forEach(function(book){
@@ -1460,7 +1515,27 @@ function resetStreak(){
   var s = document.getElementById("streak");
   if (s) s.classList.remove("show");
 }
-function onCorrect(){ bumpStreak(); confetti(); }
+function playCorrectSound(){
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    var notes = [523.25, 659.25, 783.99, 1046.5]; // C5 E5 G5 C6
+    notes.forEach(function(freq, i){
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      var t = ctx.currentTime + i * 0.1;
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.25, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+      osc.start(t);
+      osc.stop(t + 0.25);
+    });
+  } catch(e){}
+}
+function onCorrect(){ bumpStreak(); confetti(); playCorrectSound(); }
 function onWrong(){ resetStreak(); }
 
 /* ---------- 채점 ---------- */
@@ -1611,6 +1686,7 @@ document.addEventListener("click", function(e){
     document.querySelectorAll("[data-mode]").forEach(function(b){ b.classList.toggle("on", b === modeBtn); });
     document.body.classList.toggle("recite-mode", mode === "recite");
     document.body.classList.toggle("wrongonly-mode", mode === "wrongonly");
+    if (mode === "wrongonly") renderWrongView();
     var enteringKicho = mode === "kicho";
     // 오답노트 모드에서도 현재 탭 유지(kicho/normal 둘 다)
     document.body.classList.toggle("kicho-mode", enteringKicho);
