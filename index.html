@@ -1755,14 +1755,13 @@ document.addEventListener("click", function(e){
     document.body.classList.toggle("wrongonly-mode", mode === "wrongonly");
     if (mode === "wrongonly") renderWrongView();
     var enteringKicho = mode === "kicho";
-    // 오답노트 모드에서도 현재 탭 유지(kicho/normal 둘 다)
     document.body.classList.toggle("kicho-mode", enteringKicho);
-    var currentOn = document.querySelector("section.on");
-    var isCurrentKicho = currentOn && KICHO_TABS.indexOf(currentOn.id) >= 0;
-    if (enteringKicho && !isCurrentKicho){
-      switchTab("kjosh");
-    } else if (!enteringKicho && isCurrentKicho){
-      switchTab("josh");
+    if (enteringKicho){
+      switchTab("today2");
+    } else if (mode === "fill"){
+      switchTab("today");
+    } else if (mode === "recite"){
+      switchTab("today");
     }
     window.scrollTo(0, 0);
     return;
