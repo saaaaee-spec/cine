@@ -42,6 +42,8 @@
   nav button.on{background:var(--tab);color:var(--paper);}
   nav button.todaytab{border-color:#B0791F;color:#8A5A00;background:#FFF3D6;}
   nav button.todaytab.on{background:#B0791F;color:#fff;}
+  nav button.kicho2today{border-color:#6B4FA0;color:#6B4FA0;background:#F3EEFA;}
+  nav button.kicho2today.on{background:#6B4FA0;color:#fff;}
   .navKicho button{border-color:#6B4FA0;color:#6B4FA0;}
   .navKicho button.on{background:#6B4FA0;color:var(--paper);}
   .kichoBook .count{color:#6B4FA0;}
@@ -261,7 +263,8 @@
 </header>
 
 <nav class="navMain">
-  <button type="button" data-tab="today" class="todaytab">🌞 <span class="todayDate"></span> 오늘의 문제 <span class="cnt2">0</span></button>
+  <button type="button" data-tab="today" class="todaytab">🌞 <span class="todayDate"></span> 기출1 <span class="cnt2">0</span></button>
+  <button type="button" data-tab="today2" class="todaytab kicho2today">📝 <span class="todayDate"></span> 기출2 <span class="cnt2b">0</span></button>
   <button type="button" data-tab="josh" class="on">여호수아</button>
   <button type="button" data-tab="ezra">에스라</button>
   <button type="button" data-tab="neh">느헤미야</button>
@@ -406,8 +409,16 @@
 
 <section id="today">
   <div class="tools">
-    <span class="count">🌞 <span class="todayDate"></span> 오늘의 문제 <b><span class="todaynum">0</span>문항</b></span>
+    <span class="count">🌞 <span class="todayDate"></span> 기출1 오늘의 문제 <b><span class="todaynum">0</span>문항</b></span>
     <span class="score" data-score="today">0 / 0</span>
+  </div>
+  <div class="list"></div>
+</section>
+
+<section id="today2">
+  <div class="tools">
+    <span class="count" style="color:#6B4FA0">📝 <span class="todayDate"></span> 기출2 오늘의 문제 <b><span class="todaynum2">0</span>문항</b></span>
+    <span class="score" data-score="today2">0 / 0</span>
   </div>
   <div class="list"></div>
 </section>
@@ -1398,9 +1409,11 @@ function updateWrongEmptyMessages(){
   });
 }
 /* ---------- 오늘의 문제 ---------- */
-var TODAY_KEY = "bq_today_v2";
-var TODAY_COUNT = 10;
-var TODAY_WRONG_QUOTA = 5;
+var TODAY_KEY = "bq_today_v3";
+var TODAY_KEY2 = "bq_today2_v3";
+var TODAY_COUNT = 50;
+var TODAY_WRONG_QUOTA = 10;
+var KICHO_KEYS = ["kjosh","kezra","kneh","kmatt","keph","kphil"];
 
 function todayDateString(){
   var d = new Date();
@@ -1431,8 +1444,17 @@ function seededShuffle(arr, seedStr){
 function allItemKeys(){
   var out = [];
   for (var book in DATA){
-    for (var i = 0; i < DATA[book].length; i++){ out.push({k: book, i: i}); }
+    if (KICHO_KEYS.indexOf(book) < 0){
+      for (var i = 0; i < DATA[book].length; i++){ out.push({k: book, i: i}); }
+    }
   }
+  return out;
+}
+function allKichoKeys(){
+  var out = [];
+  KICHO_KEYS.forEach(function(book){
+    for (var i = 0; i < DATA[book].length; i++){ out.push({k: book, i: i}); }
+  });
   return out;
 }
 function sameItem(a, b){ return a.k === b.k && a.i === b.i; }
@@ -1453,7 +1475,7 @@ function computeTodayList(){
 
   var picks = [];
   for (var w = 0; w < wrongList.length && picks.length < TODAY_WRONG_QUOTA; w++){
-    picks.push({k: wrongList[w].k, i: wrongList[w].i});
+    if (KICHO_KEYS.indexOf(wrongList[w].k) < 0) picks.push({k: wrongList[w].k, i: wrongList[w].i});
   }
   var pool = seededShuffle(allItemKeys(), today);
   for (var p = 0; p < pool.length && picks.length < TODAY_COUNT; p++){
@@ -1463,6 +1485,34 @@ function computeTodayList(){
   }
   todayList = picks;
   try{ localStorage.setItem(TODAY_KEY, JSON.stringify({date: today, items: todayList})); } catch(e){}
+}
+
+var todayList2 = [];
+function computeTodayList2(){
+  var today = todayDateString();
+  try{
+    var raw = localStorage.getItem(TODAY_KEY2);
+    if (raw){
+      var saved = JSON.parse(raw);
+      if (saved.date === today && saved.items && saved.items.length){
+        todayList2 = saved.items;
+        return;
+      }
+    }
+  } catch(e){}
+
+  var picks = [];
+  for (var w = 0; w < wrongList.length && picks.length < TODAY_WRONG_QUOTA; w++){
+    if (KICHO_KEYS.indexOf(wrongList[w].k) >= 0) picks.push({k: wrongList[w].k, i: wrongList[w].i});
+  }
+  var pool = seededShuffle(allKichoKeys(), today + "k");
+  for (var p = 0; p < pool.length && picks.length < TODAY_COUNT; p++){
+    var dup = false;
+    for (var m = 0; m < picks.length; m++){ if (sameItem(picks[m], pool[p])) { dup = true; break; } }
+    if (!dup) picks.push(pool[p]);
+  }
+  todayList2 = picks;
+  try{ localStorage.setItem(TODAY_KEY2, JSON.stringify({date: today, items: todayList2})); } catch(e){}
 }
 
 function renderToday(){
@@ -1475,6 +1525,21 @@ function renderToday(){
   document.querySelector(".cnt2").textContent = todayList.length;
   document.querySelector(".todaynum").textContent = todayList.length;
   updateScore("today");
+  syncWrongClasses();
+}
+
+function renderToday2(){
+  var box = document.querySelector("#today2 .list");
+  var html = "";
+  for (var n = 0; n < todayList2.length; n++){
+    html += itemHTML(todayList2[n].k, todayList2[n].i, true);
+  }
+  box.innerHTML = html || '<p class="empty">오늘의 기출 문제를 준비하고 있어요.</p>';
+  var cnt = document.querySelector(".cnt2b");
+  if (cnt) cnt.textContent = todayList2.length;
+  var num = document.querySelector(".todaynum2");
+  if (num) num.textContent = todayList2.length;
+  updateScore("today2");
   syncWrongClasses();
 }
 
@@ -1658,6 +1723,7 @@ function updateScore(key){
 function updateAllScores(){
   for (var key in DATA){ updateScore(key); }
   updateScore("today");
+  updateScore("today2");
 }
 
 function switchTab(id){
@@ -1676,6 +1742,7 @@ function switchTab(id){
     updateScore(prevSection.id);
   }
   if (id === "today") renderToday();
+  if (id === "today2") renderToday2();
 }
 var KICHO_TABS = ["kjosh","kezra","kneh","kmatt","keph","kphil"];
 
@@ -1864,6 +1931,8 @@ updateAllScores();
 loadState();
 computeTodayList();
 renderToday();
+computeTodayList2();
+renderToday2();
 updateTodayDateLabels();
 </script>
 </body>
