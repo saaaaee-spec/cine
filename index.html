@@ -157,6 +157,8 @@
   body.recite-mode .versewrap .verse{display:none;}
   body.recite-mode .q:not(.reciteable){display:none;}
   body.wrongonly-mode .q:not(.iswrong){display:none;}
+  body.wrongonly-mode section{display:block!important;}
+  body.wrongonly-mode .navMain, body.wrongonly-mode .navKicho{display:none;}
   .wrongEmptyMsg{display:none;padding:2rem 0;text-align:center;color:var(--ink-soft);font-size:.9rem;line-height:1.7;}
   body.wrongonly-mode .wrongEmptyMsg.show{display:block;}
   .modebtn[data-mode="wrongonly"]{border-color:var(--no);color:var(--no);}
@@ -173,6 +175,7 @@
   body.wrongonly-mode .clearWrongBtn{display:inline-block;}
   .clearWrongBtn:active{background:#F3EFE0;}
   body.recite-mode .versewrap .recite{display:block;}
+  body.recite-mode .reciteable .plainbox{display:none;}
   .recitecard{padding:.75rem .8rem;background:#F2F6EF;border:1px dashed #8FAE7B;border-radius:10px;text-align:center;}
   .reciteprompt{margin:0 0 .5rem;font-size:.92rem;font-weight:700;color:#3E5C33;}
   .revealBtn{font:inherit;font-size:.86rem;font-weight:700;padding:.5rem .9rem;background:#5B8A3F;color:#fff;border:none;border-radius:999px;cursor:pointer;}
@@ -1142,9 +1145,7 @@ function loadState(){
         if(!pbox) return;
         var val=st.plain[key];
         pbox.setAttribute('data-answered', val);
-        pbox.querySelector('.answer').hidden = false;
         pbox.querySelector('.selfcheck').hidden = true;
-        pbox.querySelector('.revealAns').hidden = true;
         var vp=q.querySelector('.verdict');
         if(vp){
           vp.className='verdict '+(val==='ok'?'correct':'wrong');
@@ -1229,6 +1230,7 @@ function itemHTML(key, i, showBook){
   html += '<p class="ask">' + it.q + '</p>';
   if (it.t){
     if (canRecite){
+      // 빈칸형: 블러 정답 표시 + 암송카드(암송모드용) + ✅/❌ 버튼
       html += '<div class="versewrap">';
       html += '<p class="verse' + (it.quote ? " quote" : "") + '">' + buildVerse(it.t) + '</p>';
       html += '<div class="recite"><div class="recitecard">';
@@ -1243,8 +1245,20 @@ function itemHTML(key, i, showBook){
       html += '<p class="reciteResult" hidden></p>';
       html += '</div></div>';
       html += '</div>';
+      // 기출1 일반 모드용 ✅/❌ (암송모드에서는 CSS로 숨김)
+      html += '<div class="plainbox" data-answered="0"><div class="selfcheck">';
+      html += '<button type="button" class="selfok">✅ 맞았어요</button>';
+      html += '<button type="button" class="selfno">❌ 틀렸어요</button>';
+      html += '</div></div><p class="verdict" hidden></p>';
     } else {
+      // t 있지만 빈칸 없는 인용문 형태: 본문 표시 (OX면 selfcheck 없음, 일반이면 ✅/❌)
       html += '<p class="verse' + (it.quote ? " quote" : "") + '">' + buildVerse(it.t) + '</p>';
+      if (kind !== "ox") {
+        html += '<div class="plainbox" data-answered="0"><div class="selfcheck">';
+        html += '<button type="button" class="selfok">✅ 맞았어요</button>';
+        html += '<button type="button" class="selfno">❌ 틀렸어요</button>';
+        html += '</div></div><p class="verdict" hidden></p>';
+      }
     }
   }
   if (kind === "mc"){
@@ -1260,11 +1274,11 @@ function itemHTML(key, i, showBook){
     html += '<button type="button" class="ox" data-val="X">X</button>';
     html += "</div>";
     html += '<p class="verdict" hidden></p>';
-  } else if (it.a){
+  } else if (it.a && !it.t){
+    // 주관식 서술형: 정답 블러 표시 + ✅/❌
+    html += '<p class="answer">' + buildVerse("[[" + it.a + "]]") + '</p>';
     html += '<div class="plainbox" data-answered="0">';
-    html += '<button type="button" class="revealAns">정답 보기</button>';
-    html += '<p class="answer" hidden>' + buildVerse("[[" + it.a + "]]") + "</p>";
-    html += '<div class="selfcheck" hidden>';
+    html += '<div class="selfcheck">';
     html += '<button type="button" class="selfok">✅ 맞았어요</button>';
     html += '<button type="button" class="selfno">❌ 틀렸어요</button>';
     html += '</div>';
@@ -1598,6 +1612,7 @@ document.addEventListener("click", function(e){
     document.body.classList.toggle("recite-mode", mode === "recite");
     document.body.classList.toggle("wrongonly-mode", mode === "wrongonly");
     var enteringKicho = mode === "kicho";
+    // 오답노트 모드에서도 현재 탭 유지(kicho/normal 둘 다)
     document.body.classList.toggle("kicho-mode", enteringKicho);
     var currentOn = document.querySelector("section.on");
     var isCurrentKicho = currentOn && KICHO_TABS.indexOf(currentOn.id) >= 0;
@@ -1628,15 +1643,6 @@ document.addEventListener("click", function(e){
     card.querySelector(".selfcheck").hidden = false;
     revealBtn.hidden = true;
     card.querySelector(".reciteprompt").textContent = "🗣️ 잘 외웠는지 확인해 보세요.";
-    return;
-  }
-
-  var revealAns = e.target.closest(".revealAns");
-  if (revealAns){
-    var pbox = revealAns.closest(".plainbox");
-    pbox.querySelector(".answer").hidden = false;
-    pbox.querySelector(".selfcheck").hidden = false;
-    revealAns.hidden = true;
     return;
   }
 
@@ -1685,9 +1691,7 @@ document.addEventListener("click", function(e){
     var pbox2 = qEl.querySelector(".plainbox");
     if (!pbox2) return;
     pbox2.setAttribute("data-answered","0");
-    pbox2.querySelector(".answer").hidden = true;
-    pbox2.querySelector(".selfcheck").hidden = true;
-    pbox2.querySelector(".revealAns").hidden = false;
+    pbox2.querySelector(".selfcheck").hidden = false;
     var vp2 = qEl.querySelector(".verdict");
     if (vp2){ vp2.hidden = true; vp2.innerHTML = ""; vp2.className = "verdict"; }
     saveState();
