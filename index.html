@@ -177,6 +177,9 @@
   .reciteprompt{margin:0 0 .5rem;font-size:.92rem;font-weight:700;color:#3E5C33;}
   .revealBtn{font:inherit;font-size:.86rem;font-weight:700;padding:.5rem .9rem;background:#5B8A3F;color:#fff;border:none;border-radius:999px;cursor:pointer;}
   .revealBtn:active{background:#4A7332;}
+  .revealAns{font:inherit;font-size:.86rem;font-weight:700;padding:.5rem .9rem;background:#5B8A3F;color:#fff;border:none;border-radius:999px;cursor:pointer;margin-bottom:.5rem;}
+  .revealAns:active{background:#4A7332;}
+  .plainbox .answer{margin:.5rem 0 .25rem;}
   .reciteVerse{margin:.7rem 0 0;font-size:1rem;line-height:1.8;text-align:left;word-break:keep-all;color:var(--ink);}
   .reciteVerse.quote::before{content:"“";}
   .reciteVerse.quote::after{content:"”";}
@@ -561,7 +564,7 @@ var DATA = {
  {ref:"느 5:13", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"내가 [[옷자락]]을 털며 이르기를 이 말대로 행하지 아니하는 자는 모두 하나님이 또한 이와 같이 그 집과 산업에서 털어 버리실지니 그는 곧 이렇게 털려서 빈손이 될지로다"},
  {ref:"느 5:14~16", q:"느헤미야가 유다 땅에 십이 년 동안 총독으로 있으면서 하지 않은 것은 무엇입니까?", choices:["① 나와 내 형제들이 총독의 녹을 먹지 않았다.","② 양식과 포도주와 또 은 사십 세겔을 빼앗지 않았다.","③ 종자들이 백성을 압제하지 않았다.","④ 땅을 사지 않았고 모든 종자들도 모여서 일을 하지 않았다."], a:"④", note:"땅을 사지 않은 것은 맞지만, 종자들은 모두 모여서 일을 했어요. 그래서 ④는 사실과 달라 답이 됩니다."},
  {ref:"느 6:1", q:"원수들이 소식을 들었을 때는 느헤미야가 아직 성문에 이것을 달지 못한 때였습니다. 이것은 무엇입니까?", a:"문짝"},
- {ref:"느 6:2", q:"산발랏과 게셈이 느헤미야에게 사람을 보내어 오노 평지에서 만나자고 한 이유는?", choices:["① 화해하고 성벽재건을 돕기 위해.","② 느헤미야를 죽이기 위해.","③ 성벽재건에 들어가는 물품을 팔기 위해.","④ 느헤미야에게 성벽재건을 포기하도록 권면하기 위해."], a:"② 느헤미야를 죽이기 위해"},
+ {ref:"느 6:2", q:"산발랏과 게셈이 느헤미야에게 사람을 보내어 오노 평지에서 만나자고 한 이유는?", choices:["① 화해하고 성벽재건을 돕기 위해.","② 느헤미야를 죽이기 위해.","③ 성벽재건에 들어가는 물품을 팔기 위해.","④ 느헤미야에게 성벽재건을 포기하도록 권면하기 위해."], a:"② 느헤미야를 죽이기 위해."},
  {ref:"느 6:2~13", q:"산발랏의 무리들이 느헤미야를 협박하고자 쓴 방법이 <b>아닌</b> 것은?", choices:["① 살인을 시도함","② 봉하지 않은 편지를 들려 보냄","③ 예루살렘 성전에 불을 지름","④ 뇌물을 주어 거짓 예언을 하게 함"], a:"③"},
  {ref:"느 6:18", q:"다음 ( ) 안에 들어갈 공통된 말은?", quote:true, t:"[[도비야]]는 아라의 아들 스가냐의 사위가 되었고 [[도비야]]의 아들 여호하난도 베레갸의 아들 므술람의 딸을 아내로 맞이하였으므로 유다에서 그와 동맹한 자가 많음이라"},
  {ref:"느 7:2", q:"예루살렘 성이 건축된 후 예루살렘을 다스렸던 사람은 느헤미야의 아우 하나니와 영문의 관원인 이 사람입니다. 이 사람은 누구입니까?", a:"하나냐"},
@@ -640,7 +643,7 @@ var DATA = {
  {ref:"마 15:1", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"[[입]]으로 들어가는 것이 사람을 더럽게 하는 것이 아니라 [[입]]에서 나오는 그것이 사람을 더럽게 하는 것이니라", note:"이 구절은 실제로는 마태복음 15:11이에요. 문제지의 장절 표기와 다릅니다."},
  {ref:"마 15:24", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 대답하여 이르시되 나는 이스라엘 집의 [[잃어버린 양]] 외에는 다른데로 보내심을 받지 아니하였노라 하시니"},
  {ref:"마 16:13", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 [[빌립보 가이사랴]] 지방에 이르러 제자들에게 물어 이르시되 사람들이 인자를 누구라 하느냐"},
- {ref:"마 16:22", q:"예수님이 처음으로 수난을 예고했을 때 베드로는 어떻게 행동했습니까?", choices:["① 예수님을 붙들고 항변했다.","② 예수님에게 순종했다.","③ 예수님이 그리스도며 하나님의 아들이라고 고백했다.","④ 예수님의 말씀을 듣고 침묵했다."], a:"① 예수님을 붙들고 항변했다"},
+ {ref:"마 16:22", q:"예수님이 처음으로 수난을 예고했을 때 베드로는 어떻게 행동했습니까?", choices:["① 예수님을 붙들고 항변했다.","② 예수님에게 순종했다.","③ 예수님이 그리스도며 하나님의 아들이라고 고백했다.","④ 예수님의 말씀을 듣고 침묵했다."], a:"① 예수님을 붙들고 항변했다."},
  {ref:"마 17:1", q:"예수님이 높은 산에 올라가셔서 변모하신 현장에 함께 있지 <b>않았던</b> 사람은 누구입니까?", choices:["① 야고보","② 베드로","③ 안드레","④ 요한"], a:"③ 안드레"},
  {ref:"마 17:4", q:"베드로가 짓겠다고 한 초막 셋은 누구를 위하여 짓겠다고 하였습니까?", a:"주님, 모세, 엘리야"},
  {ref:"마 17:27", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그러나 우리가 그들이 실족하지 않게 하기 위해서 네가 바다에 가서 낚시를 던져 먼저 오르는 고기를 가져 입을 열면 돈 ( )을 얻을 것이니 가져다가 나와 너를 위하여 주라 하시니라.", choices:["① 반 세겔","② 한 세겔","③ 두 세겔","④ 한 렙돈"], a:"② 한 세겔"},
@@ -657,7 +660,7 @@ var DATA = {
  {ref:"마 21:42", q:"다음은 포도원 농부의 비유입니다. ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 이르시되 너희가 성경에 건축자들이 버린 돌이 모퉁이의 [[머릿돌]]이 되었나니 이것은 주로 말미암아 된 것이요 우리 눈에 기이하도다 함을 읽어 본 일이 없느냐"},
  {ref:"마 22:31~32", q:"다음 ( ) 안에 들어갈 말은 무엇과 무엇입니까?", quote:true, t:"죽은 자의 부활을 논할진대 하나님이 너희에게 말씀하신 바 나는 아브라함의 하나님이요 이삭의 하나님이요 야곱의 하나님이로라 하신 것을 읽어보지 못하였느냐 하나님은 [[죽은 자]]의 하나님이 아니요 [[산 자]]의 하나님이시니라 하시니"},
  {ref:"마 22:37", q:"다음 ( ) 안에 들어갈 말은 무엇인지 모두 쓰세요.", quote:true, t:"예수께서 이르시되 네 [[마음]]을 다하고 [[목숨]]을 다하고 [[뜻]]을 다하여 주 너의 하나님을 [[사랑]]하라 하셨으니"},
- {ref:"마 24:2", q:"예수님은 성전 건물을 보시며 무엇이라 말씀하셨습니까?", choices:["① 이 터에 아무것도 남지 않고 다 무너뜨려지리라.","② 돌들이 모두 다 무너뜨려지리라.","③ 이 건물이 다 무너뜨려지리라.","④ 돌 하나도 돌 위에 남지 않고 다 무너뜨려지리라."], a:"④ 돌 하나도 돌 위에 남지 않고 다 무너뜨려지리라"},
+ {ref:"마 24:2", q:"예수님은 성전 건물을 보시며 무엇이라 말씀하셨습니까?", choices:["① 이 터에 아무것도 남지 않고 다 무너뜨려지리라.","② 돌들이 모두 다 무너뜨려지리라.","③ 이 건물이 다 무너뜨려지리라.","④ 돌 하나도 돌 위에 남지 않고 다 무너뜨려지리라."], a:"④ 돌 하나도 돌 위에 남지 않고 다 무너뜨려지리라."},
  {ref:"마 24:4~5", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"예수께서 대답하여 이르시되 너희가 사람의 [[미혹]]을 받지 않도록 주의하라 많은 사람이 내 이름으로 와서 이르되 나는 그리스도라 하여 많은 사람을 [[미혹]]하리라"},
  {ref:"마 24:15", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"그러므로 너희가 선지자 ( )이 말한 바 멸망의 가증한 것이 거룩한 곳에 선 것을 보거든 [읽는 자는 깨달을진저] 그 때에 유대에 있는 자들은 산으로 도망할지어다.", choices:["① 이사야","② 예레미야","③ 에스겔","④ 다니엘"], a:"④ 다니엘"},
  {ref:"마 24:30", q:"다음 ( ) 안에 공통으로 들어갈 말은?", quote:true, t:"그 때에 [[인자]]의 징조가 하늘에서 보이겠고 그 때에 땅의 모든 족속들이 통곡하며 그들이 [[인자]]가 구름을 타고 능력과 큰 영광으로 오는 것을 보리라"},
@@ -886,9 +889,9 @@ var DATA = {
 "kmatt": [
  {ref:"마태복음", q:"마태복음의 저자는 누구인가?", a:"마태"},
  {ref:"마 1:17", q:"아브라함과 다윗의 자손 예수 그리스도의 계보는 아브라함부터 다윗까지 다 열네 대요, 다윗부터 바벨론으로 사로잡혀 갈 때까지 열네 대요, 바벨론으로 사로잡혀 간 후부터 그리스도까지 각각 몇 대인가?", a:"열네 대"},
- {ref:"마 1:1~16", q:"다음 중에서 계보 순서가 맞는 것은?", choices:["① 아세, 다윗, 솔로몬, 르호보암","② 르호보암, 아세, 다윗, 솔로몬","③ 다윗, 솔로몬, 아세, 르호보암","④ 르호보암, 다윗, 아세, 솔로몬"], a:"① 아세, 다윗, 솔로몬, 르호보암"},
+ {ref:"마 1:1~16", q:"다음 중에서 계보 순서가 맞는 것은?", choices:["① 이새, 다윗, 솔로몬, 르호보암","② 르호보암, 이새, 다윗, 솔로몬","③ 다윗, 솔로몬, 이새, 르호보암","④ 르호보암, 다윗, 이새, 솔로몬"], a:"① 이새, 다윗, 솔로몬, 르호보암"},
  {ref:"마 1:21", q:"O·X 문제입니다.", quote:true, t:"아들을 낳으리니 이름을 그리스도라 하라 이는 그가 자기 백성을 죄에서 구원할 자이심이라.", a:"X", note:"개역개정 본문은 '이름을 예수라 하라'예요. '그리스도'로 바뀌어 있어서 X입니다."},
- {ref:"마 1:23", q:"O·X 문제입니다.", quote:true, t:"남자 처녀가 잉태하여 아들을 낳을 것이요 그의 이름은 임마누엘이라 하리니 이를 번역한즉 하나님이 우리와 함께 계시다 함이라.", a:"X", note:"'보라 처녀가 잉태하여'가 맞는 본문이에요. '남자 처녀'라는 표현이 원문에 없어서 X입니다."},
+ {ref:"마 1:23", q:"O·X 문제입니다.", quote:true, t:"보라 처녀가 잉태하여 아들을 낳을 것이요 그의 이름을 예수라 하라 하셨으니 이를 번역한즉 하나님이 우리와 함께 계시다 함이라.", a:"X", note:"'이름을 임마누엘이라 하리라'가 맞는 본문이에요. '예수라'로 바뀌어 있어서 X입니다."},
  {ref:"마 2:6", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"또 유대 땅 [[베들레헴]]아 너는 유대 고을 중에서 가장 작지 아니하도다 네게서 한 다스리는 자가 나와서 내 백성 [[이스라엘]]의 목자가 되리라"},
  {ref:"마 2:11", q:"동방 박사들이 마리아와 함께 있는 아기 예수를 보고 엎드려 경배하고, 보배합을 열어 예물을 드렸다. 무엇을 드렸는가?", a:"황금, 유향, 몰약"},
  {ref:"마 2:12", q:"O·X 문제입니다.", quote:true, t:"주의 박사들은 아기 예수를 만나 경배하고, 꿈에 헤롯 왕에게로 돌아가지 말라 지시하심을 받아 다른 길로 고국에 돌아갔다.", a:"O"},
@@ -901,7 +904,7 @@ var DATA = {
  {ref:"마 3:9", q:"O·X 문제입니다.", quote:true, t:"속으로 아브라함이 우리 조상이라고 생각하지 말라. 내가 너희에게 이르노니 하나님이 능히 이 돌들로도 아브라함의 자손이 되게 하리라. 이 말씀이 상징하는 의미는 하나님의 구원은 민족이나 혈통에 상관없이 돌 같은 마음들을 회개하게 하여 자녀로 삼으신다는 것이다.", a:"O"},
  {ref:"마 3:16", q:"O·X 문제입니다.", quote:true, t:"예수님은 세례 요한으로부터 세례를 받지 않으셨다.", a:"X"},
  {ref:"마 3:16~17", q:"다음 ( ) 안에 들어갈 말은?", quote:true, t:"예수께서 세례를 받으시고 곧 물에서 올라오실새 하늘이 열리고 하나님의 성령이 [[비둘기]] 같이 내려 자기 위에 임하심을 보시더니 하늘로부터 소리가 있어 말씀하시되 이는 내 사랑하는 [[아들]]이요 내 기뻐하는 자라 하시니라."},
- {ref:"마 4:4~10", q:"예수님께서 하신 말씀이다. 어떠한 때, 누구에게 하신 말씀인가?", a:"광야에서 마귀에게 시험 받을 때", note:"'사람이 떡으로만 살 것이 아니요', '주 너의 하나님을 시험하지 말라', '사탄아 물러가라'는 세 말씀 모두 광야에서 마귀의 시험을 받으실 때 하신 말씀이에요."},
+ {ref:"마 4:4~10", q:"예수님께서 하신 말씀이다. 어떠한 때, 누구에게 하신 말씀인가?", t:"\"기록되었으되 사람이 떡으로만 살 것이 아니요 하나님의 입으로부터 나오는 모든 말씀으로 살 것이라 하였느니라.\" \"또 기록되었으되 주 너의 하나님을 시험하지 말라 하였느니라.\" \"사탄아 물러가라 기록되었으되 주 너의 하나님께 경배하고 다만 그를 섬기라 하였느니라.\"", a:"광야에서 마귀(사탄)에게 시험 받을 때", note:"'사람이 떡으로만 살 것이 아니요', '주 너의 하나님을 시험하지 말라', '사탄아 물러가라'는 세 말씀 모두 광야에서 마귀의 시험을 받으실 때 하신 말씀이에요."},
  {ref:"마 4:14~17", q:"예수께서 나사렛을 떠나 스불론과 납달리 지경 해변에 있는 가버나움에 사실 때에 비로소 '회개하라 천국이 가까이 왔노라' 하시며 전파하셨다. 이는 선지자 누가 한 말씀을 이루려 함이셨는가?", a:"이사야"},
  {ref:"마 4:18~22", q:"예수께서 갈릴리 해변에서 그물을 던지는 베드로라 하는 시몬과 그 형제 안드레를 보시고 '나를 따라오라 내가 너희를 사람을 낚는 어부가 되게 하리라' 하시니 그들이 그물을 던지고 예수를 따랐으며, 거기서 더 가시다가 세베대의 아들 형제가 배에서 그물 깁는 것을 보고 부르시니 그들이 배와 아버지를 버리고 예수를 따랐다. 두 형제는 누구, 누구인가?", a:"야고보와 요한"},
  {ref:"마 5:1~10", q:"산상수훈 팔복에 관한 것이다. 각 복과 받을 약속을 연결하세요. ① 심령이 가난한 자 ② 애통하는 자 ③ 온유한 자 ④ 의에 주리고 목마른 자 ⑤ 긍휼히 여기는 자 ⑥ 마음이 청결한 자 ⑦ 화평하게 하는 자 ⑧ 의를 위해 박해를 받는 자 / (보기) A.천국이 그들의 것임 B.하나님의 아들이라 일컬음을 받음 C.위로를 받을 것임 D.하나님을 볼 것임 E.땅을 기업으로 받을 것임 F.배부를 것임 G.긍휼히 여김을 받을 것임", a:"①-A, ②-C, ③-E, ④-F, ⑤-G, ⑥-D, ⑦-B, ⑧-A"},
@@ -1082,7 +1085,13 @@ function saveState(){
       ox[book+':'+idx]={ ans:correct, chosen:chosen };
     });
     var wl = wrongList.map(function(w){ return w.k+':'+w.i; });
-    localStorage.setItem(LS_KEY, JSON.stringify({mc:mc, ox:ox, wl:wl}));
+    var plain = {};
+    document.querySelectorAll('.plainbox[data-answered="ok"], .plainbox[data-answered="no"]').forEach(function(pbox){
+      var q=pbox.closest('.q'); if(!q) return;
+      var book=q.getAttribute('data-book'), idx=q.getAttribute('data-idx');
+      plain[book+':'+idx]=pbox.getAttribute('data-answered');
+    });
+    localStorage.setItem(LS_KEY, JSON.stringify({mc:mc, ox:ox, wl:wl, plain:plain}));
   } catch(e){}
 }
 
@@ -1123,6 +1132,26 @@ function loadState(){
         if(wrongPos(book,idx)<0) wrongList.push({k:book,i:idx});
       });
       syncWrongMeta();
+    }
+    if(st.plain){
+      Object.keys(st.plain).forEach(function(key){
+        var parts=key.split(':'), book=parts[0], idx=parts[1];
+        var q=document.querySelector('#'+book+' .q[data-book="'+book+'"][data-idx="'+idx+'"]');
+        if(!q) return;
+        var pbox=q.querySelector('.plainbox');
+        if(!pbox) return;
+        var val=st.plain[key];
+        pbox.setAttribute('data-answered', val);
+        pbox.querySelector('.answer').hidden = false;
+        pbox.querySelector('.selfcheck').hidden = true;
+        pbox.querySelector('.revealAns').hidden = true;
+        var vp=q.querySelector('.verdict');
+        if(vp){
+          vp.className='verdict '+(val==='ok'?'correct':'wrong');
+          vp.innerHTML= val==='ok' ? '<span>✅ 맞았어요!</span>' : '<span>오답노트에 추가했어요 📕</span><button type="button" class="retry retryPlain">다시 풀기</button>';
+          vp.hidden=false;
+        }
+      });
     }
     updateAllScores();
   } catch(e){ console.warn('loadState error', e); }
@@ -1190,7 +1219,10 @@ function itemHTML(key, i, showBook){
   var html = '<article class="q' + (canRecite ? " reciteable" : "") + '" data-book="' + key + '" data-idx="' + i + '">';
   html += '<div class="qhead"><span class="num">' + (i + 1) + '</span>';
   if (showBook) html += '<span class="bk">' + LABELS[key] + '</span>';
-  if (typeof VERSES !== "undefined" && VERSES[it.ref]) {
+  var verseVal = (typeof VERSES !== "undefined") ? VERSES[it.ref] : null;
+  var tClean = it.t ? it.t.replace(/\[\[|\]\]/g, "") : "";
+  var isDupe = verseVal && tClean && verseVal.replace(/\s+/g," ").trim() === tClean.replace(/\s+/g," ").trim();
+  if (verseVal && !isDupe) {
     html += '<button type="button" class="ref" data-ref="' + esc(it.ref) + '">' + it.ref + '</button>';
   }
   html += '</div>';
@@ -1229,7 +1261,15 @@ function itemHTML(key, i, showBook){
     html += "</div>";
     html += '<p class="verdict" hidden></p>';
   } else if (it.a){
-    html += '<p class="answer">정답 ' + buildVerse("[[" + it.a + "]]") + "</p>";
+    html += '<div class="plainbox" data-answered="0">';
+    html += '<button type="button" class="revealAns">정답 보기</button>';
+    html += '<p class="answer" hidden>' + buildVerse("[[" + it.a + "]]") + "</p>";
+    html += '<div class="selfcheck" hidden>';
+    html += '<button type="button" class="selfok">✅ 맞았어요</button>';
+    html += '<button type="button" class="selfno">❌ 틀렸어요</button>';
+    html += '</div>';
+    html += '</div>';
+    html += '<p class="verdict" hidden></p>';
   }
   if (it.note){
     html += '<details class="note"><summary>해설 보기</summary><p class="body">' + it.note + "</p></details>";
@@ -1591,19 +1631,44 @@ document.addEventListener("click", function(e){
     return;
   }
 
+  var revealAns = e.target.closest(".revealAns");
+  if (revealAns){
+    var pbox = revealAns.closest(".plainbox");
+    pbox.querySelector(".answer").hidden = false;
+    pbox.querySelector(".selfcheck").hidden = false;
+    revealAns.hidden = true;
+    return;
+  }
+
   var selfBtn = e.target.closest(".selfok, .selfno");
   if (selfBtn){
+    var inPlain = selfBtn.closest(".plainbox");
+    if (inPlain){
+      var good = selfBtn.classList.contains("selfok");
+      inPlain.setAttribute("data-answered", good ? "ok" : "no");
+      inPlain.querySelector(".selfcheck").hidden = true;
+      solved(selfBtn, good);
+      var vp = inPlain.parentNode.querySelector(".verdict");
+      if (vp){
+        vp.className = "verdict " + (good ? "correct" : "wrong");
+        vp.innerHTML = good ? "<span>" + praise() + "</span>" : "<span>오답노트에 추가했어요 📕</span><button type=\"button\" class=\"retry retryPlain\">다시 풀기</button>";
+        vp.hidden = false;
+      }
+      if (good){ onCorrect(); } else { onWrong(); }
+      saveState();
+      return;
+    }
     var card2 = selfBtn.closest(".recitecard");
-    var good = selfBtn.classList.contains("selfok");
+    var good2 = selfBtn.classList.contains("selfok");
     card2.querySelector(".selfcheck").hidden = true;
     var res = card2.querySelector(".reciteResult");
     res.hidden = false;
-    res.className = "reciteResult " + (good ? "ok" : "no");
-    res.innerHTML = good
+    res.className = "reciteResult " + (good2 ? "ok" : "no");
+    res.innerHTML = good2
       ? '<span class="big pop">' + praise() + '</span><button type="button" class="retry reciteRetry">다시 외우기</button>'
       : '<span>다시 외워봐요! 오답노트에 담아둘게요 🔁</span><button type="button" class="retry reciteRetry">다시 외우기</button>';
-    solved(selfBtn, good);
-    if (good){ onCorrect(); } else { onWrong(); }
+    solved(selfBtn, good2);
+    if (good2){ onCorrect(); } else { onWrong(); }
     saveState();
     return;
   }
@@ -1611,6 +1676,21 @@ document.addEventListener("click", function(e){
   var reciteRetry = e.target.closest(".reciteRetry");
   if (reciteRetry){
     resetReciteCard(reciteRetry.closest(".recitecard"));
+    return;
+  }
+
+  var retryPlain = e.target.closest(".retryPlain");
+  if (retryPlain){
+    var qEl = retryPlain.closest(".q");
+    var pbox2 = qEl.querySelector(".plainbox");
+    if (!pbox2) return;
+    pbox2.setAttribute("data-answered","0");
+    pbox2.querySelector(".answer").hidden = true;
+    pbox2.querySelector(".selfcheck").hidden = true;
+    pbox2.querySelector(".revealAns").hidden = false;
+    var vp2 = qEl.querySelector(".verdict");
+    if (vp2){ vp2.hidden = true; vp2.innerHTML = ""; vp2.className = "verdict"; }
+    saveState();
     return;
   }
 
